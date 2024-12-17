@@ -49,23 +49,32 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
       if (!fav.contains(word)) {
         fav.add(word); // Update the history list
       }
-
-      // _futureResponse = null;
     });
     print("FAVSS :" + fav.toString());
   }
 
   void _searchWord() {
     setState(() {
-      _futureResponse = API.fetchMeaning(_controller.text.trim());
+      if (_controller.text.trim() != "") {
+        if (_controller.text.trim().split(" ").length == 1) {
+          _futureResponse = API.fetchMeaning(_controller.text.trim());
+        } else {
+          _futureResponse =
+              API.fetchMeaning(_controller.text.trim().split(" ")[0]);
+        }
+      } else {
+        setState(() {
+          _futureResponse = null;
+        });
+      }
     });
   }
 
   FlutterTts flutterTts = FlutterTts();
 
   Future<void> configureTts() async {
-    await flutterTts.setLanguage('en-US');
-    await flutterTts.setSpeechRate(1.0);
+    await flutterTts.setLanguage('en-UK');
+    await flutterTts.setSpeechRate(0.5);
     await flutterTts.setVolume(1.0);
   }
 
@@ -279,7 +288,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                             child: IconButton(
                                               icon: Icon(
                                                 Icons
-                                                    .speaker, // Back arrow icon
+                                                    .volume_up, // Back arrow icon
                                                 color: Colors
                                                     .white, // White color for better contrast
                                                 size: 20, // Smaller size
