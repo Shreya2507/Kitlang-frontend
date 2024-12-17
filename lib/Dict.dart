@@ -26,8 +26,26 @@ class DictionaryHomePage extends StatefulWidget {
 class _DictionaryHomePageState extends State<DictionaryHomePage> {
   final TextEditingController _controller = TextEditingController();
   Future<Map<String, dynamic>>? _futureResponse;
+  final List<Color> colors = [
+    Color(0xFFE9FFB9),
+    Color(0xFFDBF5FF),
+    Color(0xFFFFDBF7),
+    Color(0xFFFFE6C1),
+    Color(0xFFFFAFAF),
+  ];
 
-  
+  List fav = [];
+
+  void _addToFav(word) {
+    setState(() {
+      if (!fav.contains(word)) {
+        fav.add(word); // Update the history list
+      }
+
+      _futureResponse = null;
+    });
+    print("FAVSS :" + fav.toString());
+  }
 
   void _searchWord() {
     setState(() {
@@ -81,7 +99,52 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                 ),
                 Expanded(
                     child: _futureResponse == null
-                        ? Center(child: Text('No History yet !'))
+                        ? (fav.isEmpty
+                            ? Center(child: Text('No Favourites yet !'))
+                            : Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize
+                                      .min, // Minimize the size of the column
+                                  children: [
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Text(
+                                      "Your Favorites", // Heading text
+                                      style: TextStyle(
+                                        fontSize:
+                                            20.0, // Larger font size for heading
+                                        fontWeight: FontWeight
+                                            .bold, // Bold text for emphasis
+                                      ),
+                                    ),
+                                    // Spacing between heading and list
+                                    Expanded(
+                                      // Allows the ListView to scroll if needed
+                                      child: ListView.builder(
+                                        itemCount: fav.length,
+                                        itemBuilder: (context, index) {
+                                          return Card(
+                                            color: colors[index %
+                                                colors.length], // Rotate colors
+                                            margin: EdgeInsets.all(8.0),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(16.0),
+                                              child: Text(
+                                                fav[index],
+                                                style: TextStyle(
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ))
                         : FutureBuilder<Map<String, dynamic>>(
                             future: _futureResponse,
                             builder: (context, snapshot) {
@@ -100,11 +163,50 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
 
                                 return ListView(
                                   children: [
-                                    Text(
-                                      'Word: $word',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Word: $word',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 200)),
+                                        Align(
+                                          alignment: Alignment
+                                              .topRight, // Position it at the top left
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors
+                                                  .black54, // Background color
+                                              shape: BoxShape
+                                                  .circle, // Make it round
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  blurRadius: 6,
+                                                  offset: Offset(
+                                                      0, 2), // Shadow effect
+                                                ),
+                                              ],
+                                            ),
+                                            child: IconButton(
+                                              icon: Icon(
+                                                Icons
+                                                    .favorite_outline, // Back arrow icon
+                                                color: Colors
+                                                    .white, // White color for better contrast
+                                                size: 20, // Smaller size
+                                              ),
+                                              onPressed: () => _addToFav(word),
+                                              padding: EdgeInsets.all(
+                                                  10), // Adjust padding for better touch area
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(height: 10),
                                     if (phonetics.isNotEmpty)
