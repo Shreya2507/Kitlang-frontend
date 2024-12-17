@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:frontend/api.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -32,7 +33,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
     configureTts();
   }
 
-  final TextEditingController _controller = TextEditingController();
+  TextEditingController _controller = TextEditingController();
   Future<Map<String, dynamic>>? _futureResponse;
   final List<Color> colors = [
     Color(0xFFE9FFB9),
@@ -87,6 +88,12 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
     await flutterTts.stop();
   }
 
+  _searchFav(fav) {
+    setState(() {
+      _controller.text = fav;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -135,22 +142,23 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                     child: _futureResponse == null
                         ? (fav.isEmpty
                             ? Center(
-                                child: Column(children: [
-                                  SizedBox(
-                                    height: 50,
-                                  ),
-                                  Container(
-                                      width: 180,
-                                      child: Lottie.asset(
-                                          "assets/dict/anim.mp4.lottie.json")),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    'No Favourites yet !',
-                                    style: TextStyle(fontSize: 20),
-                                  )
-                                ]),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 50,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                            width: 180,
+                                            child: Lottie.asset(
+                                                "assets/dict/anim.mp4.lottie.json")),
+                                      ),
+                                      Text(
+                                        'No Favourites yet !',
+                                        style: TextStyle(fontSize: 20),
+                                      )
+                                    ]),
                               )
                             : Center(
                                 child: Column(
@@ -160,14 +168,27 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                     SizedBox(
                                       height: 30,
                                     ),
-                                    Text(
-                                      "Your Favorites", // Heading text
-                                      style: TextStyle(
-                                        fontSize:
-                                            20.0, // Larger font size for heading
-                                        fontWeight: FontWeight
-                                            .bold, // Bold text for emphasis
-                                      ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                            width: 80,
+                                            child: Lottie.asset(
+                                                "assets/dict/anim.mp4.lottie.json")),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "Your Favorites", // Heading text
+                                          style: TextStyle(
+                                            fontSize:
+                                                20.0, // Larger font size for heading
+                                            fontWeight: FontWeight
+                                                .bold, // Bold text for emphasis
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     // Spacing between heading and list
                                     Expanded(
@@ -175,12 +196,23 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                       child: ListView.builder(
                                         itemCount: fav.length,
                                         itemBuilder: (context, index) {
-                                          return Card(
-                                            color: colors[index %
-                                                colors.length], // Rotate colors
-                                            margin: EdgeInsets.all(8.0),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(16.0),
+                                          return Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical:
+                                                    8.0), // Margin between buttons
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5, // 80% of the screen width
+                                            child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    WidgetStateProperty.all(
+                                                        colors[index %
+                                                            colors.length]),
+                                              ),
+                                              onPressed: () =>
+                                                  _searchFav(fav[index]),
                                               child: Text(
                                                 fav[index],
                                                 style: TextStyle(
@@ -258,78 +290,89 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                 return ListView(
                                   children: [
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'Word: $word',
+                                          '$word',
                                           style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: 30,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Padding(
-                                            padding: EdgeInsets.only(left: 20)),
-                                        Align(
-                                          alignment: Alignment
-                                              .topRight, // Position it at the top left
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors
-                                                  .black54, // Background color
-                                              shape: BoxShape
-                                                  .circle, // Make it round
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black26,
-                                                  blurRadius: 6,
-                                                  offset: Offset(
-                                                      0, 2), // Shadow effect
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Align(
+                                              alignment: Alignment
+                                                  .topRight, // Position it at the top left
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.blue[
+                                                      600], // Background color
+                                                  shape: BoxShape
+                                                      .circle, // Make it round
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black26,
+                                                      blurRadius: 6,
+                                                      offset: Offset(0,
+                                                          2), // Shadow effect
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons
-                                                    .volume_up, // Back arrow icon
-                                                color: Colors
-                                                    .white, // White color for better contrast
-                                                size: 20, // Smaller size
-                                              ),
-                                              onPressed: () => speakText(word),
-                                              padding: EdgeInsets.all(
-                                                  10), // Adjust padding for better touch area
-                                            ),
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment: Alignment
-                                              .topRight, // Position it at the top left
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors
-                                                  .black54, // Background color
-                                              shape: BoxShape
-                                                  .circle, // Make it round
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black26,
-                                                  blurRadius: 6,
-                                                  offset: Offset(
-                                                      0, 2), // Shadow effect
+                                                child: IconButton(
+                                                  icon: Icon(
+                                                    Icons
+                                                        .volume_up, // Back arrow icon
+                                                    color: Colors
+                                                        .white, // White color for better contrast
+                                                    size: 20, // Smaller size
+                                                  ),
+                                                  onPressed: () =>
+                                                      speakText(word),
+                                                  padding: EdgeInsets.all(
+                                                      10), // Adjust padding for better touch area
                                                 ),
-                                              ],
-                                            ),
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons
-                                                    .favorite_outline, // Back arrow icon
-                                                color: Colors
-                                                    .white, // White color for better contrast
-                                                size: 20, // Smaller size
                                               ),
-                                              onPressed: () => _addToFav(word),
-                                              padding: EdgeInsets.all(
-                                                  10), // Adjust padding for better touch area
                                             ),
-                                          ),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Align(
+                                              alignment: Alignment
+                                                  .topRight, // Position it at the top left
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.red[
+                                                      700], // Background color
+                                                  shape: BoxShape
+                                                      .circle, // Make it round
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black26,
+                                                      blurRadius: 6,
+                                                      offset: Offset(0,
+                                                          2), // Shadow effect
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: IconButton(
+                                                  icon: Icon(
+                                                    Icons
+                                                        .favorite_outline, // Back arrow icon
+                                                    color: Colors
+                                                        .white, // White color for better contrast
+                                                    size: 20, // Smaller size
+                                                  ),
+                                                  onPressed: () =>
+                                                      _addToFav(word),
+                                                  padding: EdgeInsets.all(
+                                                      10), // Adjust padding for better touch area
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
