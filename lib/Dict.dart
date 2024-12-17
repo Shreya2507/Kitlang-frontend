@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/api.dart';
+import 'package:lottie/lottie.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 void main() {
   runApp(DictionaryApp());
@@ -24,6 +26,12 @@ class DictionaryHomePage extends StatefulWidget {
 }
 
 class _DictionaryHomePageState extends State<DictionaryHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    configureTts();
+  }
+
   final TextEditingController _controller = TextEditingController();
   Future<Map<String, dynamic>>? _futureResponse;
   final List<Color> colors = [
@@ -42,7 +50,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
         fav.add(word); // Update the history list
       }
 
-      _futureResponse = null;
+      // _futureResponse = null;
     });
     print("FAVSS :" + fav.toString());
   }
@@ -51,6 +59,23 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
     setState(() {
       _futureResponse = API.fetchMeaning(_controller.text.trim());
     });
+  }
+
+  FlutterTts flutterTts = FlutterTts();
+
+  Future<void> configureTts() async {
+    await flutterTts.setLanguage('en-US');
+    await flutterTts.setSpeechRate(1.0);
+    await flutterTts.setVolume(1.0);
+  }
+
+  void speakText(String text) async {
+    print("Attempting to speak: $text");
+    await flutterTts.speak(text);
+  }
+
+  void stopSpeaking() async {
+    await flutterTts.stop();
   }
 
   @override
@@ -100,7 +125,24 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                 Expanded(
                     child: _futureResponse == null
                         ? (fav.isEmpty
-                            ? Center(child: Text('No Favourites yet !'))
+                            ? Center(
+                                child: Column(children: [
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                  Container(
+                                      width: 180,
+                                      child: Lottie.asset(
+                                          "assets/dict/anim.mp4.lottie.json")),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    'No Favourites yet !',
+                                    style: TextStyle(fontSize: 20),
+                                  )
+                                ]),
+                              )
                             : Center(
                                 child: Column(
                                   mainAxisSize: MainAxisSize
@@ -154,7 +196,50 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                     child: CircularProgressIndicator());
                               } else if (snapshot.hasError) {
                                 return Center(
-                                    child: Text('Error: ${snapshot.error}'));
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize
+                                        .min, // Minimize the size of the column
+                                    children: [
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                      Text(
+                                        "Your Favorites", // Heading text
+                                        style: TextStyle(
+                                          fontSize:
+                                              20.0, // Larger font size for heading
+                                          fontWeight: FontWeight
+                                              .bold, // Bold text for emphasis
+                                        ),
+                                      ),
+                                      // Spacing between heading and list
+                                      Expanded(
+                                        // Allows the ListView to scroll if needed
+                                        child: ListView.builder(
+                                          itemCount: fav.length,
+                                          itemBuilder: (context, index) {
+                                            return Card(
+                                              color: colors[index %
+                                                  colors
+                                                      .length], // Rotate colors
+                                              margin: EdgeInsets.all(8.0),
+                                              child: Padding(
+                                                padding: EdgeInsets.all(16.0),
+                                                child: Text(
+                                                  fav[index],
+                                                  style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
                               } else if (snapshot.hasData) {
                                 final wordData = snapshot.data!;
                                 final word = wordData['word'];
@@ -172,8 +257,39 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Padding(
-                                            padding:
-                                                EdgeInsets.only(left: 200)),
+                                            padding: EdgeInsets.only(left: 20)),
+                                        Align(
+                                          alignment: Alignment
+                                              .topRight, // Position it at the top left
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors
+                                                  .black54, // Background color
+                                              shape: BoxShape
+                                                  .circle, // Make it round
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  blurRadius: 6,
+                                                  offset: Offset(
+                                                      0, 2), // Shadow effect
+                                                ),
+                                              ],
+                                            ),
+                                            child: IconButton(
+                                              icon: Icon(
+                                                Icons
+                                                    .speaker, // Back arrow icon
+                                                color: Colors
+                                                    .white, // White color for better contrast
+                                                size: 20, // Smaller size
+                                              ),
+                                              onPressed: () => speakText(word),
+                                              padding: EdgeInsets.all(
+                                                  10), // Adjust padding for better touch area
+                                            ),
+                                          ),
+                                        ),
                                         Align(
                                           alignment: Alignment
                                               .topRight, // Position it at the top left
