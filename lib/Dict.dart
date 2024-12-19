@@ -47,8 +47,9 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
 
   void _addToFav(word) {
     setState(() {
-      if (!fav.contains(word)) {
-        fav.add(word); // Update the history list
+      String temp = word[0].toUpperCase() + word.substring(1);
+      if (!fav.contains(temp)) {
+        fav.add(temp); // Update the history list
       }
     });
     print("FAVSS :" + fav.toString());
@@ -58,10 +59,11 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
     setState(() {
       if (_controller.text.trim() != "") {
         if (_controller.text.trim().split(" ").length == 1) {
-          _futureResponse = API.fetchMeaning(_controller.text.trim());
-        } else {
           _futureResponse =
-              API.fetchMeaning(_controller.text.trim().split(" ")[0]);
+              API.fetchMeaning(_controller.text.trim().toLowerCase());
+        } else {
+          _futureResponse = API.fetchMeaning(
+              _controller.text.trim().split(" ")[0].toLowerCase());
         }
       } else {
         setState(() {
@@ -74,14 +76,21 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
   FlutterTts flutterTts = FlutterTts();
 
   Future<void> configureTts() async {
-    await flutterTts.setLanguage('en-UK');
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.setVolume(1.0);
   }
 
-  void speakText(String text) async {
-    print("Attempting to speak: $text");
-    await flutterTts.speak(text);
+  void speakText(String text, String sourceLang) async {
+    if (sourceLang != 'en-US') {
+      String languageCode = sourceLang + '-' + sourceLang.toUpperCase();
+      await flutterTts.setLanguage(languageCode);
+      await flutterTts.speak(text);
+      print("Attempting to speak: $text in $sourceLang : $languageCode");
+    } else {
+      await flutterTts.setLanguage('en-US');
+      await flutterTts.speak(text);
+      print("Attempting to speak: $text in $sourceLang : en-US");
+    }
   }
 
   void stopSpeaking() async {
@@ -92,6 +101,11 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
     setState(() {
       _controller.text = fav;
     });
+  }
+
+  String titleWord(String input) {
+    if (input.isEmpty) return input;
+    return input[0].toUpperCase() + input.substring(1);
   }
 
   @override
@@ -286,6 +300,10 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                 final word = wordData['word'];
                                 final phonetics = wordData['phonetics'] as List;
                                 final meanings = wordData['meanings'] as List;
+                                final sourceLanguage =
+                                    wordData['sourceLanguage'];
+                                final originalWord = wordData['originalWord'];
+                                final langCode = wordData['langCode'];
 
                                 return ListView(
                                   children: [
@@ -294,7 +312,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          '$word',
+                                          titleWord(word),
                                           style: TextStyle(
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold),
@@ -330,7 +348,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                     size: 20, // Smaller size
                                                   ),
                                                   onPressed: () =>
-                                                      speakText(word),
+                                                      speakText(word, 'en-US'),
                                                   padding: EdgeInsets.all(
                                                       10), // Adjust padding for better touch area
                                                 ),
@@ -366,7 +384,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                     size: 20, // Smaller size
                                                   ),
                                                   onPressed: () =>
-                                                      _addToFav(word),
+                                                      _addToFav(originalWord),
                                                   padding: EdgeInsets.all(
                                                       10), // Adjust padding for better touch area
                                                 ),
@@ -376,7 +394,53 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 10),
+                                    if (sourceLanguage != 'english')
+                                      Row(
+                                        // mainAxisAlignment:
+                                        //     MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          if (sourceLanguage.isNotEmpty)
+                                            Text(
+                                                '${sourceLanguage} : ${titleWord(originalWord)}'),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              color: Colors.green[
+                                                  600], // Background color
+                                              shape: BoxShape
+                                                  .circle, // Make it round
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black26,
+                                                  blurRadius: 6,
+                                                  offset: Offset(
+                                                      0, 2), // Shadow effect
+                                                ),
+                                              ],
+                                            ),
+                                            child: IconButton(
+                                              icon: Icon(
+                                                Icons
+                                                    .volume_up, // Back arrow icon
+                                                color: Colors
+                                                    .white, // White color for better contrast
+                                                size: 20, // Smaller size
+                                              ),
+                                              onPressed: () => speakText(
+                                                  originalWord, langCode),
+                                              padding: EdgeInsets.all(
+                                                  10), // Adjust padding for better touch area
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     if (phonetics.isNotEmpty)
                                       Text(
                                           'Phonetics: ${phonetics[0]['text']}'),
