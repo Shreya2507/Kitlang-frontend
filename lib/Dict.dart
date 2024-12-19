@@ -125,12 +125,12 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color.fromRGBO(255, 200, 117, 100),
-                Color.fromRGBO(253, 220, 173, 100),
-                Color.fromRGBO(255, 255, 255, 100),
-                Color.fromRGBO(255, 255, 255, 100),
-                Color.fromRGBO(255, 255, 255, 100),
-                Color.fromRGBO(255, 232, 198, 100)
+                Color.fromRGBO(255, 200, 117, 1),
+                Color.fromRGBO(253, 220, 173, 1),
+                Color.fromRGBO(255, 255, 255, 1),
+                Color.fromRGBO(255, 255, 255, 1),
+                Color.fromRGBO(255, 255, 255, 1),
+                Color.fromRGBO(255, 232, 198, 1)
               ],
               stops: [0.05, 0.1, 0.3, 0.82, 0.9, 1.0],
             ),
