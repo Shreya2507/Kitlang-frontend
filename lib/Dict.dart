@@ -73,6 +73,12 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
     });
   }
 
+  void _goHome() {
+    setState(() {
+      _futureResponse = null;
+    });
+  }
+
   FlutterTts flutterTts = FlutterTts();
 
   Future<void> configureTts() async {
@@ -144,13 +150,23 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                 TextField(
                   controller: _controller,
                   decoration: InputDecoration(
-                    labelText: 'Search Word',
-                    border: OutlineInputBorder(),
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: _searchWord,
-                    ),
-                  ),
+                      labelText: 'Search Word',
+                      border: OutlineInputBorder(),
+                      suffix: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.favorite_rounded),
+                            onPressed: _goHome,
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.search),
+                            onPressed: _searchWord,
+                          ),
+                        ],
+                      )),
                 ),
                 Expanded(
                     child: _futureResponse == null
