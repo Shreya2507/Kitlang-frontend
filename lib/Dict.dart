@@ -323,12 +323,13 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
 
                                 return ListView(
                                   children: [
+                                    // if (sourceLanguage != 'english')
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          titleWord(word),
+                                          titleWord(originalWord),
                                           style: TextStyle(
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold),
@@ -363,8 +364,8 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                         .white, // White color for better contrast
                                                     size: 20, // Smaller size
                                                   ),
-                                                  onPressed: () =>
-                                                      speakText(word, 'en-US'),
+                                                  onPressed: () => speakText(
+                                                      originalWord, langCode),
                                                   padding: EdgeInsets.all(
                                                       10), // Adjust padding for better touch area
                                                 ),
@@ -393,16 +394,49 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                 ),
                                                 child: IconButton(
                                                   icon: Icon(
-                                                    Icons
-                                                        .favorite_outline, // Back arrow icon
-                                                    color: Colors
-                                                        .white, // White color for better contrast
-                                                    size: 20, // Smaller size
+                                                    Icons.favorite_outline,
+                                                    color: Colors.white,
+                                                    size: 20,
                                                   ),
-                                                  onPressed: () =>
-                                                      _addToFav(originalWord),
-                                                  padding: EdgeInsets.all(
-                                                      10), // Adjust padding for better touch area
+                                                  onPressed: () {
+                                                    _addToFav(originalWord);
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Added to favorites! ❤️',
+                                                          style: TextStyle(
+                                                            color: Colors
+                                                                .white, // Text color
+                                                            fontSize:
+                                                                16, // Font size
+                                                            fontWeight: FontWeight
+                                                                .bold, // Font weight
+                                                          ),
+                                                        ),
+                                                        backgroundColor:
+                                                            Color.fromRGBO(
+                                                                0,
+                                                                0,
+                                                                0,
+                                                                0.8), // Translucent black background
+                                                        duration: Duration(
+                                                            seconds: 3),
+                                                        behavior: SnackBarBehavior
+                                                            .floating, // Makes the SnackBar float above content
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  10), // Rounded corners
+                                                        ),
+                                                        margin: EdgeInsets.all(
+                                                            10), // Add margin to the SnackBar
+                                                      ),
+                                                    );
+                                                  },
+                                                  padding: EdgeInsets.all(10),
                                                 ),
                                               ),
                                             ),
@@ -415,9 +449,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                         // mainAxisAlignment:
                                         //     MainAxisAlignment.spaceBetween,
                                         children: [
-                                          if (sourceLanguage.isNotEmpty)
-                                            Text(
-                                                '${sourceLanguage} : ${titleWord(originalWord)}'),
+                                          Text('English: ${titleWord(word)}'),
                                           SizedBox(
                                             width: 20,
                                           ),
@@ -425,10 +457,8 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                             width: 40,
                                             height: 40,
                                             decoration: BoxDecoration(
-                                              color: Colors.green[
-                                                  600], // Background color
-                                              shape: BoxShape
-                                                  .circle, // Make it round
+                                              color: Colors.green[600],
+                                              shape: BoxShape.circle,
                                               boxShadow: [
                                                 BoxShadow(
                                                   color: Colors.black26,
@@ -446,8 +476,8 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                     .white, // White color for better contrast
                                                 size: 20, // Smaller size
                                               ),
-                                              onPressed: () => speakText(
-                                                  originalWord, langCode),
+                                              onPressed: () =>
+                                                  speakText(word, 'en-US'),
                                               padding: EdgeInsets.all(
                                                   10), // Adjust padding for better touch area
                                             ),
