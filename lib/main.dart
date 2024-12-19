@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/Flashcards/Flashcards.dart';
 // import 'package:frontend/Onboarding.dart';
-import 'package:frontend/Dict.dart';
+
+import 'package:frontend/Flashcards/ques_ans_file.dart';
 
 void main() {
-  runApp(DictionaryApp());
+  runApp(MaterialApp(home: Flashcards()));
 }
 
 class MyApp extends StatelessWidget {
