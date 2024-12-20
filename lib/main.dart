@@ -3,9 +3,10 @@ import 'package:frontend/Flashcards/Flashcards.dart';
 // import 'package:frontend/Onboarding.dart';
 
 import 'package:frontend/Flashcards/ques_ans_file.dart';
+import 'package:frontend/Screens/HomePage.dart';
 
 void main() {
-  runApp(MaterialApp(home: Flashcards()));
+  runApp(MaterialApp(home: HomePage()));
 }
 
 class MyApp extends StatelessWidget {
