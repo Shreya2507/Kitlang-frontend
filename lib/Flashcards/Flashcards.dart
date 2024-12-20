@@ -20,75 +20,102 @@ class _FlashcardsState extends State<Flashcards> {
   @override
   Widget build(BuildContext context) {
     String value = (_initial * 10).toStringAsFixed(0);
-    return Scaffold(
-        backgroundColor: Colors.grey.shade100,
-        appBar: AppBar(
-            centerTitle: true,
-            title: Text("Flashcards App", style: TextStyle(fontSize: 30)),
-            backgroundColor: mainColor,
-            toolbarHeight: 80,
-            elevation: 5,
-            shadowColor: mainColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20))),
-        body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              Text("Question $value of 10 Completed", style: otherTextStyle),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: LinearProgressIndicator(
-                  backgroundColor: Colors.white,
-                  valueColor: AlwaysStoppedAnimation(Colors.pinkAccent),
-                  minHeight: 5,
-                  value: _initial,
-                ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+          appBar: AppBar(
+              centerTitle: true,
+              title: Text("Flashcards", style: TextStyle(fontSize: 30)),
+              backgroundColor: mainColor,
+              toolbarHeight: 80,
+              elevation: 5,
+              shadowColor: mainColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20))),
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                    'assets/flashcards/bg.png'), // Path to your image
+                fit: BoxFit.contain, // Adjusts the image to cover the container
               ),
-              SizedBox(height: 25),
-              SizedBox(
-                  width: 300,
-                  height: 300,
-                  child: FlipCard(
-                      direction: FlipDirection.VERTICAL,
-                      front: ReusableCard(
-                          text: quesAnsList[_currentIndexNumber].question),
-                      back: ReusableCard(
-                          text: quesAnsList[_currentIndexNumber].answer))),
-              Text("Tab to see Answer", style: otherTextStyle),
-              SizedBox(height: 20),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    ElevatedButton.icon(
-                        onPressed: () {
-                          showPreviousCard();
-                          updateToPrev();
-                        },
-                        icon: Icon(FontAwesomeIcons.handPointLeft, size: 30),
-                        label: Text(""),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: mainColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            padding: EdgeInsets.only(
-                                right: 20, left: 25, top: 15, bottom: 15))),
-                    ElevatedButton.icon(
-                        onPressed: () {
-                          showNextCard();
-                          updateToNext();
-                        },
-                        icon: Icon(FontAwesomeIcons.handPointRight, size: 30),
-                        label: Text(""),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: mainColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            padding: EdgeInsets.only(
-                                right: 20, left: 25, top: 15, bottom: 15)))
-                  ])
-            ])));
+              borderRadius:
+                  BorderRadius.circular(20), // Optional: Rounded corners
+            ),
+            child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                  Text("Question $value of 10 Completed",
+                      style: otherTextStyle),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: LinearProgressIndicator(
+                      backgroundColor: Colors.white,
+                      valueColor: AlwaysStoppedAnimation(Colors.pinkAccent),
+                      minHeight: 5,
+                      value: _initial,
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                  SizedBox(
+                      width: 300,
+                      height: 300,
+                      child: FlipCard(
+                          direction: FlipDirection.VERTICAL,
+                          front: ReusableCard(
+                              text: quesAnsList[_currentIndexNumber].question),
+                          back: ReusableCard(
+                              text: quesAnsList[_currentIndexNumber].answer))),
+                  Text("Tap card to check answer",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(height: 50),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              showPreviousCard();
+                              updateToPrev();
+                            },
+                            icon: Icon(
+                              FontAwesomeIcons.handPointLeft,
+                              size: 30,
+                              color: Colors.black,
+                            ),
+                            label: Text(""),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color.fromRGBO(
+                                    255, 182, 193, 1) // LightPink
+                                ,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                padding: EdgeInsets.only(
+                                    right: 20, left: 25, top: 15, bottom: 15))),
+                        ElevatedButton.icon(
+                            onPressed: () {
+                              showNextCard();
+                              updateToNext();
+                            },
+                            icon: Icon(
+                              FontAwesomeIcons.handPointRight,
+                              size: 30,
+                              color: Colors.black,
+                            ),
+                            label: Text(""),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color.fromRGBO(
+                                    255, 182, 193, 1) // LightPink
+                                ,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                padding: EdgeInsets.only(
+                                    right: 20, left: 25, top: 15, bottom: 15)))
+                      ])
+                ])),
+          )),
+    );
   }
 
   void updateToNext() {
