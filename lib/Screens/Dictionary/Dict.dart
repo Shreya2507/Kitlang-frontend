@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:frontend/api.dart';
+import 'package:frontend/Screens/HomePage.dart';
+import 'package:frontend/Screens/Dictionary/api.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-void main() {
-  runApp(DictionaryApp());
-}
+// void main() {
+//   runApp(DictionaryApp());
+// }
 
-class DictionaryApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dictionary',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: DictionaryHomePage(),
-    );
-  }
-}
+// class DictionaryApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Dictionary',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: DictionaryHomePage(),
+//     );
+//   }
+// }
 
 class DictionaryHomePage extends StatefulWidget {
   @override
@@ -136,13 +137,48 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding:
+                const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
             child: Column(
               children: [
                 Image.asset("assets/dict/top.png"),
-                Text(
-                  "Dictionary!",
-                  style: TextStyle(fontSize: 30),
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Positioned(
+                      left: 0,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10, top: 10),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 253, 177, 62),
+                            shape: CircleBorder(), // Makes the button round
+                            padding: EdgeInsets.all(
+                                10), // Adjust padding to make the button larger
+                          ),
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.home,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      "Dictionary!",
+                      style: TextStyle(fontSize: 30),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 10,

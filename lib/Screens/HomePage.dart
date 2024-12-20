@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:frontend/Screens/Dictionary/Dict.dart';
+import 'package:frontend/Flashcards/Flashcards.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +13,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<String> cardTitles = ["German A1", "German A2", "German B1"];
   final List<String> cardTime = ["2hrs", "3hrs", "5hrs"];
-  // final List<String> cardTopics = ["2hrs", "3hrs", "5hrs"];
+  final List<String> cardGames = ["flashcards", "flashcards", "flashcards"];
+
+  void _goToGame(String cardGame) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Flashcards(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(height: 25),
                             Center(
                               child: ElevatedButton(
-                                onPressed: () => (),
+                                onPressed: () => (_goToGame(cardGames[index])),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Color(0xFF966DFC),
                                   shape: RoundedRectangleBorder(
@@ -151,6 +162,28 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
+            Positioned(
+                right: 10,
+                bottom: 120,
+                child: Container(
+                  // padding: EdgeInsets.all(10),
+                  height: 65,
+                  width: 65,
+                  child: FloatingActionButton(
+                    onPressed: () => (),
+                    backgroundColor: Colors.white,
+                    shape: CircleBorder(),
+                    child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        FontAwesomeIcons.commentDots,
+                        size: 27,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                )),
+
             // Bottom App Bar
             Positioned(
               bottom: 0,
@@ -166,25 +199,42 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
-                        icon: const Icon(FontAwesomeIcons.house),
+                        icon: const Icon(
+                          FontAwesomeIcons.house,
+                          color: Colors.black,
+                        ),
                         onPressed: () {
                           setState(() {});
                         },
                       ),
                       IconButton(
-                        icon: const Icon(FontAwesomeIcons.bookOpen),
+                        icon: const Icon(
+                          FontAwesomeIcons.bookOpen,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DictionaryHomePage(),
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          FontAwesomeIcons.trophy,
+                          color: Colors.black,
+                        ),
                         onPressed: () {
                           setState(() {});
                         },
                       ),
                       IconButton(
-                        icon: const Icon(FontAwesomeIcons.trophy),
-                        onPressed: () {
-                          setState(() {});
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(FontAwesomeIcons.solidUser),
+                        icon: const Icon(
+                          FontAwesomeIcons.solidUser,
+                          color: Colors.black,
+                        ),
                         onPressed: () {
                           setState(() {});
                         },

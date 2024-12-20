@@ -41,6 +41,8 @@ dependencies:
   flutter_tts: ^4.2.0
   flip_card: ^0.7.0
   font_awesome_flutter: ^10.8.0
+  audioplayers: ^6.1.0
+  path_provider:
 
 dev_dependencies:
   flutter_test:
@@ -72,9 +74,12 @@ flutter:
     - assets/dict/anim.gif
     - assets/dict/anim.mp4.lottie.json
     - assets/flashcards/bg.png
+    - assets/flashcards/completed.png
+    - assets/flashcards/success.mp3
     - assets/home/bg.jpg
     - assets/home/buttonIcon.png
     - assets/home/cardImage.png
+    
 
 
   # To add assets to your application, add an assets section, like this:
