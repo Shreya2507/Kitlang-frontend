@@ -45,6 +45,12 @@ dependencies:
   path_provider:
   google_fonts: ^6.2.1
   flutter_spinkit: 
+  shared_preferences: ^2.3.4
+  firebase_core: ^3.9.0
+  uno: ^1.1.12
+  logger: ^2.5.0
+  google_sign_in: ^6.2.2
+  firebase_auth: ^5.3.4
 
 dev_dependencies:
   flutter_test:
@@ -69,9 +75,19 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-    - assets/onboarding/onboarding.gif
     - assets/onboarding/bg.jpg
+    - assets/onboarding/bronze.png
+    - assets/onboarding/germany_flag.png
+    - assets/onboarding/gold.png
+    - assets/onboarding/google_logo.png
+    - assets/onboarding/Languages.jpg
+    - assets/onboarding/levels.jpg
+    - assets/onboarding/onboarding.gif
+    - assets/onboarding/Onboarding.jpg
     - assets/onboarding/onboarding.mp4.lottie.json
+    - assets/onboarding/Sign_Up.jpg
+    - assets/onboarding/signup_cat.gif
+    - assets/onboarding/silver.png
     - assets/dict/top.png
     - assets/dict/anim.gif
     - assets/dict/anim.mp4.lottie.json
@@ -93,6 +109,7 @@ flutter:
     - assets/profile/cat.png
     - assets/profile/catHands.png
     - assets/profile/editButton.png
+    
     
 
 
