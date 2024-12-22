@@ -43,6 +43,8 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   audioplayers: ^6.1.0
   path_provider:
+  google_fonts: ^6.2.1
+  flutter_spinkit: 
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +81,18 @@ flutter:
     - assets/home/bg.jpg
     - assets/home/buttonIcon.png
     - assets/home/cardImage.png
+    - assets/chatbot/back.png
+    - assets/chatbot/food_order1.png
+    - assets/chatbot/hotel.png
+    - assets/chatbot/interview.png
+    - assets/chatbot/food_order.png
+    - assets/chatbot/cat_image.png
+    - assets/chatbot/paw_print_loading.gif
+    - assets/profile/arrow_icon.png
+    - assets/profile/bg.png
+    - assets/profile/cat.png
+    - assets/profile/catHands.png
+    - assets/profile/editButton.png
     
 
 

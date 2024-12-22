@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:frontend/Screens/Chat/getStartedPage.dart';
 import 'package:frontend/Screens/Dictionary/Dict.dart';
 import 'package:frontend/Flashcards/Flashcards.dart';
+import 'package:frontend/Screens/ProfilePage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,17 +13,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> cardTitles = ["German A1", "German A2", "German B1"];
-  final List<String> cardTime = ["2hrs", "3hrs", "5hrs"];
-  final List<String> cardGames = ["flashcards", "flashcards", "flashcards"];
+  final List<String> cardTitles = [
+    "Learn",
+    "Speak",
+    "Listen",
+    "Real World Simulation"
+  ];
+  final List<String> cardTime = ["5hrs", "2hrs", "3hrs", "5hrs"];
+  final List<String> cardGames = [
+    "flashcards",
+    "flashcards",
+    "flashcards",
+    "chat"
+  ];
 
   void _goToGame(String cardGame) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Flashcards(),
-      ),
-    );
+    if (cardGame == "flashcards") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Flashcards(),
+        ),
+      );
+    } else if (cardGame == "chat") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GetStartedPage(),
+        ),
+      );
+    }
   }
 
   @override
@@ -236,7 +257,12 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.black,
                         ),
                         onPressed: () {
-                          setState(() {});
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(),
+                            ),
+                          );
                         },
                       )
                     ],
