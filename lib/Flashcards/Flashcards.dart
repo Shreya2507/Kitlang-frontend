@@ -29,14 +29,14 @@ class _FlashcardsState extends State<Flashcards> {
   }
 
   void _playAudio() async {
-    print("Audio play called"); // Debug log
+    print("Audio play called");
     await _audioPlayer.play(AssetSource('flashcards/success.mp3'));
   }
 
   @override
   void dispose() {
     super.dispose();
-    _audioPlayer.dispose(); // Don't forget to dispose the player
+    _audioPlayer.dispose();
   }
 
   @override
@@ -78,8 +78,7 @@ class _FlashcardsState extends State<Flashcards> {
                       margin: EdgeInsets.only(left: 10, top: 10),
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.pink[300], // Purple background
+                            backgroundColor: Colors.pink[300],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -101,13 +100,12 @@ class _FlashcardsState extends State<Flashcards> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: Colors.pinkAccent, // Border color
-                        width: 2, // Border width
+                        color: Colors.pinkAccent,
+                        width: 2,
                       ),
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          8), // Border radius for the actual indicator
+                      borderRadius: BorderRadius.circular(8),
                       child: LinearProgressIndicator(
                         backgroundColor: Colors.white,
                         valueColor: AlwaysStoppedAnimation(Colors.pinkAccent),
@@ -144,9 +142,8 @@ class _FlashcardsState extends State<Flashcards> {
                             ),
                             label: Text(""),
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromRGBO(
-                                    255, 182, 193, 1) // LightPink
-                                ,
+                                backgroundColor:
+                                    Color.fromRGBO(255, 182, 193, 1),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 padding: EdgeInsets.only(
@@ -163,9 +160,8 @@ class _FlashcardsState extends State<Flashcards> {
                             ),
                             label: Text(""),
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromRGBO(
-                                    255, 182, 193, 1) // LightPink
-                                ,
+                                backgroundColor:
+                                    Color.fromRGBO(255, 182, 193, 1),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 padding: EdgeInsets.only(

@@ -63,7 +63,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            // Positioned Text (Hello User) at the top
             Positioned(
               top: 90,
               left: 20,
@@ -80,7 +79,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            // Positioned Text (This is a card) in the center
             Positioned(
               top: 250,
               left: 0,

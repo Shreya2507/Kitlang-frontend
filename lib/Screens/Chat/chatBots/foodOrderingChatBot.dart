@@ -31,7 +31,8 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
     final response = await http.post(
       Uri.parse(
           // 'http://10.0.2.2:8000/food-ordering/'), // (url for emulator) //'https://saran-2021-fastapi-test-talk.hf.space/chat'
-          'http://192.168.1.138:8000/food-ordering/'), // (url for emulator) //'https://saran-2021-fastapi-test-talk.hf.space/chat'
+          // 'http://192.168.1.138:8000/food-ordering/'), // (url for emulator) //'https://saran-2021-fastapi-test-talk.hf.space/chat'
+          'https://saran-2021-chat-dict.hf.space/food-ordering'), // (url for emulator) //'https://saran-2021-fastapi-test-talk.hf.space/chat'
       // 'http://127.0.0.1:8000/food-ordering/'), // self
       headers: {'Content-Type': 'application/json'},
       body: json.encode({'message': userMessage}),
