@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:frontend/Screens/HomePage.dart';
+import 'package:frontend/Screens/HomePage/HomePage.dart';
 import 'package:frontend/Screens/Dictionary/api.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_tts/flutter_tts.dart';

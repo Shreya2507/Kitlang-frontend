@@ -51,6 +51,7 @@ dependencies:
   logger: ^2.5.0
   google_sign_in: ^6.2.2
   firebase_auth: ^5.3.4
+  timeline_tile: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -109,6 +110,9 @@ flutter:
     - assets/profile/cat.png
     - assets/profile/catHands.png
     - assets/profile/editButton.png
+
+    - assets/
+    - assets/home_screen/
     
     
 

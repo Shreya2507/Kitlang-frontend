@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:frontend/Screens/HomePage.dart';
+import 'package:frontend/Screens/HomePage/HomePage.dart';
 
 class Completed extends StatefulWidget {
   const Completed({Key? key}) : super(key: key);
