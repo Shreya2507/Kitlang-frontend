@@ -38,10 +38,17 @@ class EventCard extends StatelessWidget {
             height: 50,
           ),
         ),
-        Text(
-          text,
-          style: TextStyle(
-              color: subColor, fontWeight: FontWeight.w900, fontSize: 16),
+        SizedBox(
+          width: 200,
+          height: 80,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              text,
+              style: TextStyle(
+                  color: subColor, fontWeight: FontWeight.w900, fontSize: 15),
+            ),
+          ),
         ),
       ],
     );

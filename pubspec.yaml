@@ -52,6 +52,9 @@ dependencies:
   google_sign_in: ^6.2.2
   firebase_auth: ^5.3.4
   timeline_tile: ^2.0.0
+  confetti: ^0.8.0
+  bubble: ^1.2.1
+  animated_text_kit: ^4.2.3
 
 dev_dependencies:
   flutter_test:
@@ -95,7 +98,7 @@ flutter:
     - assets/flashcards/bg.png
     - assets/flashcards/completed.png
     - assets/flashcards/success.mp3
-    - assets/home/bg.jpg
+    - assets/home/bg.png
     - assets/home/buttonIcon.png
     - assets/home/cardImage.png
     - assets/chatbot/back.png
@@ -113,6 +116,7 @@ flutter:
 
     - assets/
     - assets/home_screen/
+    - assets/introductions/
     
     
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/Screens/HomePage/HomePage.dart';
 
 void main() {
-  runApp(MaterialApp(home: HomePage()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,12 +12,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      // home: const Onboarding(),
+      title: 'Kitlang',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        // '/details': (context) => DetailScreen(),
+      },
     );
   }
 }

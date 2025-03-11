@@ -1,0 +1,2 @@
+C:/Users/Shreya/Desktop/frontend/android/app/.cxx/Debug/1p4g115s/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Shreya/Desktop/frontend/android/app/.cxx/Debug/1p4g115s/armeabi-v7a/CMakeFiles/rebuild_cache.dir
