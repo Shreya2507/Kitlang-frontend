@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:frontend/Screens/Dictionary/Dict.dart";
 import "package:frontend/Screens/Introductions/conversation.dart";
+import "package:frontend/Screens/ProfilePage.dart";
 import "package:frontend/Screens/Topic%20flow/theory_screen.dart";
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:frontend/Screens/Chat/getStartedPage.dart';
@@ -277,65 +280,65 @@ class _HomePageState extends State<HomePage> {
             //   ),
             // ),
 
-            // // Bottom App Bar
-            // BottomAppBar(
-            //   padding: EdgeInsets.all(0),
-            //   color: Color.fromARGB(121, 211, 222, 250),
-            //   notchMargin: 0,
-            //   child: Row(
-            //     // mainAxisSize: MainAxisSize.max,
-            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //     crossAxisAlignment: CrossAxisAlignment.center,
-            //     children: [
-            //       IconButton(
-            //         icon: const Icon(
-            //           FontAwesomeIcons.house,
-            //           color: Colors.black,
-            //         ),
-            //         onPressed: () {
-            //           setState(() {});
-            //         },
-            //       ),
-            //       IconButton(
-            //         icon: const Icon(
-            //           FontAwesomeIcons.bookOpen,
-            //           color: Colors.black,
-            //         ),
-            //         onPressed: () {
-            //           Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //               builder: (context) => DictionaryHomePage(),
-            //             ),
-            //           );
-            //         },
-            //       ),
-            //       IconButton(
-            //         icon: const Icon(
-            //           FontAwesomeIcons.trophy,
-            //           color: Colors.black,
-            //         ),
-            //         onPressed: () {
-            //           setState(() {});
-            //         },
-            //       ),
-            //       IconButton(
-            //         icon: const Icon(
-            //           FontAwesomeIcons.solidUser,
-            //           color: Colors.black,
-            //         ),
-            //         onPressed: () {
-            //           Navigator.push(
-            //             context,
-            //             MaterialPageRoute(
-            //               builder: (context) => ProfilePage(),
-            //             ),
-            //           );
-            //         },
-            //       )
-            //     ],
-            //   ),
-            // ),
+            // Bottom App Bar
+            BottomAppBar(
+              padding: EdgeInsets.all(0),
+              color: Color.fromARGB(121, 211, 222, 250),
+              notchMargin: 0,
+              child: Row(
+                // mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      FontAwesomeIcons.house,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      setState(() {});
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      FontAwesomeIcons.bookOpen,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DictionaryHomePage(),
+                        ),
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      FontAwesomeIcons.trophy,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      setState(() {});
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      FontAwesomeIcons.solidUser,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(),
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

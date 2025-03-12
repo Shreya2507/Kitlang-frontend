@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/Screens/HomePage/utils/data.dart';
 import 'package:frontend/Screens/Topic%20flow/miniGame_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class TheoryScreen extends StatefulWidget {
   final int classIndex;
@@ -78,7 +79,9 @@ class _TheoryScreenState extends State<TheoryScreen>
       );
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        final Map<String, dynamic> data =
+            json.decode(utf8.decode(response.bodyBytes));
+        // final data = json.decode(response.body);
 
         setState(() {
           currentText = data['story'];

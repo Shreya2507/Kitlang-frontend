@@ -257,13 +257,26 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
       case 'listen':
         return _buildListening(question);
       case 'match the following(words)':
-        if (question['question'] is List<dynamic>) {
-          return _buildMatchPronunciation(
-            List<String>.from(question['question']),
-          );
+        if (question['options'] != null &&
+            question['options'] is List<dynamic>) {
+          try {
+            // Extract options from 'options' instead of 'question'
+            List<String> options =
+                question['options'].whereType<String>().toList();
+            if (options.isNotEmpty) {
+              return _buildMatchPronunciation(options);
+            } else {
+              print('Options list is empty');
+            }
+          } catch (e) {
+            print('Error processing match question: $e');
+          }
+        } else {
+          print('Invalid data for match the following(words)');
         }
         return const SizedBox(); // Fallback if data is invalid
       default:
+        print('Unknown question type: ${question['question_type']}');
         return Container();
     }
   }
@@ -397,12 +410,22 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
   }
 
   Widget _buildMatchPronunciation(List<String> options) {
+    if (options.isEmpty) {
+      return const Center(
+        child: Text(
+          'No options available',
+          style: TextStyle(fontSize: 18, color: Colors.red),
+        ),
+      );
+    }
+
+    // Generate audioMap dynamically based on options
     Map<String, String> audioMap = {
-      'der Hund': 'assets/audio/der_hund.mp3',
-      'die Katze': 'assets/audio/die_katze.mp3',
-      'ein Hund': 'assets/audio/ein_hund.mp3',
-      'eine Katze': 'assets/audio/eine_katze.mp3',
+      for (var word in options)
+        word: 'assets/audio/${word.replaceAll(' ', '_').toLowerCase()}.mp3',
     };
+
+    List<String> shuffledKeys = audioMap.keys.toList()..shuffle();
 
     Map<String, String?> matchedAnswers = {};
     Map<String, bool> matchResults = {};
@@ -414,156 +437,180 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
           setState(() {
             matchedAnswers[key] = value;
             matchResults[key] = isCorrect;
-            if (isCorrect) {
-              score++; // Increase score for correct match
-            }
           });
         }
 
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Future<void> _playAudio(String word) async {
+          String? audioPath = audioMap[word];
+          if (audioPath != null) {
+            try {
+              final player = AudioPlayer();
+              await player.play(AssetSource(audioPath));
+            } catch (e) {
+              print("Error playing audio for $word: $e");
+            }
+          }
+        }
+
+        return Expanded(
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                // Left side: Words to match
-                Column(
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: options.map((word) {
-                    return Draggable<String>(
-                      data: word,
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        margin: const EdgeInsets.symmetric(vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.purple.shade100,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.purple, width: 1),
-                        ),
-                        child: Text(
-                          word,
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      feedback: Material(
-                        color: Colors.transparent,
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.purple.shade300,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.purple, width: 1),
-                          ),
-                          child: Text(
-                            word,
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      childWhenDragging: Opacity(
-                        opacity: 0.3,
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.purple.shade100,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.purple, width: 1),
-                          ),
-                          child: Text(
-                            word,
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-
-                // Right side: Audio buttons (DragTargets)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: audioMap.keys.map((word) {
-                    bool? isMatched = matchResults[word];
-
-                    return DragTarget<String>(
-                      onAccept: (receivedWord) {
-                        _checkMatch(word, receivedWord);
-                      },
-                      builder: (context, candidateData, rejectedData) {
-                        return ElevatedButton.icon(
-                          onPressed: () async {
-                            await _speak(word);
-                          },
-                          icon: const Icon(Icons.volume_up),
-                          label: Text(
-                            matchedAnswers[word] ?? 'Play Audio',
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: isMatched == true
-                                  ? Colors.green
-                                  : isMatched == false
-                                      ? Colors.red
-                                      : Colors.black,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: isMatched == true
-                                ? Colors.green.shade100
-                                : isMatched == false
-                                    ? Colors.red.shade100
-                                    : Colors.white,
-                            foregroundColor: Colors.black,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              side: BorderSide(
-                                color: isMatched == true
-                                    ? Colors.green
-                                    : isMatched == false
-                                        ? Colors.red
-                                        : Colors.purple,
-                                width: 1,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Left side: Words to match
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: options.map((word) {
+                          return Draggable<String>(
+                            data: word,
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              margin: const EdgeInsets.symmetric(vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.purple.shade100,
+                                borderRadius: BorderRadius.circular(8),
+                                border:
+                                    Border.all(color: Colors.purple, width: 1),
+                              ),
+                              child: Text(
+                                word,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  }).toList(),
+                            feedback: Material(
+                              color: Colors.transparent,
+                              child: Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: Colors.purple.shade300,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                      color: Colors.purple, width: 1),
+                                ),
+                                child: Text(
+                                  word,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            childWhenDragging: Opacity(
+                              opacity: 0.3,
+                              child: Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: Colors.purple.shade100,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                      color: Colors.purple, width: 1),
+                                ),
+                                child: Text(
+                                  word,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+
+                    // Right side: Drag Targets (Shuffled Audio buttons)
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: shuffledKeys.map((word) {
+                          bool? isMatched = matchResults[word];
+
+                          return DragTarget<String>(
+                            onAccept: (receivedWord) {
+                              _checkMatch(word, receivedWord);
+                            },
+                            builder: (context, candidateData, rejectedData) {
+                              return ElevatedButton.icon(
+                                onPressed: () async {
+                                  await _playAudio(word);
+                                },
+                                icon: const Icon(Icons.volume_up),
+                                label: Text(
+                                  matchedAnswers[word] ?? 'Play Audio',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: isMatched == true
+                                        ? Colors.green
+                                        : isMatched == false
+                                            ? Colors.red
+                                            : Colors.black,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: isMatched == true
+                                      ? Colors.green.shade100
+                                      : isMatched == false
+                                          ? Colors.red.shade100
+                                          : Colors.white,
+                                  foregroundColor: Colors.black,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12, horizontal: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: BorderSide(
+                                      color: isMatched == true
+                                          ? Colors.green
+                                          : isMatched == false
+                                              ? Colors.red
+                                              : Colors.purple,
+                                      width: 1,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
                 ),
+                const SizedBox(height: 20),
+
+                // Submit Button
+                if (matchedAnswers.length == audioMap.length)
+                  ElevatedButton(
+                    onPressed: () {
+                      bool allCorrect =
+                          matchResults.values.every((result) => result);
+                      if (allCorrect) {
+                        setState(() {
+                          score++; // Add 1 to score only when all pairs are matched correctly
+                        });
+                        _showFeedback(true);
+                      } else {
+                        _showFeedback(false, 'Try again!');
+                      }
+                    },
+                    child: Text(
+                      'Submit',
+                      style: GoogleFonts.poppins(fontSize: 18),
+                    ),
+                  ),
               ],
             ),
-            const SizedBox(height: 20),
-
-            // Submit Button (Show only if all are matched)
-            if (matchedAnswers.length == options.length)
-              ElevatedButton(
-                onPressed: () {
-                  bool allCorrect =
-                      matchResults.values.every((result) => result);
-                  if (allCorrect) {
-                    _showFeedback(true);
-                  } else {
-                    _showFeedback(false, 'Try again!');
-                  }
-                },
-                child: Text(
-                  'Submit',
-                  style: GoogleFonts.poppins(fontSize: 18),
-                ),
-              ),
-          ],
+          ),
         );
       },
     );
