@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const classes = [
   {
     "number": 1,
+    "level": "beginner",
     "image": "assets/home_screen/alphabets.png",
     "title": "First Steps in Berlin",
     "color": Color.fromARGB(255, 255, 184, 203),
@@ -68,6 +69,7 @@ const classes = [
   },
   {
     "number": 2,
+    "level": "beginner",
     "image": "assets/home_screen/list.png",
     "title": "Exploring the City",
     "color": Color.fromARGB(255, 197, 187, 245),
@@ -125,6 +127,7 @@ const classes = [
   },
   {
     "number": 3,
+    "level": "beginner",
     "image": "assets/home_screen/list.png",
     "title": "Dining & Shopping",
     "color": Color.fromARGB(255, 137, 243, 144),

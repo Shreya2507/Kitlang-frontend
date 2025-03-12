@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CompletionScreen extends StatefulWidget {
-  final String background;
+  final dynamic background;
   final int chapterIndex;
   final int topicIndex;
 
@@ -55,7 +55,11 @@ class _CompletionScreenState extends State<CompletionScreen>
         children: [
           //background
           Positioned.fill(
-            child: Image.asset(widget.background, fit: BoxFit.cover),
+            child: Image.asset(
+                widget.background is String
+                    ? "${widget.background}"
+                    : "assets/introductions/bg${widget.background}.jpg",
+                fit: BoxFit.cover),
           ),
 
           // Background overlay (for depth)
@@ -163,7 +167,12 @@ class _CompletionScreenState extends State<CompletionScreen>
                       0.8, // Set fixed width
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.popUntil(context, (route) => route.isFirst);
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/', // Navigate to the root route (home screen)
+                        (route) =>
+                            false, // Remove all previous routes from the stack
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 136, 220, 250),
