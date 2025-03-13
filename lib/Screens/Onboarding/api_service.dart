@@ -9,7 +9,8 @@ class ApiService {
 
   Future<Map<String, dynamic>> register(
       String email, String password, String username) async {
-    const url = 'http://192.168.1.11:8000/auth/register';
+    const url =
+        'https://saran-2021-kitlang-authentication.hf.space/auth/register';
 
     try {
       final response = await http.post(
@@ -40,7 +41,8 @@ class ApiService {
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.11:8000/auth/login'),
+        Uri.parse(
+            'https://saran-2021-kitlang-authentication.hf.space/auth/login'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -63,7 +65,8 @@ class ApiService {
     }
   }
 
-  final String baseUrl = 'http://192.168.1.11:8000/auth';
+  final String baseUrl =
+      'https://saran-2021-kitlang-authentication.hf.space/auth';
 
   Future<Map<String, dynamic>> registerWithGoogle(
       String email, String displayName) async {
