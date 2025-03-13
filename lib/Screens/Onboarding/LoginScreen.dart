@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Screens/Onboarding/api_service.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:frontend/Screens/Onboarding/services/api_service.dart';
+import 'package:frontend/redux/appstate.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,13 +16,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final _apiService = ApiService();
 
   Future<void> _login() async {
+    final store = StoreProvider.of<AppState>(context); // Get Redux store
+
     try {
-      final result = await _apiService.login(
+      await _apiService.login(
         _emailController.text,
         _passwordController.text,
+        store, // Pass Redux store
       );
       Navigator.pushReplacementNamed(context, '/home');
-      print('User logged in: $result');
+      print('User logged in successfully');
     } catch (e) {
       print('Failed to login: $e');
     }
@@ -35,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/onboarding/Sign_Up.jpg'),
+                image: AssetImage('assets/images/Sign_Up.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -50,20 +55,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/onboarding/Sign_Up.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/onboarding/signup_cat.gif'),
+                      image: AssetImage('assets/images/signup_cat.gif'),
                     ),
                   ),
                 ),
                 const SizedBox(height: 30),
-                const SizedBox(height: 20),
                 TextField(
                   controller: _emailController,
                   decoration: InputDecoration(
@@ -76,7 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: "Type in your email",
                     fillColor: Colors.white70,
                     contentPadding: const EdgeInsets.symmetric(
-                        vertical: 5.0, horizontal: 20.0),
+                      vertical: 5.0,
+                      horizontal: 20.0,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -89,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     filled: true,
                     labelText: "Password",
                     hintStyle: TextStyle(color: Colors.grey[800]),
-                    hintText: "Type in your username",
+                    hintText: "Type in your password",
                     fillColor: Colors.white70,
                   ),
                   obscureText: true,
@@ -101,10 +99,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
                   ),
-                  child: const Text('Create Account'),
+                  child: const Text('Login'),
                 ),
-                const SizedBox(height: 10),
-                const SizedBox(height: 20),
               ],
             ),
           ),

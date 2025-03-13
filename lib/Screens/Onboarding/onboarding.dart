@@ -16,7 +16,7 @@ class _OnboardingState extends State<Onboarding> {
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/onboarding/Onboarding.jpg'),
+              image: AssetImage('assets/images/Onboarding.jpg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -29,10 +29,7 @@ class _OnboardingState extends State<Onboarding> {
                   padding: const EdgeInsets.all(30),
                   child: RichText(
                     text: const TextSpan(
-                      style: TextStyle(
-                        fontSize: 28.0,
-                        color: Colors.black,
-                      ),
+                      style: TextStyle(fontSize: 28.0, color: Colors.black),
                       // children: <TextSpan>[
                       //   TextSpan(
                       //       text: 'Hi! ',
