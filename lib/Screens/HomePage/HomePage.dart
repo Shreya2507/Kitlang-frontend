@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:frontend/Screens/Chat/getStartedPage.dart";
 import "package:frontend/Screens/Dictionary/Dict.dart";
 import "package:frontend/Screens/Introductions/conversation.dart";
 import "package:frontend/Screens/ProfilePage.dart";
 import "package:frontend/Screens/Topic%20flow/theory_screen.dart";
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:frontend/Screens/Chat/getStartedPage.dart';
-// import 'package:frontend/Screens/Dictionary/Dict.dart';
-// import 'package:frontend/Flashcards/Flashcards.dart';
-// import 'package:frontend/Screens/ProfilePage.dart';
-
 import "utils/data.dart";
 import "components/my_timeline_tile.dart";
 
@@ -106,7 +101,7 @@ class _HomePageState extends State<HomePage> {
               top: 200,
               left: 20,
               right: 20,
-              bottom: 0,
+              bottom: 100,
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
@@ -256,87 +251,106 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            //CHATBOT BUTTON
-            // Positioned(
-            //   right: 10,
-            //   bottom: 100,
-            //   child: Container(
-            //     // padding: EdgeInsets.all(10),
-            //     height: 65,
-            //     width: 65,
-            //     child: FloatingActionButton(
-            //       onPressed: () => (),
-            //       backgroundColor: Colors.white,
-            //       shape: CircleBorder(),
-            //       child: Padding(
-            //         padding: EdgeInsets.all(8),
-            //         child: Icon(
-            //           FontAwesomeIcons.commentDots,
-            //           size: 27,
-            //           color: Colors.black,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            // CHATBOT BUTTON
+            Positioned(
+              right: 10,
+              bottom: 120,
+              child: Container(
+                // padding: EdgeInsets.all(10),
+                height: 65,
+                width: 65,
+                child: FloatingActionButton(
+                  onPressed: () => (),
+                  backgroundColor: Colors.white,
+                  shape: CircleBorder(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Icon(
+                      FontAwesomeIcons.commentDots,
+                      size: 27,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
 
             // Bottom App Bar
-            BottomAppBar(
-              padding: EdgeInsets.all(0),
-              color: Color.fromARGB(121, 211, 222, 250),
-              notchMargin: 0,
-              child: Row(
-                // mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      FontAwesomeIcons.house,
-                      color: Colors.black,
+            Positioned(
+              right: 0,
+              left: 0,
+              bottom: 0,
+              child: BottomAppBar(
+                padding: EdgeInsets.all(0),
+                color: Color.fromARGB(121, 211, 222, 250),
+                notchMargin: 0,
+                child: Row(
+                  // mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // IconButton(
+                    //   icon: const Icon(
+                    //     FontAwesomeIcons.house,
+                    //     color: Colors.black,
+                    //   ),
+                    //   onPressed: () {
+                    //     setState(() {});
+                    //   },
+                    // ),
+                    IconButton(
+                      icon: const Icon(
+                        FontAwesomeIcons.bookOpen,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DictionaryHomePage(),
+                          ),
+                        );
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {});
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      FontAwesomeIcons.bookOpen,
-                      color: Colors.black,
+                    IconButton(
+                      icon: const Icon(
+                        FontAwesomeIcons.solidCommentDots,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GetStartedPage(),
+                          ),
+                        );
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DictionaryHomePage(),
-                        ),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      FontAwesomeIcons.trophy,
-                      color: Colors.black,
+                    IconButton(
+                      icon: const Icon(
+                        FontAwesomeIcons.trophy,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        setState(() {});
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {});
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      FontAwesomeIcons.solidUser,
-                      color: Colors.black,
+                    IconButton(
+                      icon: const Icon(
+                        FontAwesomeIcons.solidUser,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(),
+                          ),
+                        );
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfilePage(),
-                        ),
-                      );
-                    },
-                  )
-                ],
+                  ],
+                ),
               ),
             ),
           ],

@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.53"
+  adaptive_number:
+    dependency: transitive
+    description:
+      name: adaptive_number
+      sha256: "3a567544e9b5c9c803006f51140ad544aedc79604fd4f3f2c1380003f97c1d77"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   animated_text_kit:
     dependency: "direct main"
     description:
@@ -145,6 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.8.0"
+  convert:
+    dependency: transitive
+    description:
+      name: convert
+      sha256: b30acd5944035672bc15c6b7a8b47d773e41e2f17de064350988c5d02adb1c68
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.2"
   crypto:
     dependency: transitive
     description:
@@ -161,6 +177,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  dart_jsonwebtoken:
+    dependency: "direct main"
+    description:
+      name: dart_jsonwebtoken
+      sha256: "21ce9f8a8712f741e8d6876a9c82c0f8a257fe928c4378a91d8527b92a3fd413"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
+  ed25519_edwards:
+    dependency: transitive
+    description:
+      name: ed25519_edwards
+      sha256: "6ce0112d131327ec6d42beede1e5dfd526069b18ad45dcf654f15074ad9276cd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   fake_async:
     dependency: transitive
     description:
@@ -608,6 +640,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      sha256: "92aa3841d083cc4b0f4709b5c74fd6409a3e6ba833ffc7dc6a8fee096366acf5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   posix:
     dependency: transitive
     description:
@@ -821,6 +861,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  web_socket:
+    dependency: transitive
+    description:
+      name: web_socket
+      sha256: "3c12d96c0c9a4eec095246debcea7b86c0324f22df69893d538fcc6f1b8cce83"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.6"
+  web_socket_channel:
+    dependency: "direct main"
+    description:
+      name: web_socket_channel
+      sha256: "0b8e2457400d8a859b7b2030786835a28a8e80836ef64402abef392ff4f1d0e5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   xdg_directories:
     dependency: transitive
     description:

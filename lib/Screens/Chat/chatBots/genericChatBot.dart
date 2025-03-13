@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+
 // GenericChatBotPage for other situations
 class GenericChatBotPage extends StatelessWidget {
   final String situationTitle;

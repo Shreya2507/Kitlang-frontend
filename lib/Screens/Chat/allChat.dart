@@ -14,24 +14,70 @@ class _AllChatState extends State<AllChat> {
     {
       'title': 'Ordering Food',
       'subtitle': 'Learn better by Conversing with a restaurant',
-      'image': 'assets/chatbot/food_order1.png'
+      'image': 'assets/chatbot/food_order1.png',
+      'situation_id': 1
     },
     {
       'title': 'Booking a Hotel',
       'subtitle': 'Learn better by conversing with a hotel receptionist',
-      'image': 'assets/chatbot/hotel.png'
+      'image': 'assets/chatbot/hotel.png',
+      'situation_id': 2
     },
     {
       'title': 'Job Interview',
       'subtitle': 'Learn better by conversing with a potential employer',
-      'image': 'assets/chatbot/interview.png'
+      'image': 'assets/chatbot/interview.png',
+      'situation_id': 3
     },
     {
-      'title': 'Casual Chat',
+      'title': 'Asking for Directions',
+      'subtitle': 'Navigate a new city by asking directions',
+      'image': 'assets/chatbot/interview.png',
+      'situation_id': 4
+    },
+    {
+      'title': 'Shopping at a Retail Store',
+      'subtitle':
+          'Practice buying clothes asking for sizes, prices and discounts',
+      'image': 'assets/chatbot/interview.png',
+      'situation_id': 5
+    },
+    {
+      'title': 'Visiting a Doctor',
+      'subtitle':
+          'Learning How to describe symptoms and understanding medical advice',
+      'image': 'assets/chatbot/interview.png',
+      'situation_id': 6
+    },
+    {
+      'title': 'Casual Chat ',
       'subtitle': 'Learn better by having a casual conversation',
-      'image': 'assets/chatbot/food_order.png'
+      'image': 'assets/chatbot/food_order.png',
+      'situation_id': 7
     },
   ];
+  void navigateToChatBot(int situationId) {
+    Widget destination;
+    switch (situationId) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+        destination = FoodOrderingBot(situationNumber: situationId);
+        break;
+      default:
+        destination = GenericChatBotPage(situationTitle: 'Generic Chat');
+        break;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => destination),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,27 +178,31 @@ class _AllChatState extends State<AllChat> {
                                           Container(height: 20),
                                           ElevatedButton(
                                             onPressed: () {
-                                              if (situation['title'] ==
-                                                  'Ordering Food') {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        FoodOrderingBot(),
-                                                  ),
-                                                );
-                                              } else {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        GenericChatBotPage(
-                                                      situationTitle:
-                                                          situation['title'],
-                                                    ),
-                                                  ),
-                                                );
-                                              }
+                                              navigateToChatBot(
+                                                  situation['situation_id']);
+                                              // if (situation['title'] ==
+                                              //     'Ordering Food') {
+                                              //   Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           FoodOrderingBot(situationNumber: 1,),
+                                              //     ),
+                                              //   );
+                                              // }
+
+                                              //  else {
+                                              //   Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           GenericChatBotPage(
+                                              //         situationTitle:
+                                              //             situation['title'],
+                                              //       ),
+                                              //     ),
+                                              //   );
+                                              // }
                                             },
                                             child: Text(
                                               'Start Now!',

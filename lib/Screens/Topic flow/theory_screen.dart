@@ -100,7 +100,7 @@ class _TheoryScreenState extends State<TheoryScreen>
 
           isLoading = false;
           // print('Response status: ${response.statusCode}');
-          // print('Response body: ${response.body}');
+          print('Response body: ${response.body}');
           print('Raw API response: ${response.body}');
 
           print('Questions list updated: $questionsList');
