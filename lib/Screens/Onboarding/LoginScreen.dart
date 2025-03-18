@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/Sign_Up.jpg'),
+                image: AssetImage('assets/onboarding/Sign_Up.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/signup_cat.gif'),
+                      image: AssetImage('assets/onboarding/signup_cat.gif'),
                     ),
                   ),
                 ),

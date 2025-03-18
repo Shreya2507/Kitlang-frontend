@@ -25,7 +25,7 @@ class LanguageScreen extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: Image.asset(
-                  'assets/images/Languages.jpg',
+                  'assets/onboarding/Languages.jpg',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -52,7 +52,7 @@ class LanguageListView extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         children: [
           LanguageTile(
-            flagPath: 'assets/images/germany_flag.png',
+            flagPath: 'assets/onboarding/germany_flag.png',
             language: 'German',
             userId: userId,
           ),

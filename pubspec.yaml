@@ -127,6 +127,7 @@ flutter:
     - assets/
     - assets/home_screen/
     - assets/introductions/
+    - assets/onboarding/
     
     
 

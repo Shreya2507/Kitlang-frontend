@@ -69,7 +69,7 @@ class _TheoryScreenState extends State<TheoryScreen>
   Future<void> _fetchStory() async {
     try {
       final url = Uri.parse(
-          'https://saran-2021-backend-kitlang.hf.space/generate_theory/${widget.classIndex}/${widget.topicIndex}/German/beginner'); // Replace with your API URL
+          'https://saran-2021-backend-kitlang.hf.space/get_theory/${widget.classIndex}/${widget.topicIndex}/German/beginner'); // Replace with your API URL
       final response = await http.get(
         url,
         headers: {

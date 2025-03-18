@@ -11,7 +11,8 @@ class LevelScreen extends StatelessWidget {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset('assets/images/levels.jpg', fit: BoxFit.cover),
+            child:
+                Image.asset('assets/onboarding/levels.jpg', fit: BoxFit.cover),
           ),
           const Padding(
             padding: EdgeInsets.only(top: 150),
@@ -31,15 +32,15 @@ class LanguageList extends StatelessWidget {
     return ListView(
       children: const [
         LevelTile(
-          flagPath: 'assets/images/bronze.png',
+          flagPath: 'assets/onboarding/bronze.png',
           language: 'Tier 1: Word Collector',
         ),
         LevelTile(
-          flagPath: 'assets/images/silver.png',
+          flagPath: 'assets/onboarding/silver.png',
           language: 'Tier 2: Fluent Fighter',
         ),
         LevelTile(
-          flagPath: 'assets/images/gold.png',
+          flagPath: 'assets/onboarding/gold.png',
           language: 'Tier 3: Linguistic Legend',
         ),
       ],

@@ -203,7 +203,7 @@ class _SignupScreenState extends State<SignupScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/Sign_Up.jpg'),
+                image: AssetImage('assets/onboarding/Sign_Up.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -213,15 +213,15 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/signup_cat.gif'),
+                Image.asset('assets/onboarding/signup_cat.gif'),
                 _isLoading
                     ? const CircularProgressIndicator()
                     : ElevatedButton.icon(
                         onPressed: _signInWithGoogle,
-                        icon: Image.asset(
-                          'assets/images/google_logo.png',
-                          height: 15.0,
-                        ),
+                        // icon: Image.asset(
+                        //   'asset/onboarding/google_logo.png',
+                        //   height: 15.0,
+                        // ),
                         label: const Text('Sign up with Google'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,

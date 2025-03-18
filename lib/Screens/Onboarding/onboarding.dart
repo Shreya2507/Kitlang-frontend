@@ -16,7 +16,7 @@ class _OnboardingState extends State<Onboarding> {
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/Onboarding.jpg'),
+              image: AssetImage('assets/onboarding/Onboarding.jpg'),
               fit: BoxFit.cover,
             ),
           ),
