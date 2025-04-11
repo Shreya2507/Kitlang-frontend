@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/Screens/Chat/chatBots/foodOrderingChatBot.dart';
-import 'package:frontend/Screens/Chat/chatBots/genericChatBot.dart';
+import 'package:frontend/Screens/Chat/doubtsChatbot.dart';
+import 'package:frontend/Screens/Chat/situationalChatbot.dart';
+// import 'package:chattie_chat/chatBots/situationalChatbot.dart';
+// import 'package:chattie_chat/chatBots/doubtsChatbot.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,48 +16,49 @@ class _AllChatState extends State<AllChat> {
     {
       'title': 'Ordering Food',
       'subtitle': 'Learn better by Conversing with a restaurant',
-      'image': 'assets/chatbot/food_order1.png',
-      'situation_id': 1
+      'image': 'images/food_order1.png',
+      'situation_id': 1,
     },
     {
       'title': 'Booking a Hotel',
       'subtitle': 'Learn better by conversing with a hotel receptionist',
-      'image': 'assets/chatbot/hotel.png',
-      'situation_id': 2
+      'image': 'images/hotel.png',
+      'situation_id': 2,
     },
     {
       'title': 'Job Interview',
       'subtitle': 'Learn better by conversing with a potential employer',
-      'image': 'assets/chatbot/interview.png',
-      'situation_id': 3
+      'image': 'images/interview.png',
+      'situation_id': 3,
     },
     {
       'title': 'Asking for Directions',
       'subtitle': 'Navigate a new city by asking directions',
-      'image': 'assets/chatbot/interview.png',
-      'situation_id': 4
+      'image': 'images/interview.png',
+      'situation_id': 4,
     },
     {
       'title': 'Shopping at a Retail Store',
       'subtitle':
           'Practice buying clothes asking for sizes, prices and discounts',
-      'image': 'assets/chatbot/interview.png',
-      'situation_id': 5
+      'image': 'images/interview.png',
+      'situation_id': 5,
     },
     {
       'title': 'Visiting a Doctor',
       'subtitle':
           'Learning How to describe symptoms and understanding medical advice',
-      'image': 'assets/chatbot/interview.png',
-      'situation_id': 6
+      'image': 'images/interview.png',
+      'situation_id': 6,
     },
     {
       'title': 'Casual Chat ',
       'subtitle': 'Learn better by having a casual conversation',
-      'image': 'assets/chatbot/food_order.png',
-      'situation_id': 7
+      'image': 'images/food_order.png',
+      'situation_id': 7,
     },
   ];
+
   void navigateToChatBot(int situationId) {
     Widget destination;
     switch (situationId) {
@@ -66,10 +69,10 @@ class _AllChatState extends State<AllChat> {
       case 5:
       case 6:
       case 7:
-        destination = FoodOrderingBot(situationNumber: situationId);
+        destination = Situationalbot(situationNumber: situationId);
         break;
       default:
-        destination = GenericChatBotPage(situationTitle: 'Generic Chat');
+        destination = doubtsChatbotPage(situationTitle: 'Generic Chat');
         break;
     }
 
@@ -82,16 +85,11 @@ class _AllChatState extends State<AllChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chattie'),
-      ),
+      appBar: AppBar(title: const Text('Chattie')),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color(0xFFB9B0E1),
-              Color(0xFFFFC6D5),
-            ],
+            colors: [Color(0xFFB9B0E1), Color(0xFFFFC6D5)],
             stops: [0.07, 0.68],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -137,7 +135,9 @@ class _AllChatState extends State<AllChat> {
                           final situation = situations[index];
                           return Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 8.0),
+                              horizontal: 10.0,
+                              vertical: 8.0,
+                            ),
                             child: Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
@@ -163,7 +163,11 @@ class _AllChatState extends State<AllChat> {
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                               color: Color.fromARGB(
-                                                  245, 111, 50, 152),
+                                                245,
+                                                111,
+                                                50,
+                                                152,
+                                              ),
                                             ),
                                           ),
                                           Container(height: 10),
@@ -172,37 +176,19 @@ class _AllChatState extends State<AllChat> {
                                             style: GoogleFonts.lato(
                                               fontSize: 14,
                                               color: Color.fromARGB(
-                                                  255, 80, 80, 80),
+                                                255,
+                                                80,
+                                                80,
+                                                80,
+                                              ),
                                             ),
                                           ),
                                           Container(height: 20),
                                           ElevatedButton(
                                             onPressed: () {
                                               navigateToChatBot(
-                                                  situation['situation_id']);
-                                              // if (situation['title'] ==
-                                              //     'Ordering Food') {
-                                              //   Navigator.push(
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //       builder: (context) =>
-                                              //           FoodOrderingBot(situationNumber: 1,),
-                                              //     ),
-                                              //   );
-                                              // }
-
-                                              //  else {
-                                              //   Navigator.push(
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //       builder: (context) =>
-                                              //           GenericChatBotPage(
-                                              //         situationTitle:
-                                              //             situation['title'],
-                                              //       ),
-                                              //     ),
-                                              //   );
-                                              // }
+                                                situation['situation_id'],
+                                              );
                                             },
                                             child: Text(
                                               'Start Now!',
@@ -214,14 +200,22 @@ class _AllChatState extends State<AllChat> {
                                             ),
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor: Color.fromARGB(
-                                                  255, 255, 255, 255),
+                                                255,
+                                                255,
+                                                255,
+                                                255,
+                                              ),
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(20),
                                               ),
                                               side: BorderSide(
                                                 color: Color.fromARGB(
-                                                    255, 192, 192, 192),
+                                                  255,
+                                                  192,
+                                                  192,
+                                                  192,
+                                                ),
                                                 width: 1,
                                               ),
                                             ),
@@ -232,16 +226,19 @@ class _AllChatState extends State<AllChat> {
                                     // Right side: Image
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0), // Added padding
+                                        vertical: 10.0,
+                                      ), // Added padding
                                       child: Container(
                                         width: 123,
                                         height: 118,
                                         decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
                                           image: DecorationImage(
-                                            image:
-                                                AssetImage(situation['image']),
+                                            image: AssetImage(
+                                              situation['image'],
+                                            ),
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -270,7 +267,7 @@ class _AllChatState extends State<AllChat> {
                   width: 250,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/chatbot/cat_image.png'),
+                      image: AssetImage('images/cat_image.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -279,6 +276,15 @@ class _AllChatState extends State<AllChat> {
             ),
           ],
         ),
+      ),
+      // Floating Action Button at the bottom
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigate to a default chatbot or any specific chatbot page
+          navigateToChatBot(7); // Example: Casual Chat
+        },
+        child: Icon(Icons.chat),
+        backgroundColor: Colors.purple, // Customize the color
       ),
     );
   }
