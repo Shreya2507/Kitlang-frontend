@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Chapter ${classIndex + 1}",
+                                      "Chapter ${classData["number"]}",
                                       style: TextStyle(
                                         fontSize: 22,
                                         color: classData["subColor"] as Color,
@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                                     Text(
                                       classData["title"] as String,
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 15,
                                         color:
                                             Color.fromARGB(255, 255, 255, 255),
                                         fontWeight: FontWeight.w700,
@@ -154,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                                 Container(
-                                  padding: EdgeInsets.all(10),
+                                  padding: EdgeInsets.all(5),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
@@ -163,8 +163,8 @@ class _HomePageState extends State<HomePage> {
                                   alignment: Alignment.center,
                                   child: Image.asset(
                                     classData["image"] as String,
-                                    width: 60,
-                                    height: 60,
+                                    width: 50,
+                                    height: 50,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -194,7 +194,8 @@ class _HomePageState extends State<HomePage> {
                                     onTapCancel: () =>
                                         setState(() => _isPressed = false),
                                     onTap: () {
-                                      if (topic["title"] == "Introduction") {
+                                      if (topic["title"] == "Introduction" ||
+                                          topicIndex == 0) {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -208,7 +209,8 @@ class _HomePageState extends State<HomePage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) => TheoryScreen(
-                                              classIndex: classIndex,
+                                              classIndex:
+                                                  classData["number"] as int,
                                               topicIndex: topicIndex,
                                               background: classIndex + 1,
                                             ),

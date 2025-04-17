@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/Introductions/completion_screen.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -36,6 +35,8 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
   final FlutterTts _flutterTts = FlutterTts();
   String? selectedOption;
 
+  int questionNumber = 1;
+
   @override
   void dispose() {
     _speechToText.stop();
@@ -46,7 +47,7 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
   Future<void> _requestPermissions() async {
     var status = await Permission.microphone.request();
     if (status == PermissionStatus.permanentlyDenied) {
-      openAppSettings(); // Open app settings
+      openAppSettings();
     } else if (status != PermissionStatus.granted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Microphone permission is required')),
@@ -61,8 +62,7 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
     }
 
     final question = widget.questions[currentIndex];
-    if (!question.containsKey('correct_answer') &&
-        question['question_type'] != 'match the following(words)') {
+    if (!question.containsKey('correct_answer')) {
       print('Error: Missing correct_answer in question data');
       _showFeedback(false, 'Missing correct answer in data');
       return;
@@ -87,12 +87,14 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
     } else {
       _showFeedback(false, question['correct_answer']);
     }
+
+    questionNumber++;
   }
 
   void _showFeedback(bool isCorrect, [String? correctAnswer]) {
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevent accidental closing
+      barrierDismissible: false,
       builder: (_) => AlertDialog(
         backgroundColor:
             isCorrect ? Colors.green.shade100 : Colors.red.shade100,
@@ -129,11 +131,8 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(
-                context,
-                rootNavigator: true,
-              ).pop(); // Close dialog only
-              _nextQuestion(); // Load next question
+              Navigator.of(context, rootNavigator: true).pop();
+              _nextQuestion();
             },
             child: Text('Next', style: GoogleFonts.poppins(fontSize: 18)),
           ),
@@ -147,6 +146,7 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
       setState(() {
         currentIndex++;
         userAnswer = '';
+        selectedOption = null;
       });
     } else {
       _showFinalScore();
@@ -173,10 +173,7 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(
-                context,
-                rootNavigator: true,
-              ).pop(); // Close the dialog
+              Navigator.of(context, rootNavigator: true).pop();
               Navigator.of(context, rootNavigator: true).push(
                 MaterialPageRoute(
                   builder: (context) => CompletionScreen(
@@ -200,14 +197,12 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
 
     return Stack(
       children: [
-        // Background image
         Positioned.fill(
           child: Image.asset(
             "assets/theory/Mini_back.jpg",
             fit: BoxFit.cover,
           ),
         ),
-
         Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: const Color.fromARGB(141, 184, 217, 248),
@@ -217,18 +212,15 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
             leading: BackButton(color: Colors.black),
             automaticallyImplyLeading: true,
           ),
-          // extendBodyBehindAppBar: true,
           body: Column(
             children: [
               const SizedBox(height: 30),
-
-              // Question Number Label
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20, bottom: 7),
                   child: Text(
-                    'Question No. 1', // You can dynamically insert question number
+                    'Question No. $questionNumber',
                     style: GoogleFonts.nunito(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
@@ -236,12 +228,10 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
                   ),
                 ),
               ),
-
-              // Main White Container
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 20, right: 20, bottom: 40, top: 5),
+                      left: 20, right: 20, top: 5, bottom: 35),
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -260,16 +250,59 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       children: [
-                        const SizedBox(height: 40),
-                        Text(
-                          question['title'] ?? question['question'],
-                          style: GoogleFonts.nunito(
-                            fontSize: 25,
-                            wordSpacing: 1.5,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        const SizedBox(height: 20),
+                        question['question_type'] == "listening_typing"
+                            ? Text(
+                                "Listen to the audio and type what you hear",
+                                style: GoogleFonts.nunito(
+                                  fontSize: 25,
+                                  wordSpacing: 1.5,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.center,
+                              )
+                            : question['question_type'] == "pronounciation"
+                                ? Text(
+                                    "Repeat after the audio",
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 25,
+                                      wordSpacing: 1.5,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  )
+                                : question['question_type'] == "listening_mcq"
+                                    ? Text(
+                                        "Listen to the audio and select the correct option",
+                                        style: GoogleFonts.nunito(
+                                          fontSize: 23,
+                                          wordSpacing: 1.5,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      )
+                                    : question['question_type'] ==
+                                            "jumbled_sentence"
+                                        ? Text(
+                                            "Arrange the words to form a sentence",
+                                            style: GoogleFonts.nunito(
+                                              fontSize: 25,
+                                              wordSpacing: 1.5,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          )
+                                        : Text(
+                                            question['question'] ??
+                                                question['title'] ??
+                                                '',
+                                            style: GoogleFonts.nunito(
+                                              fontSize: 25,
+                                              wordSpacing: 1.5,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
                         if (question.containsKey('question_native'))
                           Padding(
                             padding: const EdgeInsets.only(top: 8),
@@ -283,7 +316,7 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 30),
                         Divider(
                           color: Colors.grey.shade300,
                           thickness: 1,
@@ -304,18 +337,17 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
 
   Widget _buildQuestionWidget(Map<String, dynamic> question) {
     switch (question['question_type']) {
-      case 'correct option from multiple options':
+      case 'type_in_the_blanks':
+        return _buildFillInTheBlank(question);
+      case 'multiple_choice':
         return _buildMultipleChoice(question);
-      case 'type in the blanks':
-        return _buildFillInTheBlank();
-      case 'speak(testing)':
-        if (question['question'] is String) {
-          return _buildSpeaking(question['question']);
-        }
-        return const SizedBox(); // Fallback if data is invalid
-      case 'listen':
-        return _buildListening(question);
-      case 'match the following(words)':
+      case 'pronounciation':
+        return _buildPronunciation(question);
+      case 'listening_mcq':
+        return _buildListeningMCQ(question);
+      case 'listening_typing':
+        return _buildListeningTyping(question);
+      case 'match_words':
         if (question['options'] != null &&
             question['options'] is List<dynamic>) {
           try {
@@ -334,23 +366,25 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
           print('Invalid data for match the following(words)');
         }
         return const SizedBox(); // Fallback if data is invalid
+      case 'jumbled_sentence':
+        return _buildJumbledSentence(question);
       default:
         print('Unknown question type: ${question['question_type']}');
-        return Container();
+        return Container(
+          child: Text(
+            'Unsupported question type',
+            style: GoogleFonts.poppins(fontSize: 18),
+          ),
+        );
     }
   }
 
-  Widget _buildFillInTheBlank() {
+  Widget _buildFillInTheBlank(Map<String, dynamic> question) {
     return Container(
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.only(top: 16),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(
-          255,
-          188,
-          214,
-          238,
-        ), // Light grey background, you can change this
+        color: const Color.fromARGB(255, 188, 214, 238),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -393,16 +427,9 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
           ),
           const SizedBox(height: 12),
           ElevatedButton(
-            onPressed: () async {
-              await Future.delayed(
-                const Duration(seconds: 1),
-              ); // ⏳ 1-second delay
-              checkAnswer(userAnswer);
-            },
+            onPressed: () => checkAnswer(userAnswer),
             style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(
-                vertical: 16, // slightly taller for better touch target
-              ),
+              padding: EdgeInsets.symmetric(vertical: 16),
               backgroundColor: const Color.fromRGBO(233, 240, 250, 1),
               foregroundColor: const Color.fromARGB(255, 46, 46, 46),
               shape: RoundedRectangleBorder(
@@ -427,7 +454,7 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(top: 24),
       decoration: BoxDecoration(
-        color: const Color(0xFFECF4FB), // Soft blue pastel
+        color: const Color(0xFFECF4FB),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -453,9 +480,8 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
                 });
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: isSelected
-                    ? const Color(0xFF6EA4D6) // Selected soft blue
-                    : Colors.white,
+                backgroundColor:
+                    isSelected ? const Color(0xFF6EA4D6) : Colors.white,
                 foregroundColor: isSelected ? Colors.white : Colors.black,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -478,28 +504,37 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
     );
   }
 
-  Widget _buildSpeaking(String prompt) {
+  Widget _buildPronunciation(Map<String, dynamic> question) {
     return Column(
       children: [
+        const SizedBox(height: 20),
+        ElevatedButton.icon(
+          onPressed: () => _speak(question['text_to_read']),
+          icon: Icon(Icons.volume_up),
+          label: Text('Play Audio'),
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          ),
+        ),
+        const SizedBox(height: 40),
         if (isListening)
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
             child: AudioWave(
-              height: 40, // controls overall wave height
+              height: 40,
               animation: true,
               beatRate: const Duration(milliseconds: 80),
-              spacing: 2, // reduces gap between bars to make them tighter
+              spacing: 2,
               bars: List.generate(
-                20, // more bars = thinner appearance
+                20,
                 (index) => AudioWaveBar(
-                  heightFactor: index.isEven ? 0.5 : 0.8, // alternate height
-                  color: const Color.fromARGB(255, 174, 200, 239), // soft blue
-                  radius: 3, // small curve on top
+                  heightFactor: index.isEven ? 0.5 : 0.8,
+                  color: const Color.fromARGB(255, 174, 200, 239),
+                  radius: 3,
                 ),
               ),
             ),
           ),
-        const SizedBox(height: 20),
         ElevatedButton.icon(
           onPressed: () async {
             await _requestPermissions();
@@ -577,55 +612,156 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
     );
   }
 
-  Future<void> _speak(String text) async {
-    await _flutterTts.setLanguage('de-DE'); // Set to German
-    await _flutterTts.setPitch(1.0);
-    await _flutterTts.speak(text);
+  Widget _buildListeningMCQ(Map<String, dynamic> question) {
+    return Column(
+      children: [
+        const SizedBox(height: 10),
+        ElevatedButton.icon(
+          onPressed: () => _speak(question['text_to_read']),
+          icon: Icon(Icons.volume_up),
+          label: Text('Play Question Audio'),
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          ),
+        ),
+        // const SizedBox(height: 5),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          margin: const EdgeInsets.only(top: 24),
+          decoration: BoxDecoration(
+            color: const Color(0xFFECF4FB),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 6,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: (question['options'] as List).map<Widget>((option) {
+              final bool isSelected = option == selectedOption;
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedOption = option;
+                    });
+                    Future.delayed(const Duration(seconds: 1), () {
+                      checkAnswer(option);
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        isSelected ? const Color(0xFF6EA4D6) : Colors.white,
+                    foregroundColor: isSelected ? Colors.white : Colors.black,
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    shadowColor: Colors.transparent,
+                  ),
+                  child: Text(
+                    option,
+                    style: GoogleFonts.nunito(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
   }
 
-  Widget _buildListening(Map<String, dynamic> question) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.only(top: 24),
-      decoration: BoxDecoration(
-        color: const Color(0xFFECF4FB), // soft background
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 6,
-            offset: const Offset(0, 4),
+  Widget _buildListeningTyping(Map<String, dynamic> question) {
+    return Column(
+      children: [
+        const SizedBox(height: 30),
+        Container(
+          padding: const EdgeInsets.all(20),
+          margin: const EdgeInsets.only(top: 16),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 188, 214, 238),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromARGB(255, 48, 48, 48).withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 9),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.stretch, // makes buttons full width
-        children: (question['options'] as List).map<Widget>((option) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: ElevatedButton(
-              onPressed: () => checkAnswer(option),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                onChanged: (value) => userAnswer = value,
+                decoration: InputDecoration(
+                  hintText: 'Type what you heard...',
+                  hintStyle: GoogleFonts.aBeeZee(
+                    fontSize: 17,
+                    color: const Color.fromARGB(255, 156, 156, 156),
+                  ),
+                  filled: true,
+                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: const Color.fromARGB(255, 245, 245, 245),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey.shade400),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(255, 104, 130, 175),
+                    ),
+                  ),
                 ),
               ),
-              child: Text(
-                option,
-                style: GoogleFonts.nunito(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () => checkAnswer(userAnswer),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: const Color.fromRGBO(233, 240, 250, 1),
+                  foregroundColor: const Color.fromARGB(255, 46, 46, 46),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  "Submit",
+                  style: GoogleFonts.nunito(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
               ),
-            ),
-          );
-        }).toList(),
-      ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 30),
+        ElevatedButton.icon(
+          onPressed: () => _speak(question['text_to_read']),
+          icon: Icon(Icons.volume_up),
+          label: Text('Play Audio'),
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          ),
+        ),
+      ],
     );
   }
 
@@ -639,12 +775,11 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
       );
     }
 
-    Map<String, String> audioMap = {
-      for (var word in options)
-        word: 'assets/audio/${word.replaceAll(' ', '_').toLowerCase()}.mp3',
-    };
-
-    List<String> shuffledKeys = audioMap.keys.toList()..shuffle();
+    // Create list of indices and shuffle them
+    List<int> audioIndices = List.generate(options.length, (index) => index)
+      ..shuffle();
+    List<String> shuffledWords =
+        audioIndices.map((index) => options[index]).toList();
 
     Map<String, String?> matchedAnswers = {};
     Map<String, bool> matchResults = {};
@@ -652,22 +787,26 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
     return StatefulBuilder(
       builder: (context, setState) {
         void _checkMatch(String key, String value) {
-          bool isCorrect = key == value;
+          // Get original indices for comparison
+          int wordIndex = options.indexOf(key);
+          int audioIndex = audioIndices[shuffledWords.indexOf(value)];
+
+          bool isCorrect = wordIndex == audioIndex;
           setState(() {
             matchedAnswers[key] = value;
             matchResults[key] = isCorrect;
           });
         }
 
-        Future<void> _playAudio(String word) async {
-          String? audioPath = audioMap[word];
-          if (audioPath != null) {
-            try {
-              final player = AudioPlayer();
-              await player.play(AssetSource(audioPath));
-            } catch (e) {
-              print("Error playing audio for $word: $e");
-            }
+        Future<void> _playAudio(int index) async {
+          try {
+            await _flutterTts.setLanguage("de-DE");
+            await _flutterTts.setSpeechRate(0.5);
+            await _flutterTts.setVolume(1.0);
+            await _flutterTts.setPitch(1.0);
+            await _flutterTts.speak(options[audioIndices[index]]);
+          } catch (e) {
+            print("Error using TTS: $e");
           }
         }
 
@@ -679,7 +818,7 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    /// 🎯 Left: Words
+                    /// Left: Words (original order)
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -688,9 +827,7 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
                             data: word,
                             child: Container(
                               padding: const EdgeInsets.all(12),
-                              margin: const EdgeInsets.symmetric(
-                                vertical: 4,
-                              ),
+                              margin: const EdgeInsets.symmetric(vertical: 4),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFECF4FB),
                                 borderRadius: BorderRadius.circular(8),
@@ -755,28 +892,32 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
                       ),
                     ),
 
-                    /// 🔊 Right: Drag Targets
+                    /// Right: Audio Buttons (shuffled)
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        children: shuffledKeys.map((word) {
-                          bool? isMatched = matchResults[word];
+                        children: shuffledWords.asMap().entries.map((entry) {
+                          int index = entry.key;
+                          String word = entry.value;
+                          bool? isMatched =
+                              matchResults[options[audioIndices[index]]];
+
                           return DragTarget<String>(
                             onAccept: (receivedWord) {
-                              _checkMatch(word, receivedWord);
+                              _checkMatch(receivedWord, word);
                             },
-                            builder: (
-                              context,
-                              candidateData,
-                              rejectedData,
-                            ) {
+                            builder: (context, candidateData, rejectedData) {
                               return ElevatedButton.icon(
                                 onPressed: () async {
-                                  await _playAudio(word);
+                                  await _playAudio(index);
                                 },
                                 icon: const Icon(Icons.volume_up),
                                 label: Text(
-                                  matchedAnswers[word] ?? 'Play Audio',
+                                  matchedAnswers.containsKey(
+                                          options[audioIndices[index]])
+                                      ? matchedAnswers[
+                                          options[audioIndices[index]]]!
+                                      : 'Play Audio',
                                   style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -822,13 +963,12 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
 
                 const SizedBox(height: 20),
 
-                /// ✅ Submit Button
-                if (matchedAnswers.length == audioMap.length)
+                /// Submit Button
+                if (matchedAnswers.length == options.length)
                   ElevatedButton(
                     onPressed: () {
-                      bool allCorrect = matchResults.values.every(
-                        (result) => result,
-                      );
+                      bool allCorrect =
+                          matchResults.values.every((result) => result);
                       if (allCorrect) {
                         setState(() {
                           score++;
@@ -860,5 +1000,147 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
         );
       },
     );
+  }
+
+  // Add this new method to your _MiniGameScreenState class
+  Widget _buildJumbledSentence(Map<String, dynamic> question) {
+    // Get the correct answer and split into words
+    final correctAnswer = question['correct_answer'] as String;
+    final correctWords = correctAnswer.split(' ');
+
+    // Create a shuffled version for the user to arrange
+    List<String> shuffledWords = List.from(correctWords)..shuffle();
+
+    // State to track user's arrangement
+    List<String> userArrangement = [];
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        // Function to handle word selection
+        void _selectWord(String word) {
+          setState(() {
+            if (userArrangement.contains(word)) {
+              // If word is already selected, remove it
+              userArrangement.remove(word);
+              shuffledWords.add(word);
+            } else {
+              // Add to user's arrangement
+              userArrangement.add(word);
+              shuffledWords.remove(word);
+            }
+          });
+        }
+
+        // Function to check the answer
+        void _checkJumbledAnswer() {
+          final userAnswer = userArrangement.join(' ');
+          checkAnswer(userAnswer);
+        }
+
+        return Column(
+          children: [
+            // Instruction
+            Text(
+              'Arrange the words to form a correct sentence:',
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+
+            // User's current arrangement
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: userArrangement.map((word) {
+                  return GestureDetector(
+                    onTap: () => _selectWord(word),
+                    child: Chip(
+                      label: Text(word),
+                      backgroundColor: const Color(0xFF6EA4D6),
+                      labelStyle: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Available words
+            Text(
+              'Available words:',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: shuffledWords.map((word) {
+                return GestureDetector(
+                  onTap: () => _selectWord(word),
+                  child: Chip(
+                    label: Text(word),
+                    backgroundColor: Colors.white,
+                    side: BorderSide(
+                      color: const Color(0xFF6EA4D6),
+                      width: 1,
+                    ),
+                    labelStyle: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 30),
+
+            // Submit button (only enabled when all words are used)
+            ElevatedButton(
+              onPressed: userArrangement.length == correctWords.length
+                  ? _checkJumbledAnswer
+                  : null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF6EA4D6),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                'Check Answer',
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _speak(String text) async {
+    await _flutterTts.setLanguage('de-DE');
+    await _flutterTts.setPitch(1.0);
+    await _flutterTts.speak(text);
   }
 }
