@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bubble/bubble.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import "../HomePage/utils/data.dart";
+import 'package:audioplayers/audioplayers.dart';
 
 class ConversationScreen extends StatefulWidget {
   final int chapter;
@@ -23,6 +24,9 @@ class _ConversationScreenState extends State<ConversationScreen>
   int conversationIndex = 0;
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
+  final AudioPlayer _audioPlayer =
+      AudioPlayer(); // Create an AudioPlayer instance
+  bool _isPlaying = false;
 
   @override
   void initState() {
@@ -36,11 +40,34 @@ class _ConversationScreenState extends State<ConversationScreen>
       TweenSequenceItem(tween: Tween<double>(begin: 0.5, end: 1.0), weight: 50),
       TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 0.5), weight: 50),
     ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+    _playBackgroundAudio();
+  }
+
+  Future<void> _playBackgroundAudio() async {
+    try {
+      // Replace 'your_audio.mp3' with the actual path to your audio file
+      await _audioPlayer.play(AssetSource('sounds/intro.mp3'));
+      setState(() {
+        _isPlaying = true;
+      });
+    } catch (e) {
+      print('Error playing audio: $e');
+    }
+  }
+
+  Future<void> _stopBackgroundAudio() async {
+    await _audioPlayer.stop();
+    setState(() {
+      _isPlaying = false;
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _stopBackgroundAudio(); // Stop audio when the screen is disposed
+    _audioPlayer.dispose(); // Release the audio player resources
     super.dispose();
   }
 
@@ -61,10 +88,6 @@ class _ConversationScreenState extends State<ConversationScreen>
     // print(wordCount);
     final isCharacter1Speaking =
         conversationList[conversationIndex]['speaker'] == 'character1';
-
-    //
-
-    // Auto-expand the thought bubble
 
     if (wordCount > 28 && !isExpanded) {
       // Change 15 to whatever word count you prefer
@@ -121,10 +144,8 @@ class _ConversationScreenState extends State<ConversationScreen>
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CompletionScreen(
-              background: convoData.background,
-              chapterIndex: widget.chapter,
-              topicIndex: 0),
+          builder: (context) =>
+              CompletionScreen(chapterIndex: widget.chapter, topicIndex: 0),
         ),
       );
 
@@ -140,10 +161,8 @@ class _ConversationScreenState extends State<ConversationScreen>
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CompletionScreen(
-              background: convoData.background,
-              chapterIndex: widget.chapter,
-              topicIndex: 0),
+          builder: (context) =>
+              CompletionScreen(chapterIndex: widget.chapter, topicIndex: 0),
         ),
       );
       // setState(() {
@@ -440,9 +459,7 @@ class _ConversationScreenState extends State<ConversationScreen>
                         context,
                         MaterialPageRoute(
                           builder: (context) => CompletionScreen(
-                              background: convoData.background,
-                              chapterIndex: widget.chapter,
-                              topicIndex: 0),
+                              chapterIndex: widget.chapter, topicIndex: 0),
                         ),
                       );
                     }

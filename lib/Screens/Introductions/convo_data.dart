@@ -466,9 +466,9 @@ class ConvoData {
         );
       case 11:
         return ConvoData(
-          background: "assets/introductions/townhall.jpg",
-          character1: "assets/introductions/confused.png",
-          character2: "assets/introductions/mayor.png",
+          background: "assets/introductions/bg11.jpg",
+          character1: "assets/introductions/thinking.png",
+          character2: "assets/introductions/friend_guide.png",
           scene: "Zhua gets involved in local community",
           conversations: [
             {
@@ -479,18 +479,16 @@ class ConvoData {
               "speaker": "character2",
               "text":
                   "Wir suchen Freiwillige für das Stadtteilfest. Interessiert?",
-              "character2": "assets/introductions/smile.png",
             },
             {
               "speaker": "character1",
               "text": "Freiwillige? Äh... ja, gerne!",
-              "character1": "assets/introductions/happy.png",
+              "character1": "assets/introductions/smile.png",
             },
             {
               "speaker": "character2",
               "text":
                   "Perfekt! Können Sie am Wochenende den Mülltrennungstand betreuen?",
-              "character2": "assets/introductions/explain.png",
             },
             {
               "speaker": "character1",
@@ -508,8 +506,8 @@ class ConvoData {
         );
       case 12:
         return ConvoData(
-          background: "assets/introductions/cinema.jpg",
-          character1: "assets/introductions/excited.png",
+          background: "assets/introductions/bg12.jpg",
+          character1: "assets/introductions/character1.gif",
           character2: "assets/introductions/director.png",
           scene: "Zhua explores German media",
           conversations: [
@@ -521,23 +519,23 @@ class ConvoData {
               "speaker": "character2",
               "text":
                   "Das war ein toller Tatort, oder? Der Kommissar war brilliant!",
-              "character2": "assets/introductions/excited.png",
+              "character2": "assets/introductions/friend_curious.gif",
             },
             {
               "speaker": "character1",
               "text": "Ja... toll... (I understood maybe three words)",
-              "character1": "assets/introductions/sweat.png",
+              "character1": "assets/introductions/surprised.gif",
             },
             {
               "speaker": "character2",
               "text":
                   "Die Dialoge waren so tiefgründig und die Kameraführung avantgardistisch!",
-              "character2": "assets/introductions/passionate.png",
+              "character2": "assets/introductions/friend_fun.gif",
             },
             {
               "speaker": "character1",
               "text": "I'm just nodding and smiling...",
-              "character1": "assets/introductions/nodding.gif",
+              "character1": "assets/introductions/nice.png",
             },
             {
               "speaker": "character2",
@@ -550,8 +548,8 @@ class ConvoData {
         );
       case 13:
         return ConvoData(
-          background: "assets/introductions/restaurant.jpg",
-          character1: "assets/introductions/hungry.png",
+          background: "assets/introductions/bg13.jpg",
+          character1: "assets/introductions/hungry.gif",
           character2: "assets/introductions/chef.png",
           scene: "Zhua dines at a fancy restaurant",
           conversations: [
@@ -563,23 +561,21 @@ class ConvoData {
               "speaker": "character2",
               "text":
                   "Heute empfehle ich unseren Sauerbraten mit Spätzle und Rotkohl.",
-              "character2": "assets/introductions/chef.png",
             },
             {
               "speaker": "character1",
               "text": "Could you say that again... slower?",
-              "character1": "assets/introductions/confused.png",
+              "character1": "assets/introductions/thinking.png",
             },
             {
               "speaker": "character2",
               "text":
                   "Möchten Sie dazu einen trockenen Riesling oder ein dunkles Weizenbier?",
-              "character2": "assets/introductions/offer.png",
             },
             {
               "speaker": "character1",
               "text": "I'll just point at something on the menu...",
-              "character1": "assets/introductions/point.png",
+              "character1": "assets/introductions/surprised.gif",
             },
             {
               "speaker": "character2",
@@ -592,8 +588,8 @@ class ConvoData {
         );
       case 14:
         return ConvoData(
-          background: "assets/introductions/techstore.jpg",
-          character1: "assets/introductions/confused.png",
+          background: "assets/introductions/bg14.jpg",
+          character1: "assets/introductions/oh.png",
           character2: "assets/introductions/tech.png",
           scene: "Zhua buys a new smartphone",
           conversations: [
@@ -611,7 +607,7 @@ class ConvoData {
             {
               "speaker": "character1",
               "text": "I just need to call and use maps...",
-              "character1": "assets/introductions/simple.png",
+              "character1": "assets/introductions/thinking.png",
             },
             {
               "speaker": "character2",
@@ -622,7 +618,7 @@ class ConvoData {
             {
               "speaker": "character1",
               "text": "Too many options! Just give me the blue one!",
-              "character1": "assets/introductions/panic.gif",
+              "character1": "assets/introductions/surprised.gif",
             },
             {
               "speaker": "character2",
@@ -635,9 +631,9 @@ class ConvoData {
         );
       case 15:
         return ConvoData(
-          background: "assets/introductions/yoga.jpg",
-          character1: "assets/introductions/relaxed.png",
-          character2: "assets/introductions/teacher.png",
+          background: "assets/introductions/bg15.jpg",
+          character1: "assets/introductions/thinking.png",
+          character2: "assets/introductions/friend_guide.png",
           scene: "Zhua focuses on self-improvement",
           conversations: [
             {
@@ -649,18 +645,17 @@ class ConvoData {
               "speaker": "character2",
               "text":
                   "Atmen Sie tief ein... und aus... finden Sie Ihr inneres Gleichgewicht.",
-              "character2": "assets/introductions/calm.png",
             },
             {
               "speaker": "character1",
               "text": "(whispering) What does 'Gleichgewicht' mean again?",
-              "character1": "assets/introductions/whisper.png",
+              "character1": "assets/introductions/oh.png",
             },
             {
               "speaker": "character2",
               "text":
                   "Konzentrieren Sie sich auf Ihre Work-Life-Balance und mentale Gesundheit.",
-              "character2": "assets/introductions/serene.png",
+              "character2": "assets/introductions/friend_happy.png",
             },
             {
               "speaker": "character1",
@@ -672,7 +667,7 @@ class ConvoData {
               "speaker": "character2",
               "text":
                   "Let's help Zhua with personal growth! Complete this final chapter for self-improvement vocabulary.",
-              "character2": "assets/introductions/bora_proud.png",
+              "character2": "assets/introductions/bora.png",
               "action": "navigate"
             },
           ],

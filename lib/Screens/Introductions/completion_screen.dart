@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class CompletionScreen extends StatefulWidget {
-  final dynamic background;
   final int chapterIndex;
   final int topicIndex;
 
-  CompletionScreen(
-      {required this.chapterIndex,
-      required this.topicIndex,
-      required this.background});
+  CompletionScreen({
+    required this.chapterIndex,
+    required this.topicIndex,
+  });
 
   @override
   _CompletionScreenState createState() => _CompletionScreenState();
@@ -19,6 +19,9 @@ class _CompletionScreenState extends State<CompletionScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  final AudioPlayer _audioPlayer =
+      AudioPlayer(); // Create an AudioPlayer instance
+  bool _isPlaying = false;
 
   @override
   void initState() {
@@ -40,11 +43,34 @@ class _CompletionScreenState extends State<CompletionScreen>
 
     // Start the animation when the widget is built
     _controller.forward();
+
+    _playBackgroundAudio();
+  }
+
+  Future<void> _playBackgroundAudio() async {
+    try {
+      // Replace 'your_audio.mp3' with the actual path to your audio file
+      await _audioPlayer.play(AssetSource('sounds/complete.mp3'));
+      setState(() {
+        _isPlaying = true;
+      });
+    } catch (e) {
+      print('Error playing audio: $e');
+    }
+  }
+
+  Future<void> _stopBackgroundAudio() async {
+    await _audioPlayer.stop();
+    setState(() {
+      _isPlaying = false;
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _stopBackgroundAudio(); // Stop audio when the screen is disposed
+    _audioPlayer.dispose(); // Release the audio player resources
     super.dispose();
   }
 
@@ -53,13 +79,28 @@ class _CompletionScreenState extends State<CompletionScreen>
     return Scaffold(
       body: Stack(
         children: [
-          //background
+          // Background
           Positioned.fill(
-            child: Image.asset(
-                widget.background is String
-                    ? "${widget.background}"
-                    : "assets/introductions/bg${widget.background}.jpg",
-                fit: BoxFit.cover),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFFFFC6D5),
+                    Color(0xFFFFE3B9),
+                    Color(0xFFFFF0D9),
+                    Color(0xFFFFF9F0),
+                    Color(0xFFFEFEFE),
+                    Color(0xFFFBFBFD),
+                    Color(0xFFF6F3FD),
+                    Color(0xFFE1D6FF),
+                    Color(0xFFB8D5FF),
+                  ],
+                  stops: [0.0, 0.09, 0.22, 0.27, 0.28, 0.67, 0.78, 0.86, 0.91],
+                ),
+              ),
+            ),
           ),
 
           // Background overlay (for depth)

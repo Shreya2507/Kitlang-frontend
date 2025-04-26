@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
   final bool isPast;
+  final bool isLast;
   final String imagePath;
   final String text;
   final Color color;
@@ -10,6 +11,7 @@ class EventCard extends StatelessWidget {
   const EventCard({
     super.key,
     required this.isPast,
+    required this.isLast,
     required this.imagePath,
     required this.text,
     required this.color,

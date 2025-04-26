@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:frontend/Screens/Topic%20flow/miniGame_screen.dart';
+import 'package:frontend/Screens/Topic%20flow/MiniGame/miniGame_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FlashcardScreen extends StatefulWidget {
   final List<Map<String, dynamic>> learntWords;
-  final int background;
+
   final int topicIndex;
   final int chapterIndex;
   final List<Map<String, dynamic>> questions;
@@ -13,7 +13,6 @@ class FlashcardScreen extends StatefulWidget {
   const FlashcardScreen({
     super.key,
     required this.learntWords,
-    required this.background,
     required this.topicIndex,
     required this.chapterIndex,
     required this.questions,
@@ -83,7 +82,6 @@ class _FlashcardScreenState extends State<FlashcardScreen>
       MaterialPageRoute(
         builder: (context) => MiniGameScreen(
           questions: widget.questions,
-          background: widget.background,
           topicIndex: widget.topicIndex,
           chapterIndex: widget.chapterIndex,
         ),

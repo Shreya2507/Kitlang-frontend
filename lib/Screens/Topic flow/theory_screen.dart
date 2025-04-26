@@ -3,19 +3,21 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/HomePage/utils/data.dart';
 import 'package:frontend/Screens/Topic%20flow/FlashcardScreen.dart';
-import 'package:frontend/Screens/Topic%20flow/miniGame_screen.dart';
+import 'package:frontend/Screens/Topic%20flow/MiniGame/miniGame_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'theory_service.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class TheoryScreen extends StatefulWidget {
   final int classIndex;
   final int topicIndex;
-  final int background;
+  final Map<String, dynamic> learningPackage;
 
   const TheoryScreen({
     required this.classIndex,
     required this.topicIndex,
-    required this.background,
+    required this.learningPackage,
     Key? key,
   }) : super(key: key);
 
@@ -37,11 +39,26 @@ class _TheoryScreenState extends State<TheoryScreen> {
   bool hasError = false;
 
   final ScrollController _scrollController = ScrollController();
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  final FlutterTts flutterTts = FlutterTts();
+  bool isSpeaking = false;
 
   @override
   void initState() {
     super.initState();
     loadTheoryData();
+    // flutterTts.setCompletionHandler(() {
+    //   setState(() {
+    //     isSpeaking = false;
+    //   });
+    // });
+
+    // flutterTts.setErrorHandler((message) {
+    //   setState(() {
+    //     isSpeaking = false;
+    //   });
+    // });
   }
 
   Future<void> loadTheoryData() async {
@@ -51,31 +68,75 @@ class _TheoryScreenState extends State<TheoryScreen> {
         hasError = false;
       });
 
-      final theoryData = await TheoryService.fetchTheory(
-        widget.classIndex,
-        widget.topicIndex,
-      );
+      if (widget.classIndex == 0 || widget.topicIndex == 0) {
+        if (mounted) {
+          setState(() {
+            theoryText = widget.learningPackage['theory'] as String? ??
+                'No theory content available';
 
-      if (mounted) {
-        setState(() {
-          theoryText = theoryData.theory ?? 'No theory content available';
-          storyText = theoryData.story ?? 'No story content available';
-          examplesList = theoryData.examples ?? ['No examples available'];
-          questionsList = theoryData.questions ?? [];
-          learntWordsList = theoryData.learntWords ?? [];
-          errorMessage = theoryData.error;
-          currentText = theoryText;
-          isLoading = false;
+            storyText = widget.learningPackage['story'] as String? ??
+                'No story content available';
 
-          // If all content is empty, show error
-          if ((theoryText?.isEmpty ?? true) &&
-              (storyText?.isEmpty ?? true) &&
-              (examplesList?.isEmpty ?? true) &&
-              (learntWordsList?.isEmpty ?? true)) {
-            hasError = true;
-            errorMessage = 'No content available for this topic';
-          }
-        });
+            examplesList =
+                (widget.learningPackage['examples'] as List<dynamic>?)
+                        ?.cast<String>() ??
+                    ['No examples available'];
+
+            questionsList =
+                (widget.learningPackage['questions'] as List<dynamic>?)
+                        ?.cast<Map<String, dynamic>>() ??
+                    [];
+
+            learntWordsList =
+                (widget.learningPackage['learnt_words'] as List<dynamic>?)
+                        ?.cast<Map<String, dynamic>>() ??
+                    [];
+
+            currentText = theoryText;
+            isLoading = false;
+
+            // If all content is empty, show error
+            if ((theoryText?.isEmpty ?? true) &&
+                (storyText?.isEmpty ?? true) &&
+                (examplesList?.isEmpty ?? true) &&
+                (learntWordsList?.isEmpty ?? true)) {
+              hasError = true;
+              errorMessage = 'No content available for this topic';
+            }
+          });
+        }
+      } else {
+        final theoryData = await TheoryService.fetchTheory(
+          widget.classIndex,
+          widget.topicIndex,
+        );
+
+        if (mounted) {
+          setState(() {
+            theoryText = theoryData.theory ?? 'No theory content available';
+
+            storyText = theoryData.story ?? 'No story content available';
+
+            examplesList = theoryData.examples ?? ['No examples available'];
+
+            questionsList = theoryData.questions ?? [];
+
+            learntWordsList = theoryData.learntWords ?? [];
+
+            errorMessage = theoryData.error;
+            currentText = theoryText;
+            isLoading = false;
+
+            // If all content is empty, show error
+            if ((theoryText?.isEmpty ?? true) &&
+                (storyText?.isEmpty ?? true) &&
+                (examplesList?.isEmpty ?? true) &&
+                (learntWordsList?.isEmpty ?? true)) {
+              hasError = true;
+              errorMessage = 'No content available for this topic';
+            }
+          });
+        }
       }
     } catch (e) {
       if (mounted) {
@@ -214,18 +275,45 @@ class _TheoryScreenState extends State<TheoryScreen> {
         body: _buildErrorScreen(),
       );
     }
+    String classTitle;
+    String topicTitle;
+    String imagePath = 'assets/introductions/bg1.jpg';
 
-    final classData = classes[widget.classIndex - 1];
-    final topicData = (classData['topics'] as List)[widget.topicIndex];
-    final classTitle = classData['title'] as String;
-    final topicTitle = topicData['title'] as String;
-    final imagePath = 'assets/introductions/bg1.jpg';
+    if (widget.classIndex == 0) {
+      classTitle = "Snap & Learn";
+      topicTitle = "";
+    } else {
+      final classData = classes[widget.classIndex - 1];
+      final topicData = (classData['topics'] as List)[widget.topicIndex];
+      classTitle = classData['title'] as String;
+      topicTitle = topicData['title'] as String;
+    }
 
     @override
     void dispose() {
       _scrollController.dispose();
+      // flutterTts.stop();
       super.dispose();
     }
+
+    // Future<void> _speak(String text) async {
+    //   await flutterTts.setLanguage("de-DE");
+    //   await flutterTts.setSpeechRate(0.45);
+    //   await flutterTts.setPitch(1.0);
+
+    //   setState(() {
+    //     isSpeaking = true;
+    //   });
+
+    //   await flutterTts.speak(text);
+    // }
+
+    // Future<void> _stopSpeaking() async {
+    //   await flutterTts.stop();
+    //   setState(() {
+    //     isSpeaking = false;
+    //   });
+    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -263,7 +351,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
 
           // Title box
           Positioned(
-            top: 100,
+            top: 80,
             left: 16,
             right: 16,
             child: Container(
@@ -339,7 +427,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
           // Main text content
           Padding(
             padding: const EdgeInsets.only(
-              top: 280,
+              top: 260,
               left: 16,
               right: 16,
               bottom: 60,
@@ -367,15 +455,49 @@ class _TheoryScreenState extends State<TheoryScreen> {
                     ),
                     child: Column(
                       children: [
-                        Text(
-                          title,
-                          textAlign: TextAlign.left,
-                          style: GoogleFonts.nunito(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            wordSpacing: 2.0,
-                            color: const Color.fromARGB(255, 56, 55, 55),
-                          ),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // Centered title
+                            Center(
+                              child: Text(
+                                title,
+                                style: GoogleFonts.nunito(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  wordSpacing: 2.0,
+                                  color: const Color.fromARGB(255, 56, 55, 55),
+                                ),
+                              ),
+                            ),
+                            // Button aligned to the right
+                            // Positioned(
+                            //   right: 0,
+                            //   child: ElevatedButton(
+                            //     onPressed: () {
+                            //       // if (isSpeaking) {
+                            //       //   _stopSpeaking();
+                            //       // } else {
+                            //       //   _speak(currentText!);
+                            //       // }
+                            //     },
+                            //     style: ElevatedButton.styleFrom(
+                            //       shape: const CircleBorder(),
+                            //       padding: const EdgeInsets.all(5),
+                            //       backgroundColor:
+                            //           const Color.fromARGB(255, 244, 236, 255),
+                            //       foregroundColor: Colors.deepPurple,
+                            //     ),
+                            //     child: Icon(
+                            //       isSpeaking ? Icons.stop : Icons.volume_up,
+                            //       size: 25,
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         Text(
                           errorMessage ?? currentText ?? "No content available",
@@ -400,7 +522,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
               top: 750,
               left: 16,
               right: 16,
-              bottom: 0,
+              bottom: 10,
             ),
             child: SizedBox(
               width: double.infinity,
@@ -420,7 +542,12 @@ class _TheoryScreenState extends State<TheoryScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  // await _stopSpeaking();
+                  await _audioPlayer
+                      .play(AssetSource('sounds/tap.wav')); // Play the sound
+                  // Introduce a short delay to allow the sound to play
+                  // await Future.delayed(const Duration(milliseconds: 200));
                   setState(() {
                     currentStep++;
 
@@ -439,7 +566,6 @@ class _TheoryScreenState extends State<TheoryScreen> {
                           MaterialPageRoute(
                             builder: (context) => FlashcardScreen(
                               learntWords: learntWordsList ?? [],
-                              background: widget.background,
                               topicIndex: widget.topicIndex,
                               chapterIndex: widget.classIndex,
                               questions: questionsList ?? [],

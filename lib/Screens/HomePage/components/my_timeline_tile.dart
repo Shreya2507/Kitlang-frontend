@@ -52,6 +52,7 @@ class MyTimeLineTile extends StatelessWidget {
           ),
           endChild: EventCard(
             isPast: isPast,
+            isLast: isLast,
             imagePath: image,
             text: text,
             color: color,
