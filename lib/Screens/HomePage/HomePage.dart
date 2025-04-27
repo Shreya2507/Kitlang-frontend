@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:frontend/Screens/Achievements/AchievementScreen.dart';
 import 'package:frontend/Screens/Chat/getStartedPage.dart';
 import 'package:frontend/Screens/Dictionary/Dict.dart';
+import 'package:frontend/Screens/HomePage/components/menu_bottom_sheet.dart';
 import 'package:frontend/Screens/HomePage/components/my_timeline_tile.dart';
+import 'package:frontend/Screens/HomePage/components/custom_bottom_navbar.dart';
 import 'package:frontend/Screens/HomePage/utils/data.dart';
 import 'package:frontend/Screens/Introductions/conversation.dart';
 import 'package:frontend/Screens/MiniGames/Hangman/hangman_start_screen.dart';
@@ -31,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   void _onTap(int index) {
     if (index == 0) {
-      _showMenuBottomSheet();
+      showMenuBottomSheet(context, _audioPlayer);
     }
     if (index == 2) {
       Navigator.push(
@@ -41,284 +44,18 @@ class _HomePageState extends State<HomePage> {
       Navigator.push(
         context,
         MaterialPageRoute(
+          builder: (context) => AchievementScreen(),
+        ),
+      );
+    }
+    if (index == 4) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
           builder: (context) => ProfilePage(),
         ),
       );
     }
-  }
-
-  void _showMenuBottomSheet() {
-    bool isMiniGamesExpanded =
-        false; // Moved inside the builder to maintain state
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        return StatefulBuilder(
-          // Add StatefulBuilder to manage local state
-          builder: (BuildContext context, StateSetter setState) {
-            return Container(
-              padding: const EdgeInsets.all(20),
-              height: 550,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header with decorative elements
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Menu',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.pink[800],
-                            shadows: [
-                              Shadow(
-                                color: Colors.pink[100]!,
-                                blurRadius: 10,
-                                offset: const Offset(0, 2),
-                              )
-                            ],
-                          )),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    height: 4,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      gradient: LinearGradient(
-                        colors: [Colors.pink[200]!, Colors.blue[200]!],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Menu Items
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        _buildMenuItem(
-                          icon: Icons.emoji_events,
-                          title: 'Achievements',
-                          iconColor: Colors.pink[600]!,
-                          bgColor: Colors.pink[50]!,
-                          onTap: () {
-                            // Navigator.push(context,
-                            //     MaterialPageRoute(builder: (_) => DictionaryHomePage()));
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                        _buildMenuItem(
-                          icon: Icons.question_answer,
-                          title: 'Doubt Helper',
-                          iconColor: Colors.blue[600]!,
-                          bgColor: Colors.blue[50]!,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => GetStartedPage()));
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                        Column(
-                          children: [
-                            _buildMenuItem(
-                              icon: Icons.sports_esports,
-                              title: 'Mini Games',
-                              iconColor: Colors.pink[600]!,
-                              bgColor: Colors.pink[50]!,
-                              onTap: () {
-                                setState(() {
-                                  isMiniGamesExpanded = !isMiniGamesExpanded;
-                                });
-                              },
-                              trailing: RotationTransition(
-                                turns: isMiniGamesExpanded
-                                    ? AlwaysStoppedAnimation(0.5)
-                                    : AlwaysStoppedAnimation(0),
-                                child: Icon(Icons.expand_more,
-                                    color: Colors.grey[400]),
-                              ),
-                            ),
-                            if (isMiniGamesExpanded) ...[
-                              const SizedBox(height: 8),
-                              _buildSubMenuItem(
-                                icon: Icons.castle,
-                                title: 'Pixel Adventure',
-                                onTap: () {},
-                              ),
-                              const SizedBox(height: 4),
-                              _buildSubMenuItem(
-                                icon: Icons.man_2,
-                                title: 'Hangman',
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => HangmanStart()));
-                                },
-                              ),
-                              // const SizedBox(height: 4),
-                              // _buildSubMenuItem(
-                              //   icon: Icons.hdr_auto,
-                              //   title: 'Wordle',
-                              //   onTap: () {
-                              //     Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (_) => WordleStart()));
-                              //   },
-                              // ),
-                            ],
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        _buildMenuItem(
-                          icon: Icons.camera_enhance,
-                          title: 'Kit Lens',
-                          iconColor: Colors.blue[600]!,
-                          bgColor: Colors.blue[50]!,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => TranslateImage()));
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                        _buildMenuItem(
-                          icon: Icons.auto_stories,
-                          title: 'Snap & Learn',
-                          iconColor: Colors.pink[600]!,
-                          bgColor: Colors.pink[50]!,
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => SnapImage()));
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildMenuItem({
-    required IconData icon,
-    required String title,
-    required Color iconColor,
-    required Color bgColor,
-    required VoidCallback onTap,
-    Widget? trailing,
-  }) {
-    return Material(
-      color: bgColor,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Icon(icon, color: iconColor, size: 24),
-              ),
-              const SizedBox(width: 16),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey[800],
-                ),
-              ),
-              const Spacer(),
-              trailing ?? Icon(Icons.chevron_right, color: Colors.grey[400]),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSubMenuItem({
-    required String title,
-    required VoidCallback onTap,
-    required IconData icon,
-  }) {
-    return Material(
-      color: Colors.pink[50]!.withOpacity(0.7),
-      borderRadius: BorderRadius.circular(8),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Icon(icon, color: Colors.pink[600], size: 24),
-              ),
-              const SizedBox(width: 24), // Indent to align with parent item
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey[800],
-                ),
-              ),
-              const Spacer(),
-              Icon(Icons.chevron_right, color: Colors.grey[400], size: 20),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   @override
@@ -524,6 +261,9 @@ class _HomePageState extends State<HomePage> {
                                       text: topic["title"] as String,
                                       color: classData["color"] as Color,
                                       subColor: classData["subColor"] as Color,
+                                      chapterIndex: classData["number"] as int,
+                                      topicIndex: topicIndex,
+                                      isNextTopic: false,
                                     ),
                                   ),
                                 );
@@ -538,127 +278,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-
-          // CHATBOT BUTTON
-          // Positioned(
-          //   right: 10,
-          //   bottom: 120,
-          //   child: Container(
-          //     // padding: EdgeInsets.all(10),
-          //     height: 65,
-          //     width: 65,
-          //     child: FloatingActionButton(
-          //       onPressed: () => (),
-          //       backgroundColor: Colors.white,
-          //       shape: CircleBorder(),
-          //       child: Padding(
-          //         padding: EdgeInsets.all(8),
-          //         child: Icon(
-          //           FontAwesomeIcons.commentDots,
-          //           size: 27,
-          //           color: Colors.black,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
-          // Bottom App Bar
-          // Positioned(
-          //   right: 0,
-          //   left: 0,
-          //   bottom: 0,
-          //   child: BottomAppBar(
-          //     padding: EdgeInsets.all(0),
-          //     color: Color.fromARGB(121, 211, 222, 250),
-          //     notchMargin: 0,
-          //     child: Row(
-          //       // mainAxisSize: MainAxisSize.max,
-          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //       crossAxisAlignment: CrossAxisAlignment.center,
-          //       children: [
-          //         // IconButton(
-          //         //   icon: const Icon(
-          //         //     FontAwesomeIcons.house,
-          //         //     color: Colors.black,
-          //         //   ),
-          //         //   onPressed: () {
-          //         //     setState(() {});
-          //         //   },
-          //         // ),
-          //         IconButton(
-          //           icon: const Icon(
-          //             FontAwesomeIcons.bookOpen,
-          //             color: Colors.black,
-          //           ),
-          //           onPressed: () {
-          //             Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                 builder: (context) => DictionaryHomePage(),
-          //               ),
-          //             );
-          //           },
-          //         ),
-          //         IconButton(
-          //           icon: const Icon(
-          //             FontAwesomeIcons.solidCommentDots,
-          //             color: Colors.black,
-          //           ),
-          //           onPressed: () {
-          //             Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                 builder: (context) => GetStartedPage(),
-          //               ),
-          //             );
-          //           },
-          //         ),
-          //         IconButton(
-          //           icon: const Icon(
-          //             FontAwesomeIcons.trophy,
-          //             color: Colors.black,
-          //           ),
-          //           onPressed: () {
-          //             setState(() {});
-          //           },
-          //         ),
-          //         IconButton(
-          //           icon: const Icon(
-          //             FontAwesomeIcons.solidUser,
-          //             color: Colors.black,
-          //           ),
-          //           onPressed: () {
-          //             Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                 builder: (context) => ProfilePage(),
-          //               ),
-          //             );
-          //           },
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        key: _navKey,
-        index: _pageIndex,
-        backgroundColor: Colors.transparent,
-        color: Color.fromARGB(255, 211, 222, 250),
-        buttonBackgroundColor: Color.fromARGB(255, 182, 201, 255),
-        height: 60,
-        animationCurve: Curves.easeInOut,
-        items: <Widget>[
-          Icon(Icons.menu, size: 30, color: Color.fromARGB(255, 56, 107, 246)),
-          Icon(Icons.home, size: 30, color: Color.fromARGB(255, 56, 107, 246)),
-          Icon(Icons.book, size: 30, color: Color.fromARGB(255, 56, 107, 246)),
-          Icon(Icons.person,
-              size: 30, color: Color.fromARGB(255, 56, 107, 246)),
-        ],
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: _pageIndex,
         onTap: _onTap,
+        navKey: _navKey,
       ),
     );
   }

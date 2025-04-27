@@ -1,77 +1,129 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend/Screens/HomePage/utils/data.dart';
+import 'package:intl/intl.dart';
+
 import 'package:google_fonts/google_fonts.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class CompletionScreen extends StatefulWidget {
   final int chapterIndex;
   final int topicIndex;
 
-  CompletionScreen({
+  const CompletionScreen({
+    super.key,
     required this.chapterIndex,
     required this.topicIndex,
   });
 
   @override
-  _CompletionScreenState createState() => _CompletionScreenState();
+  State<CompletionScreen> createState() => _CompletionScreenState();
 }
 
 class _CompletionScreenState extends State<CompletionScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-  final AudioPlayer _audioPlayer =
-      AudioPlayer(); // Create an AudioPlayer instance
-  bool _isPlaying = false;
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+  String topicName = "";
+  String chapterName = "Unknown Chapter";
+  bool _isSaving = false;
+  String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize the AnimationController
     _controller = AnimationController(
-      duration: Duration(seconds: 1), // Animation duration
-      vsync: this, // TickerProvider
+      duration: const Duration(seconds: 1),
+      vsync: this,
     );
 
-    // Create a Tween for scaling the text
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeOut, // The curve for the animation
-      ),
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
-    // Start the animation when the widget is built
     _controller.forward();
-
-    _playBackgroundAudio();
-  }
-
-  Future<void> _playBackgroundAudio() async {
-    try {
-      // Replace 'your_audio.mp3' with the actual path to your audio file
-      await _audioPlayer.play(AssetSource('sounds/complete.mp3'));
-      setState(() {
-        _isPlaying = true;
-      });
-    } catch (e) {
-      print('Error playing audio: $e');
-    }
-  }
-
-  Future<void> _stopBackgroundAudio() async {
-    await _audioPlayer.stop();
-    setState(() {
-      _isPlaying = false;
-    });
+    fetchTopicNameAndSaveProgress();
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _stopBackgroundAudio(); // Stop audio when the screen is disposed
-    _audioPlayer.dispose(); // Release the audio player resources
     super.dispose();
+  }
+
+  void fetchTopicNameAndSaveProgress() async {
+    try {
+      final chapter = classes[widget.chapterIndex] as Map<String, dynamic>;
+      final topic =
+          chapter["topics"][widget.topicIndex] as Map<String, dynamic>;
+      setState(() {
+        topicName = topic["title"];
+        chapterName = chapter["title"] ?? "Unknown Chapter";
+      });
+
+      await _saveTopicCompletion();
+    } catch (e) {
+      print("Error fetching topic: $e");
+      setState(() {
+        _errorMessage = "Failed to load topic details";
+      });
+    }
+  }
+
+  Future<void> _saveTopicCompletion() async {
+    if (_isSaving) return;
+
+    setState(() {
+      _isSaving = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId == null) throw Exception("User not authenticated");
+
+      final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      final completionKey =
+          "chapter_${widget.chapterIndex}_topic_${widget.topicIndex}";
+
+      await FirebaseFirestore.instance
+          .collection("user_progress")
+          .doc(userId)
+          .set({
+        "completed_topics": {
+          completionKey: {
+            "chapter_number": widget.chapterIndex,
+            "topic_number": widget.topicIndex,
+            "topic_name": topicName,
+            "chapter_name": chapterName,
+            "completed_at": FieldValue.serverTimestamp(),
+            "date": today,
+          }
+        },
+        "last_updated": FieldValue.serverTimestamp(),
+        "completion_dates": {
+          today: FieldValue.arrayUnion([completionKey])
+        },
+      }, SetOptions(merge: true));
+    } on FirebaseException catch (e) {
+      print("Firestore error: ${e.message}");
+      setState(() {
+        _errorMessage =
+            "Failed to save progress. Please check your connection.";
+      });
+    } catch (e) {
+      print("Unexpected error: $e");
+      setState(() {
+        _errorMessage = "An unexpected error occurred";
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSaving = false;
+        });
+      }
+    }
   }
 
   @override
@@ -103,26 +155,25 @@ class _CompletionScreenState extends State<CompletionScreen>
             ),
           ),
 
-          // Background overlay (for depth)
+          // Color overlay
           Positioned.fill(
             child: Container(
-              color: Color.fromARGB(255, 255, 44, 94).withOpacity(0.2),
+              color: const Color.fromARGB(255, 255, 44, 94).withOpacity(0.2),
             ),
           ),
 
-          // Cat image animation (for cuteness)
+          // Hug GIF
           Positioned(
-            top: 35, // Adjust this value to position the image
+            top: 35,
             left: 0,
             right: 0,
             child: Center(
               child: Container(
                 height: 250,
                 width: 250,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(
-                        'assets/introductions/zhuaHug.gif'), // Your cat image path
+                    image: AssetImage('assets/introductions/zhuaHug.gif'),
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -130,36 +181,29 @@ class _CompletionScreenState extends State<CompletionScreen>
             ),
           ),
 
-          // Main content container with shadow, rounded corners, and border
+          // Center Card
           Center(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white, // White background for the container
-                borderRadius: BorderRadius.circular(35), // Rounded corners
-                border: Border.all(
-                  color: Colors.orangeAccent, // Border color
-                  width: 3, // Border width
-                ),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(35),
+                border: Border.all(color: Colors.orangeAccent, width: 3),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2), // Softer shadow
-                    offset: Offset(0, 4), // Offset of the shadow
-                    blurRadius: 15, // Larger blur radius
+                    color: Colors.black.withOpacity(0.2),
+                    offset: const Offset(0, 4),
+                    blurRadius: 15,
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(25), // Padding inside the container
-              margin:
-                  EdgeInsets.symmetric(horizontal: 50), // Margin for spacing
+              padding: const EdgeInsets.all(25),
+              margin: const EdgeInsets.symmetric(horizontal: 50),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Completion icon with a gold color
-                  Icon(Icons.emoji_events,
+                  const Icon(Icons.emoji_events,
                       size: 120, color: Color.fromARGB(255, 250, 194, 110)),
-                  SizedBox(height: 10),
-
-                  // Animated "Congratulations!" Text with Scale Animation
+                  const SizedBox(height: 10),
                   AnimatedBuilder(
                     animation: _animation,
                     builder: (context, child) {
@@ -168,110 +212,87 @@ class _CompletionScreenState extends State<CompletionScreen>
                         child: Text(
                           "Congratulations!",
                           style: GoogleFonts.poppins(
-                            // Use Google Fonts
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 54, 53, 53),
+                            color: const Color.fromARGB(255, 54, 53, 53),
                           ),
                         ),
                       );
                     },
                   ),
-
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Text(
-                    "You have completed this topic!",
+                    "You have completed:\n$topicName\nin $chapterName",
                     style: GoogleFonts.poppins(
-                      // Use Google Fonts
                       fontSize: 18,
-                      color: Color.fromARGB(255, 57, 57, 57)
-                          .withOpacity(0.7), // Adjusted color for readability
+                      color: const Color.fromARGB(255, 57, 57, 57)
+                          .withOpacity(0.7),
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 30),
+                  if (_isSaving) ...[
+                    const SizedBox(height: 16),
+                    const CircularProgressIndicator(),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Saving your progress...",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: const Color.fromARGB(255, 57, 57, 57),
+                      ),
+                    ),
+                  ],
+                  if (_errorMessage != null) ...[
+                    const SizedBox(height: 16),
+                    Text(
+                      _errorMessage!,
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: Colors.red,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
           ),
 
-          // Positioned container for the buttons at the bottom
+          // Bottom button
           Positioned(
             bottom: 20,
             left: 0,
             right: 0,
             child: Column(
               children: [
-                // Back Button
-                Container(
-                  width: MediaQuery.of(context).size.width *
-                      0.8, // Set fixed width
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        '/', // Navigate to the root route (home screen)
-                        (route) =>
-                            false, // Remove all previous routes from the stack
-                      );
+                      Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 136, 220, 250),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 35, vertical: 18),
+                      backgroundColor: const Color.fromARGB(255, 136, 220, 250),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 35, vertical: 18),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      shadowColor:
-                          Color.fromARGB(255, 77, 156, 229).withOpacity(0.4),
-                      elevation: 10, // Adding elevation for a floating effect
+                      shadowColor: const Color.fromARGB(255, 77, 156, 229)
+                          .withOpacity(0.4),
+                      elevation: 10,
                     ),
-                    child: Text("Back to Home page",
-                        style: GoogleFonts.poppins(
-                          color: Color.fromARGB(255, 74, 70, 177),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        )),
+                    child: Text(
+                      "Continue",
+                      style: GoogleFonts.poppins(
+                        color: const Color.fromARGB(255, 74, 70, 177),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(height: 15), // Add spacing between the buttons
-
-                // Continue Button
-                // Container(
-                //   width: MediaQuery.of(context).size.width *
-                //       0.8, // Set fixed width
-                //   child: ElevatedButton(
-                //     onPressed: () {
-                //       // to the next topic
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //           builder: (context) => CompletionScreen(
-                //             background: convoData.background,
-                //           ),
-                //         ),
-                //       );
-                //     },
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: Colors.greenAccent,
-                //       padding:
-                //           EdgeInsets.symmetric(horizontal: 35, vertical: 18),
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(25),
-                //       ),
-                //       shadowColor: Colors.greenAccent.withOpacity(0.4),
-                //       elevation: 10, // Adding elevation for a floating effect
-                //     ),
-                //     child: Text(
-                //       "Continue to Next Topic",
-                //       style: GoogleFonts.poppins(
-                //         fontSize: 20,
-                //         fontWeight: FontWeight.w600,
-                //       ),
-                //       textAlign: TextAlign.center,
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),

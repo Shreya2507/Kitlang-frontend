@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const classes = [
   {
-    "number": 1,
+    "chapter_number": 1,
     "level": "beginner",
     "image": "assets/home_screen/alphabets.png",
     "title": "First Steps in Berlin",
@@ -10,7 +10,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 202, 83, 115),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 1,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -18,7 +19,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 1,
+        "topic_number": 1,
         "title": "Greetings",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -26,7 +28,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 1,
+        "topic_number": 2,
         "title": "Introducing Yourself",
         "image": "assets/home_screen/numbers.png",
         "isFirst": false,
@@ -34,7 +37,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 1,
+        "topic_number": 3,
         "title": "Asking Questions",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
@@ -42,7 +46,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 1,
+        "topic_number": 4,
         "title": "Personal Pronouns",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
@@ -50,7 +55,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 1,
+        "topic_number": 5,
         "title": "Basic Verbs",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
@@ -58,16 +64,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 1,
+        "topic_number": 6,
         "title": "Definite and Indefinite Articles",
-        "image": "assets/home_screen/list.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 6,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
         "isLast": true,
@@ -76,7 +75,7 @@ const classes = [
     ]
   },
   {
-    "number": 2,
+    "chapter_number": 2,
     "level": "beginner",
     "image": "assets/home_screen/list.png",
     "title": "Exploring the City",
@@ -84,7 +83,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 104, 95, 146),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 2,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -92,7 +92,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 2,
+        "topic_number": 1,
         "title": "Everyday Activities",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -100,7 +101,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 2,
+        "topic_number": 2,
         "title": "Leisure Activities",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
@@ -108,7 +110,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 2,
+        "topic_number": 3,
         "title": "Time Phrases",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
@@ -116,25 +119,18 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 2,
+        "topic_number": 4,
         "title": "Days of the Week",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
         "isLast": false,
         "isPast": false,
       },
-      {
-        "number": 5,
-        "title": "Chapter Quiz",
-        "image": "assets/home_screen/list.png",
-        "isFirst": false,
-        "isLast": true,
-        "isPast": false,
-      },
     ]
   },
   {
-    "number": 3,
+    "chapter_number": 3,
     "level": "beginner",
     "image": "assets/home_screen/list.png",
     "title": "Dining & Shopping",
@@ -142,7 +138,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 62, 169, 105),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 3,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/list.png",
         "isFirst": true,
@@ -150,7 +147,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 3,
+        "topic_number": 1,
         "title": "Food & Drinks",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
@@ -158,7 +156,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 3,
+        "topic_number": 2,
         "title": "Shopping Terms",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
@@ -166,7 +165,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 3,
+        "topic_number": 3,
         "title": "Asking for Prices",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
@@ -174,7 +174,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 3,
+        "topic_number": 4,
         "title": "Polite Requests",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
@@ -182,7 +183,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 3,
+        "topic_number": 5,
         "title": "Numbers",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
@@ -190,16 +192,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 3,
+        "topic_number": 6,
         "title": "Negation",
-        "image": "assets/home_screen/list.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/list.png",
         "isFirst": false,
         "isLast": true,
@@ -208,7 +203,7 @@ const classes = [
     ]
   },
   {
-    "number": 4,
+    "chapter_number": 4,
     "level": "beginner",
     "image": "assets/home_screen/alphabets.png",
     "title": "Daily Life in Germany",
@@ -216,7 +211,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 180, 134, 50),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 4,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -224,7 +220,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 4,
+        "topic_number": 1,
         "title": "Public Transport",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -232,7 +229,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 4,
+        "topic_number": 2,
         "title": "Making Appointments",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -240,7 +238,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 4,
+        "topic_number": 3,
         "title": "At the Post Office",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -248,7 +247,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 4,
+        "topic_number": 4,
         "title": "Banking Basics",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -256,7 +256,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 4,
+        "topic_number": 5,
         "title": "Asking for Help",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -264,16 +265,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 4,
+        "topic_number": 6,
         "title": "Common Courtesies",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
@@ -282,7 +276,7 @@ const classes = [
     ]
   },
   {
-    "number": 5,
+    "chapter_number": 5,
     "level": "beginner",
     "image": "assets/home_screen/alphabets.png",
     "title": "Social Interactions",
@@ -290,7 +284,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 180, 84, 50),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 5,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -298,7 +293,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 5,
+        "topic_number": 1,
         "title": "Making Friends",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -306,7 +302,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 5,
+        "topic_number": 2,
         "title": "Phone Conversations",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -314,7 +311,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 5,
+        "topic_number": 3,
         "title": "Social Media Communication",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -322,7 +320,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 5,
+        "topic_number": 4,
         "title": "Giving Compliments",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -330,7 +329,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 5,
+        "topic_number": 5,
         "title": "Discussing Hobbies",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -338,16 +338,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 5,
+        "topic_number": 6,
         "title": "Handling Misunderstandings",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
@@ -356,7 +349,7 @@ const classes = [
     ]
   },
   {
-    "number": 6,
+    "chapter_number": 6,
     "level": "intermediate",
     "image": "assets/home_screen/alphabets.png",
     "title": "Home & Family",
@@ -364,7 +357,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 50, 134, 180),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 6,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -372,7 +366,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 6,
+        "topic_number": 1,
         "title": "Household Items",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -380,7 +375,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 6,
+        "topic_number": 2,
         "title": "Family Relationships",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -388,7 +384,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 6,
+        "topic_number": 3,
         "title": "Renting an Apartment",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -396,7 +393,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 6,
+        "topic_number": 4,
         "title": "Home Maintenance",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -404,7 +402,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 6,
+        "topic_number": 5,
         "title": "Neighborhood Talk",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -412,16 +411,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 6,
+        "topic_number": 6,
         "title": "German Home Traditions",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 6,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
@@ -430,7 +422,7 @@ const classes = [
     ]
   },
   {
-    "number": 7,
+    "chapter_number": 7,
     "level": "intermediate",
     "image": "assets/home_screen/alphabets.png",
     "title": "German Culture",
@@ -438,7 +430,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 134, 50, 180),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 7,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -446,7 +439,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 7,
+        "topic_number": 1,
         "title": "Holidays & Celebrations",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -454,7 +448,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 7,
+        "topic_number": 2,
         "title": "Dining Etiquette",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -462,7 +457,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 7,
+        "topic_number": 3,
         "title": "Popular German TV",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -470,7 +466,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 7,
+        "topic_number": 4,
         "title": "Understanding German Humor",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -478,7 +475,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 7,
+        "topic_number": 5,
         "title": "Regional Differences",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -486,16 +484,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 7,
+        "topic_number": 6,
         "title": "Cultural Do's and Don'ts",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
@@ -504,7 +495,7 @@ const classes = [
     ]
   },
   {
-    "number": 8,
+    "chapter_number": 8,
     "level": "intermediate",
     "image": "assets/home_screen/alphabets.png",
     "title": "Work Life",
@@ -512,7 +503,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 50, 180, 100),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 8,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -520,7 +512,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 8,
+        "topic_number": 1,
         "title": "Job Interviews",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -528,7 +521,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 8,
+        "topic_number": 2,
         "title": "Office Communication",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -536,7 +530,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 8,
+        "topic_number": 3,
         "title": "Workplace Culture",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -544,7 +539,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 8,
+        "topic_number": 4,
         "title": "Business Meetings",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -552,7 +548,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 8,
+        "topic_number": 5,
         "title": "Work-Life Balance",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -560,16 +557,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 8,
+        "topic_number": 6,
         "title": "German Work Benefits",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
@@ -578,7 +568,7 @@ const classes = [
     ]
   },
   {
-    "number": 9,
+    "chapter_number": 9,
     "level": "intermediate",
     "image": "assets/home_screen/alphabets.png",
     "title": "Travel & Leisure",
@@ -586,7 +576,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 180, 50, 134),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 9,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -594,7 +585,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 9,
+        "topic_number": 1,
         "title": "Planning a Trip",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -602,7 +594,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 9,
+        "topic_number": 2,
         "title": "At the Hotel",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -610,7 +603,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 9,
+        "topic_number": 3,
         "title": "Sightseeing",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -618,7 +612,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 9,
+        "topic_number": 4,
         "title": "Local Customs",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -626,7 +621,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 9,
+        "topic_number": 5,
         "title": "Outdoor Activities",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -634,16 +630,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 9,
+        "topic_number": 6,
         "title": "Travel Emergencies",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
@@ -652,7 +641,7 @@ const classes = [
     ]
   },
   {
-    "number": 10,
+    "chapter_number": 10,
     "level": "intermediate",
     "image": "assets/home_screen/alphabets.png",
     "title": "Life Milestones",
@@ -660,7 +649,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 180, 180, 50),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 10,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -668,7 +658,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 10,
+        "topic_number": 1,
         "title": "Birth & Childhood",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -676,7 +667,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 10,
+        "topic_number": 2,
         "title": "Education System",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -684,7 +676,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 10,
+        "topic_number": 3,
         "title": "Weddings & Partnerships",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -692,7 +685,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 10,
+        "topic_number": 4,
         "title": "Buying Property",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -700,7 +694,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 10,
+        "topic_number": 5,
         "title": "Retirement Planning",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -708,16 +703,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 10,
+        "topic_number": 6,
         "title": "German Life Events",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
@@ -726,7 +714,7 @@ const classes = [
     ]
   },
   {
-    "number": 11,
+    "chapter_number": 11,
     "level": "advanced",
     "image": "assets/home_screen/alphabets.png",
     "title": "Community Life",
@@ -734,7 +722,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 50, 180, 180),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 11,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -742,7 +731,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 11,
+        "topic_number": 1,
         "title": "Local Government",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -750,7 +740,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 11,
+        "topic_number": 2,
         "title": "Recycling & Sustainability",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -758,7 +749,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 11,
+        "topic_number": 3,
         "title": "Community Events",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -766,7 +758,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 11,
+        "topic_number": 4,
         "title": "Volunteering",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -774,7 +767,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 11,
+        "topic_number": 5,
         "title": "Neighborhood Watch",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -782,16 +776,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 11,
+        "topic_number": 6,
         "title": "German Clubs & Associations",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
@@ -800,7 +787,7 @@ const classes = [
     ]
   },
   {
-    "number": 12,
+    "chapter_number": 12,
     "level": "advanced",
     "image": "assets/home_screen/alphabets.png",
     "title": "Media & Entertainment",
@@ -808,7 +795,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 180, 100, 50),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 12,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -816,7 +804,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 12,
+        "topic_number": 1,
         "title": "German Newspapers",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -824,7 +813,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 12,
+        "topic_number": 2,
         "title": "Popular German Music",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -832,7 +822,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 12,
+        "topic_number": 3,
         "title": "TV Shows & Movies",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -840,7 +831,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 12,
+        "topic_number": 4,
         "title": "Book Culture",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -848,7 +840,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 12,
+        "topic_number": 5,
         "title": "Sports Commentary",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -856,16 +849,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 12,
+        "topic_number": 6,
         "title": "German Podcasts",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
@@ -874,7 +860,7 @@ const classes = [
     ]
   },
   {
-    "number": 13,
+    "chapter_number": 13,
     "level": "advanced",
     "image": "assets/home_screen/alphabets.png",
     "title": "Food Culture",
@@ -882,7 +868,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 134, 50, 180),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 13,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -890,7 +877,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 13,
+        "topic_number": 1,
         "title": "Regional Cuisines",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -898,7 +886,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 13,
+        "topic_number": 2,
         "title": "Cooking Terms",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -906,7 +895,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 13,
+        "topic_number": 3,
         "title": "Dining Out",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -914,7 +904,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 13,
+        "topic_number": 4,
         "title": "Food Shopping",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -922,7 +913,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 13,
+        "topic_number": 5,
         "title": "German Baking",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -930,16 +922,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 13,
+        "topic_number": 6,
         "title": "Food Festivals",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
@@ -948,7 +933,7 @@ const classes = [
     ]
   },
   {
-    "number": 14,
+    "chapter_number": 14,
     "level": "advanced",
     "image": "assets/home_screen/alphabets.png",
     "title": "Everyday Technology",
@@ -956,7 +941,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 180, 134, 50),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 14,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -964,7 +950,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 14,
+        "topic_number": 1,
         "title": "Smartphone Usage",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -972,7 +959,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 14,
+        "topic_number": 2,
         "title": "Online Shopping",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -980,7 +968,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 14,
+        "topic_number": 3,
         "title": "Social Media Terms",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -988,7 +977,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 14,
+        "topic_number": 4,
         "title": "Tech Support",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -996,7 +986,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 14,
+        "topic_number": 5,
         "title": "Digital Banking",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -1004,25 +995,18 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 14,
+        "topic_number": 6,
         "title": "German Tech Brands",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,
         "isPast": false,
       },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
     ]
   },
   {
-    "number": 15,
+    "chapter_number": 15,
     "level": "advanced",
     "image": "assets/home_screen/alphabets.png",
     "title": "Personal Growth",
@@ -1030,7 +1014,8 @@ const classes = [
     "subColor": Color.fromARGB(255, 50, 134, 180),
     "topics": [
       {
-        "number": 0,
+        "chapter_number": 15,
+        "topic_number": 0,
         "title": "Introduction",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": true,
@@ -1038,7 +1023,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 1,
+        "chapter_number": 15,
+        "topic_number": 1,
         "title": "Self-Improvement",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -1046,7 +1032,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 2,
+        "chapter_number": 15,
+        "topic_number": 2,
         "title": "Mental Health",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -1054,7 +1041,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 3,
+        "chapter_number": 15,
+        "topic_number": 3,
         "title": "Fitness & Wellness",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -1062,7 +1050,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 4,
+        "chapter_number": 15,
+        "topic_number": 4,
         "title": "Learning Strategies",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -1070,7 +1059,8 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 5,
+        "chapter_number": 15,
+        "topic_number": 5,
         "title": "Time Management",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
@@ -1078,16 +1068,9 @@ const classes = [
         "isPast": false,
       },
       {
-        "number": 6,
+        "chapter_number": 15,
+        "topic_number": 6,
         "title": "German Lifestyle Trends",
-        "image": "assets/home_screen/alphabets.png",
-        "isFirst": false,
-        "isLast": false,
-        "isPast": false,
-      },
-      {
-        "number": 7,
-        "title": "Chapter Quiz",
         "image": "assets/home_screen/alphabets.png",
         "isFirst": false,
         "isLast": true,

@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LevelScreen extends StatelessWidget {
-  const LevelScreen({super.key, required String userId});
+  const LevelScreen(
+      {super.key, required String userId, required bool fromSettings});
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
   final bool isPast;
-  final bool isLast;
   final String imagePath;
   final String text;
   final Color color;
@@ -11,7 +10,6 @@ class EventCard extends StatelessWidget {
   const EventCard({
     super.key,
     required this.isPast,
-    required this.isLast,
     required this.imagePath,
     required this.text,
     required this.color,
@@ -27,11 +25,12 @@ class EventCard extends StatelessWidget {
           width: 80,
           height: 80,
           decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: isPast ? Color.fromARGB(255, 74, 171, 63) : subColor,
-              )),
+            color: color,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: isPast ? Color.fromARGB(255, 74, 171, 63) : subColor,
+            ),
+          ),
           alignment: Alignment.center,
           child: Image.asset(
             imagePath,
@@ -48,7 +47,10 @@ class EventCard extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                  color: subColor, fontWeight: FontWeight.w900, fontSize: 15),
+                color: subColor,
+                fontWeight: FontWeight.w900,
+                fontSize: 15,
+              ),
             ),
           ),
         ),
