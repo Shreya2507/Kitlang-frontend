@@ -7,7 +7,7 @@ class WordleStart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -43,12 +43,12 @@ class WordleStart extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       "WORDLE",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -57,7 +57,7 @@ class WordleStart extends StatelessWidget {
                     SizedBox(height: 5),
                     Text(
                       "THE GAME",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         color: Colors.black,
                         fontWeight: FontWeight.w200,
@@ -141,7 +141,7 @@ class WordleStart extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 60,
             )
           ],

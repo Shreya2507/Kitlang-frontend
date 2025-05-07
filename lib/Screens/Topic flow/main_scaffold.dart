@@ -8,11 +8,11 @@ class MainScaffold extends StatelessWidget {
   final Function(int) onTap;
 
   const MainScaffold({
-    Key? key,
+    super.key,
     required this.child,
     required this.currentIndex,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +21,11 @@ class MainScaffold extends StatelessWidget {
       bottomNavigationBar: CurvedNavigationBar(
         index: currentIndex,
         backgroundColor: Colors.transparent,
-        color: Color.fromARGB(255, 211, 222, 250),
-        buttonBackgroundColor: Color.fromARGB(255, 182, 201, 255),
+        color: const Color.fromARGB(255, 211, 222, 250),
+        buttonBackgroundColor: const Color.fromARGB(255, 182, 201, 255),
         height: 60,
         animationCurve: Curves.easeInOut,
-        items: <Widget>[
+        items: const <Widget>[
           Icon(Icons.menu, size: 30, color: Color.fromARGB(255, 56, 107, 246)),
           Icon(Icons.home, size: 30, color: Color.fromARGB(255, 56, 107, 246)),
           Icon(Icons.emoji_events,

@@ -8,173 +8,170 @@ import 'package:frontend/Screens/TranslateImage/translateImage.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 void showMenuBottomSheet(BuildContext context, AudioPlayer audioPlayer) {
-  _showMenuBottomSheet() {
-    bool isMiniGamesExpanded =
-        false; // Moved inside the builder to maintain state
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        return StatefulBuilder(
-          // Add StatefulBuilder to manage local state
-          builder: (BuildContext context, StateSetter setState) {
-            return Container(
-              padding: const EdgeInsets.all(20),
-              height: 550,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header with decorative elements
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  bool isMiniGamesExpanded = false;
+  
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.white,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    ),
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return Container(
+            padding: const EdgeInsets.all(20),
+            height: 550,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header with decorative elements
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Menu',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.pink[800],
+                          shadows: [
+                            Shadow(
+                              color: Colors.pink[100]!,
+                              blurRadius: 10,
+                              offset: const Offset(0, 2),
+                            )
+                          ],
+                        )),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  height: 4,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                    gradient: LinearGradient(
+                      colors: [Colors.pink[200]!, Colors.blue[200]!],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Menu Items
+                Expanded(
+                  child: ListView(
                     children: [
-                      Text('Menu',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.pink[800],
-                            shadows: [
-                              Shadow(
-                                color: Colors.pink[100]!,
-                                blurRadius: 10,
-                                offset: const Offset(0, 2),
-                              )
-                            ],
-                          )),
+                      _buildMenuItem(
+                        icon: Icons.emoji_events,
+                        title: 'Achievements',
+                        iconColor: Colors.pink[600]!,
+                        bgColor: Colors.pink[50]!,
+                        onTap: () {
+                          // Navigator.push(context,
+                          //     MaterialPageRoute(builder: (_) => DictionaryHomePage()));
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      _buildMenuItem(
+                        icon: Icons.question_answer,
+                        title: 'Doubt Helper',
+                        iconColor: Colors.blue[600]!,
+                        bgColor: Colors.blue[50]!,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => GetStartedPage()));
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      Column(
+                        children: [
+                          _buildMenuItem(
+                            icon: Icons.sports_esports,
+                            title: 'Mini Games',
+                            iconColor: Colors.pink[600]!,
+                            bgColor: Colors.pink[50]!,
+                            onTap: () {
+                              setState(() {
+                                isMiniGamesExpanded = !isMiniGamesExpanded;
+                              });
+                            },
+                            trailing: RotationTransition(
+                              turns: isMiniGamesExpanded
+                                  ? const AlwaysStoppedAnimation(0.5)
+                                  : const AlwaysStoppedAnimation(0),
+                              child: Icon(Icons.expand_more,
+                                  color: Colors.grey[400]),
+                            ),
+                          ),
+                          if (isMiniGamesExpanded) ...[
+                            const SizedBox(height: 8),
+                            _buildSubMenuItem(
+                              icon: Icons.castle,
+                              title: 'Pixel Adventure',
+                              onTap: () {},
+                            ),
+                            const SizedBox(height: 4),
+                            _buildSubMenuItem(
+                              icon: Icons.man_2,
+                              title: 'Hangman',
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const HangmanStart()));
+                              },
+                            ),
+                            const SizedBox(height: 4),
+                            _buildSubMenuItem(
+                              icon: Icons.hdr_auto,
+                              title: 'Wordle',
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => WordleStart()));
+                              },
+                            ),
+                          ],
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      _buildMenuItem(
+                        icon: Icons.camera_enhance,
+                        title: 'Kit Lens',
+                        iconColor: Colors.blue[600]!,
+                        bgColor: Colors.blue[50]!,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => TranslateImage()));
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      _buildMenuItem(
+                        icon: Icons.auto_stories,
+                        title: 'Snap & Learn',
+                        iconColor: Colors.pink[600]!,
+                        bgColor: Colors.pink[50]!,
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) => SnapImage()));
+                        },
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Container(
-                    height: 4,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      gradient: LinearGradient(
-                        colors: [Colors.pink[200]!, Colors.blue[200]!],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Menu Items
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        _buildMenuItem(
-                          icon: Icons.emoji_events,
-                          title: 'Achievements',
-                          iconColor: Colors.pink[600]!,
-                          bgColor: Colors.pink[50]!,
-                          onTap: () {
-                            // Navigator.push(context,
-                            //     MaterialPageRoute(builder: (_) => DictionaryHomePage()));
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                        _buildMenuItem(
-                          icon: Icons.question_answer,
-                          title: 'Doubt Helper',
-                          iconColor: Colors.blue[600]!,
-                          bgColor: Colors.blue[50]!,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => GetStartedPage()));
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                        Column(
-                          children: [
-                            _buildMenuItem(
-                              icon: Icons.sports_esports,
-                              title: 'Mini Games',
-                              iconColor: Colors.pink[600]!,
-                              bgColor: Colors.pink[50]!,
-                              onTap: () {
-                                setState(() {
-                                  isMiniGamesExpanded = !isMiniGamesExpanded;
-                                });
-                              },
-                              trailing: RotationTransition(
-                                turns: isMiniGamesExpanded
-                                    ? AlwaysStoppedAnimation(0.5)
-                                    : AlwaysStoppedAnimation(0),
-                                child: Icon(Icons.expand_more,
-                                    color: Colors.grey[400]),
-                              ),
-                            ),
-                            if (isMiniGamesExpanded) ...[
-                              const SizedBox(height: 8),
-                              _buildSubMenuItem(
-                                icon: Icons.castle,
-                                title: 'Pixel Adventure',
-                                onTap: () {},
-                              ),
-                              const SizedBox(height: 4),
-                              _buildSubMenuItem(
-                                icon: Icons.man_2,
-                                title: 'Hangman',
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => HangmanStart()));
-                                },
-                              ),
-                              // const SizedBox(height: 4),
-                              // _buildSubMenuItem(
-                              //   icon: Icons.hdr_auto,
-                              //   title: 'Wordle',
-                              //   onTap: () {
-                              //     Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (_) => WordleStart()));
-                              //   },
-                              // ),
-                            ],
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        _buildMenuItem(
-                          icon: Icons.camera_enhance,
-                          title: 'Kit Lens',
-                          iconColor: Colors.blue[600]!,
-                          bgColor: Colors.blue[50]!,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => TranslateImage()));
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                        _buildMenuItem(
-                          icon: Icons.auto_stories,
-                          title: 'Snap & Learn',
-                          iconColor: Colors.pink[600]!,
-                          bgColor: Colors.pink[50]!,
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => SnapImage()));
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
 }
 
 Widget _buildMenuItem({
@@ -265,7 +262,7 @@ Widget _buildSubMenuItem({
               ),
               child: Icon(icon, color: Colors.pink[600], size: 24),
             ),
-            const SizedBox(width: 24), // Indent to align with parent item
+            const SizedBox(width: 24),
             Text(
               title,
               style: TextStyle(

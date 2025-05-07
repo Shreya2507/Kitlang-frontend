@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: () {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          MaterialPageRoute(builder: (context) => const HomePage()),
                         );
                       },
                       child: Row(
@@ -70,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             'Back',
                             style: GoogleFonts.lato(
                               fontSize: 14,
-                              color: Color(0xFF437D28),
+                              color: const Color(0xFF437D28),
                             ),
                           ),
                         ],
@@ -183,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
+                            MaterialPageRoute(builder: (context) => const HomePage()),
                           );
                         },
                         child: Text.rich(
@@ -194,7 +194,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: const Color(0xFF837977),
                             ),
                             children: [
-                              TextSpan(
+                              const TextSpan(
                                 text: "Want to ",
                               ),
                               TextSpan(
@@ -205,7 +205,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   color: const Color(0xFFEA4877),
                                 ),
                               ),
-                              TextSpan(
+                              const TextSpan(
                                 text: " Profile?",
                               ),
                             ],
@@ -243,7 +243,7 @@ class _ProfilePageState extends State<ProfilePage> {
           style: GoogleFonts.lato(
             fontSize: 14,
             fontWeight: FontWeight.bold,
-            color: isSelected ? Colors.white : Color(0xFF5B4473),
+            color: isSelected ? Colors.white : const Color(0xFF5B4473),
           ),
         ),
       ),

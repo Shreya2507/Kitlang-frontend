@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget figure(String path, bool isVisible) {
-  return Container(
+  return SizedBox(
     width: 250,
     height: 250,
     child: Visibility(

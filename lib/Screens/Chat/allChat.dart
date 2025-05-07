@@ -7,6 +7,8 @@ import 'package:frontend/Screens/Chat/situationalChatbot.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AllChat extends StatefulWidget {
+  const AllChat({super.key});
+
   @override
   _AllChatState createState() => _AllChatState();
 }
@@ -87,7 +89,7 @@ class _AllChatState extends State<AllChat> {
     return Scaffold(
       appBar: AppBar(title: const Text('Chattie')),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFB9B0E1), Color(0xFFFFC6D5)],
             stops: [0.07, 0.68],
@@ -104,8 +106,8 @@ class _AllChatState extends State<AllChat> {
               right: 0,
               bottom: 0,
               child: Container(
-                padding: EdgeInsets.only(top: 50, left: 16, right: 16),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.only(top: 50, left: 16, right: 16),
+                decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 252, 252, 252),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50),
@@ -115,8 +117,8 @@ class _AllChatState extends State<AllChat> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 16.0),
                       child: Text(
                         'Chatting Scenarios...',
                         style: TextStyle(
@@ -126,7 +128,7 @@ class _AllChatState extends State<AllChat> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     // Situational Cards
                     Expanded(
                       child: ListView.builder(
@@ -142,7 +144,7 @@ class _AllChatState extends State<AllChat> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
-                              color: Color.fromARGB(255, 255, 255, 255),
+                              color: const Color.fromARGB(255, 255, 255, 255),
                               elevation: 5,
                               clipBehavior: Clip.antiAliasWithSaveLayer,
                               child: Padding(
@@ -162,7 +164,7 @@ class _AllChatState extends State<AllChat> {
                                             style: GoogleFonts.lato(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
-                                              color: Color.fromARGB(
+                                              color: const Color.fromARGB(
                                                 245,
                                                 111,
                                                 50,
@@ -175,7 +177,7 @@ class _AllChatState extends State<AllChat> {
                                             situation['subtitle'],
                                             style: GoogleFonts.lato(
                                               fontSize: 14,
-                                              color: Color.fromARGB(
+                                              color: const Color.fromARGB(
                                                 255,
                                                 80,
                                                 80,
@@ -190,16 +192,8 @@ class _AllChatState extends State<AllChat> {
                                                 situation['situation_id'],
                                               );
                                             },
-                                            child: Text(
-                                              'Start Now!',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.red,
-                                                fontSize: 16,
-                                              ),
-                                            ),
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: Color.fromARGB(
+                                              backgroundColor: const Color.fromARGB(
                                                 255,
                                                 255,
                                                 255,
@@ -209,7 +203,7 @@ class _AllChatState extends State<AllChat> {
                                                 borderRadius:
                                                     BorderRadius.circular(20),
                                               ),
-                                              side: BorderSide(
+                                              side: const BorderSide(
                                                 color: Color.fromARGB(
                                                   255,
                                                   192,
@@ -217,6 +211,14 @@ class _AllChatState extends State<AllChat> {
                                                   192,
                                                 ),
                                                 width: 1,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              'Start Now!',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red,
+                                                fontSize: 16,
                                               ),
                                             ),
                                           ),
@@ -265,7 +267,7 @@ class _AllChatState extends State<AllChat> {
                 child: Container(
                   height: 250,
                   width: 250,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('images/cat_image.png'),
                       fit: BoxFit.contain,
@@ -283,8 +285,8 @@ class _AllChatState extends State<AllChat> {
           // Navigate to a default chatbot or any specific chatbot page
           navigateToChatBot(7); // Example: Casual Chat
         },
-        child: Icon(Icons.chat),
-        backgroundColor: Colors.purple, // Customize the color
+        backgroundColor: Colors.purple,
+        child: Icon(Icons.chat), // Customize the color
       ),
     );
   }

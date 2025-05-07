@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:frontend/Screens/HomePage/HomePage.dart';
 import 'package:frontend/Screens/UserProfile/EditProfile.dart';
+import 'package:frontend/Screens/UserProfile/Notifications/NotificationService.dart';
+import 'package:frontend/Screens/UserProfile/Notifications/daily_remainder_app.dart';
 import 'package:frontend/Screens/UserProfile/ReferFriend.dart';
 import 'package:frontend/Screens/UserProfile/StreakTab.dart';
 import 'package:frontend/Screens/UserProfile/settings/UserProfileSettings.dart';
 import 'package:frontend/Screens/UserProfile/settings/translation.dart';
+import 'package:frontend/Screens/service/audio_controller.dart';
 import 'package:frontend/redux/appstate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -31,6 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _loadLanguage();
     loadAvatar();
+       AudioController().playTrack("assets/sounds/KODOMOi - Sunny (Official Audio).mp3");
   }
 
   Future<void> _loadLanguage() async {
@@ -72,7 +77,12 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  void navigateToTab(int index) => setState(() => selectedTabIndex = index);
+void navigateToTab(int index) {
+  setState(() {
+    selectedTabIndex = index;
+  });
+}
+
 
   void onGeneralItemTap(String identifier) {
     switch (identifier) {
@@ -91,6 +101,81 @@ class _ProfilePageState extends State<ProfilePage> {
         // Handle help navigation
         break;
     }
+  }
+
+  IconData getIconForIndex(int index) {
+    switch (index) {
+      case 0:
+        return Icons.person_outline;
+      case 1:
+        return Icons.whatshot_outlined;
+      case 2:
+        return Icons.flag_outlined;
+      default:
+        return Icons.help_outline;
+    }
+  }
+
+  Widget _buildTab(String label, int index) {
+    bool isSelected = selectedTabIndex == index;
+
+    return GestureDetector(
+      onTap: () => navigateToTab(index),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFFF9C0D6) : const Color(0xFFF6DCE9),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: isSelected
+            ? Text(
+                label,
+                style: GoogleFonts.lato(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF5B4473),
+                ),
+              )
+            : Icon(
+                getIconForIndex(index),
+                color: const Color(0xFF5B4473),
+              ),
+      ),
+    );
+  }
+
+  Widget _buildTabContent() {
+    switch (selectedTabIndex) {
+      case 0:
+        return Column(
+          children: [
+            _buildGeneralItem(Icons.group_add,
+                _translator.translate("Refer a Friend"), "refer_friend"),
+            _buildGeneralItem(
+                Icons.settings, _translator.translate("Settings"), "settings"),
+            _buildGeneralItem(Icons.feedback_outlined,
+                _translator.translate("Feedback"), "feedback"),
+            _buildGeneralItem(Icons.help_outline,
+                _translator.translate("Help & Support"), "help"),
+          ],
+        );
+      case 1:
+        return const StreakTab();
+        case 2:
+      return const DailyReminderTab();
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  Widget _buildGeneralItem(IconData icon, String title, String identifier) {
+    return ListTile(
+      leading: Icon(icon, color: const Color(0xFF5B4473)),
+      title: Text(title, style: GoogleFonts.lato(fontWeight: FontWeight.w600)),
+      trailing:
+          const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+      onTap: () => onGeneralItemTap(identifier),
+    );
   }
 
   @override
@@ -125,25 +210,28 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (route) => false),
-                    child: Row(
-                      children: [
-                        Image.asset('assets/profile/arrow_icon.png',
-                            height: 20, width: 20),
-                        const SizedBox(width: 8),
-                        Text(
-                          _translator.translate('Back'),
-                          style: GoogleFonts.lato(
-                              fontSize: 14, color: const Color(0xFF437D28)),
-                        ),
-                      ],
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamedAndRemoveUntil(
+                          context, '/home', (route) => false),
+                      child: Row(
+                        children: [
+                          Image.asset('assets/profile/arrow_icon.png',
+                              height: 20, width: 20),
+                          const SizedBox(width: 8),
+                          Text(
+                            _translator.translate('Back'),
+                            style: GoogleFonts.lato(
+                                fontSize: 14, color: const Color(0xFF437D28)),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               avatarLoading
@@ -179,30 +267,30 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     _buildTab(_translator.translate("General"), 0),
-                    _buildTab(_translator.translate("Streak🔥"), 1),
-                    _buildTab(_translator.translate("Goals"), 2),
+                    _buildTab(_translator.translate("Streak"), 1),
+                    _buildTab(_translator.translate("Reminders"), 2),
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
-              Container(
-                margin: const EdgeInsets.only(top: 16),
-                padding: const EdgeInsets.all(20),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 1,
-                      spreadRadius: 1,
-                    ),
-                  ],
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.all(20),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 1,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: _buildTabContent(),
                 ),
-                child: _buildTabContent(),
               ),
-              const SizedBox(height: 20),
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -242,67 +330,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildTab(String label, int index) {
-    final bool isSelected = selectedTabIndex == index;
-    return GestureDetector(
-      onTap: () => navigateToTab(index),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFF9C0D6) : const Color(0xFFF6DCE9),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.lato(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: isSelected ? Colors.white : const Color(0xFF5B4473),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTabContent() {
-    switch (selectedTabIndex) {
-      case 0:
-        return Column(
-          children: [
-            _buildGeneralItem(Icons.group_add,
-                _translator.translate("Refer a Friend"), "refer_friend"),
-            _buildGeneralItem(
-                Icons.settings, _translator.translate("Settings"), "settings"),
-            _buildGeneralItem(Icons.feedback_outlined,
-                _translator.translate("Feedback"), "feedback"),
-            _buildGeneralItem(Icons.help_outline,
-                _translator.translate("Help & Support"), "help"),
-          ],
-        );
-      case 1:
-        return const StreakTab();
-      case 2:
-      default:
-        return Center(
-          child: Text(
-            _translator.translate("Selected Tab: Goals"),
-            style: GoogleFonts.lato(
-                fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
-          ),
-        );
-    }
-  }
-
-  Widget _buildGeneralItem(IconData icon, String title, String identifier) {
-    return ListTile(
-      leading: Icon(icon, color: const Color(0xFF5B4473)),
-      title: Text(title, style: GoogleFonts.lato(fontWeight: FontWeight.w600)),
-      trailing:
-          const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-      onTap: () => onGeneralItemTap(identifier),
     );
   }
 }

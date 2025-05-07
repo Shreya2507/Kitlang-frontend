@@ -1,30 +1,87 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/Screens/HomePage/HomePage.dart';
 
-import 'package:frontend/main.dart';
+Future<void> main() async {
+  // Ensure Flutter binding is initialized
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  try {
+    // Initialize Firebase
+    await Firebase.initializeApp();  // Initialize Firebase asynchronously
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify Firebase connection by checking default app
+    final FirebaseApp app = Firebase.app();
+    print('Firebase app initialized: ${app.name}');
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    runApp(MyApp());
+  } catch (e) {
+    // Handle initialization errors
+    print('🔥 Firebase initialization error: $e');
+    runApp(FirebaseErrorWidget(error: e));
+  }
+}
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: HomePage(), // Your main screen
+    );
+  }
+}
+
+// Fallback widget for Firebase errors
+class FirebaseErrorWidget extends StatelessWidget {
+  final Object error;
+
+  const FirebaseErrorWidget({required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, color: Colors.red, size: 50),
+              SizedBox(height: 20),
+              Text(
+                'Firebase Connection Failed',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Text(
+                  error.toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey[700]),
+                ),
+              ),
+              SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await Firebase.initializeApp();
+                    runApp(MyApp());
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Retry failed: $e')),
+                    );
+                  }
+                },
+                child: Text('Retry Connection'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

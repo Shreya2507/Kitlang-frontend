@@ -21,14 +21,14 @@ class EventCard extends StatelessWidget {
     return Row(
       children: [
         Container(
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           width: 80,
           height: 80,
           decoration: BoxDecoration(
             color: color,
             shape: BoxShape.circle,
             border: Border.all(
-              color: isPast ? Color.fromARGB(255, 74, 171, 63) : subColor,
+              color: isPast ? const Color.fromARGB(255, 74, 171, 63) : subColor,
             ),
           ),
           alignment: Alignment.center,

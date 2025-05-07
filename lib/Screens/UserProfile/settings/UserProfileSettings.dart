@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:frontend/Screens/Onboarding/LevelScreen.dart';
 import 'package:frontend/Screens/UserProfile/settings/LanguageScreen.dart';
 import 'package:frontend/Screens/UserProfile/settings/translation.dart';
 import 'package:frontend/redux/appstate.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 
 class UserProfileSettings extends StatefulWidget {
@@ -28,6 +27,13 @@ class _UserProfileSettingsState extends State<UserProfileSettings> {
     final store = StoreProvider.of<AppState>(context, listen: false);
     final selectedLanguage = store.state.selectedLanguageCode ?? 'en';
     await TranslationService().setLanguage(selectedLanguage);
+  }
+
+  void handleLogout() async {
+    await FirebaseAuth.instance.signOut();
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, '/');
+    }
   }
 
   @override
@@ -55,9 +61,10 @@ class _UserProfileSettingsState extends State<UserProfileSettings> {
                 title: Text(
                   t.translate('Settings'),
                   style: GoogleFonts.lato(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -72,8 +79,7 @@ class _UserProfileSettingsState extends State<UserProfileSettings> {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 60),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 60),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -94,8 +100,8 @@ class _UserProfileSettingsState extends State<UserProfileSettings> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) =>
-                                    LanguageScreen(fromSettings: true)),
+                              builder: (_) => const LanguageScreen(fromSettings: true),
+                            ),
                           );
                         },
                       ),
@@ -107,13 +113,14 @@ class _UserProfileSettingsState extends State<UserProfileSettings> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => LevelScreen(
-                                  userId: vm.userId, fromSettings: true),
+                              builder: (_) => LevelScreen(userId: vm.userId, fromSettings: true),
                             ),
                           );
                         },
                       ),
                       const Spacer(),
+                      _buildLogoutButton(),
+                      const SizedBox(height: 20),
                       Center(
                         child: Text(
                           'Made with ❤️ for learners',
@@ -122,7 +129,7 @@ class _UserProfileSettingsState extends State<UserProfileSettings> {
                             fontSize: 14,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -174,9 +181,31 @@ class _UserProfileSettingsState extends State<UserProfileSettings> {
                 ),
               ),
             ),
-            const Icon(Icons.arrow_forward_ios,
-                size: 16, color: Colors.white70),
+            const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white70),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLogoutButton() {
+    return Center(
+      child: ElevatedButton(
+        onPressed: handleLogout,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.redAccent,
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: Text(
+          'Logout',
+          style: GoogleFonts.lato(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

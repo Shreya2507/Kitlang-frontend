@@ -12,7 +12,7 @@ Widget hiddenLetter(String char, bool isVisible) {
         visible: !isVisible,
         child: Text(
           char,
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 22,
               color: Colors.lightGreen),

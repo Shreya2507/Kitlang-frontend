@@ -12,7 +12,7 @@ import 'package:audioplayers/audioplayers.dart';
 class ConversationScreen extends StatefulWidget {
   final int chapter;
 
-  ConversationScreen({required this.chapter});
+  const ConversationScreen({super.key, required this.chapter});
 
   @override
   _ConversationScreenState createState() => _ConversationScreenState();
@@ -33,7 +33,7 @@ class _ConversationScreenState extends State<ConversationScreen>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
 
     _fadeAnimation = TweenSequence([
@@ -98,7 +98,7 @@ class _ConversationScreenState extends State<ConversationScreen>
       });
     }
 
-    void _showWordPromptDialog(String expectedWord) {
+    void showWordPromptDialog(String expectedWord) {
       TextEditingController controller = TextEditingController();
 
       void checkInput() {
@@ -116,7 +116,7 @@ class _ConversationScreenState extends State<ConversationScreen>
           // Incorrect answer — show error and keep the dialog open
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text('Oops! Try again.')));
+          ).showSnackBar(const SnackBar(content: Text('Oops! Try again.')));
         }
       }
 
@@ -124,15 +124,15 @@ class _ConversationScreenState extends State<ConversationScreen>
         context: context,
         barrierDismissible: false, // Force user to answer correctly
         builder: (context) => AlertDialog(
-          title: Text('Enter the word'),
+          title: const Text('Enter the word'),
           content: TextField(
             controller: controller,
-            decoration: InputDecoration(hintText: 'Type the correct word'),
+            decoration: const InputDecoration(hintText: 'Type the correct word'),
           ),
           actions: [
-            TextButton(onPressed: checkInput, child: Text('Submit')),
+            TextButton(onPressed: checkInput, child: const Text('Submit')),
           ],
-          backgroundColor: Color.fromARGB(255, 248, 222, 176),
+          backgroundColor: const Color.fromARGB(255, 248, 222, 176),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8), // Less rounded corners
           ),
@@ -140,7 +140,7 @@ class _ConversationScreenState extends State<ConversationScreen>
       );
     }
 
-    void _navigateToMiniGame() async {
+    void navigateToMiniGame() async {
       await Navigator.push(
         context,
         MaterialPageRoute(
@@ -202,11 +202,11 @@ class _ConversationScreenState extends State<ConversationScreen>
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: [
-                      Color.fromARGB(255, 244, 214, 122).withOpacity(0.5),
-                      Color.fromARGB(255, 252, 226, 187).withOpacity(0.0),
+                      const Color.fromARGB(255, 244, 214, 122).withOpacity(0.5),
+                      const Color.fromARGB(255, 252, 226, 187).withOpacity(0.0),
                       Colors.white.withOpacity(0.5),
                     ],
-                    stops: [0.0, 0.5, 4.5],
+                    stops: const [0.0, 0.5, 4.5],
                   ),
                 ),
               ),
@@ -223,21 +223,21 @@ class _ConversationScreenState extends State<ConversationScreen>
                     context, '/', (route) => false);
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  Color.fromARGB(255, 103, 96, 195).withOpacity(0.7),
+                backgroundColor: WidgetStateProperty.all(
+                  const Color.fromARGB(255, 103, 96, 195).withOpacity(0.7),
                 ), // Purple button color
-                foregroundColor: MaterialStateProperty.all(
+                foregroundColor: WidgetStateProperty.all(
                   Colors.yellow,
                 ), // Yellow icon color
-                padding: MaterialStateProperty.all(EdgeInsets.all(18)),
-                shape: MaterialStateProperty.all(
+                padding: WidgetStateProperty.all(const EdgeInsets.all(18)),
+                shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                elevation: MaterialStateProperty.all(10), // Add shadow
+                elevation: WidgetStateProperty.all(10), // Add shadow
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.home, // Left arrow icon
                 color: Colors.yellow,
                 size: 30,
@@ -253,14 +253,14 @@ class _ConversationScreenState extends State<ConversationScreen>
             child: FadeTransition(
               opacity: _fadeAnimation,
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 123, 116, 220).withOpacity(0.7),
+                  color: const Color.fromARGB(255, 123, 116, 220).withOpacity(0.7),
                   border: Border.all(
-                    color: Color.fromARGB(255, 95, 56, 122), // Border color
+                    color: const Color.fromARGB(255, 95, 56, 122), // Border color
                     width: 1, // Border thickness (adjust as needed)
                   ),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Color.fromARGB(137, 254, 252, 252),
                       blurRadius: 8,
@@ -275,9 +275,9 @@ class _ConversationScreenState extends State<ConversationScreen>
                   style: GoogleFonts.poppins(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(246, 197, 114, 1),
+                    color: const Color.fromRGBO(246, 197, 114, 1),
                     shadows: [
-                      Shadow(
+                      const Shadow(
                         blurRadius: 10,
                         color: Colors.orange,
                         offset: Offset(2, 2),
@@ -295,7 +295,7 @@ class _ConversationScreenState extends State<ConversationScreen>
                 ? Alignment.centerLeft
                 : Alignment.centerRight,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(20, 50, 10, 0),
+              padding: const EdgeInsets.fromLTRB(20, 50, 10, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: isCharacter1Speaking
@@ -307,14 +307,14 @@ class _ConversationScreenState extends State<ConversationScreen>
                     Container(
                       width: MediaQuery.of(context).size.width * 0.85,
                       height: MediaQuery.of(context).size.height * 0.50,
-                      padding: EdgeInsets.fromLTRB(15, 20, 10, 0),
+                      padding: const EdgeInsets.fromLTRB(15, 20, 10, 0),
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 248, 222, 176),
+                        color: const Color.fromARGB(255, 248, 222, 176),
                         border: Border.all(
-                          color: Color.fromARGB(255, 189, 114, 27),
+                          color: const Color.fromARGB(255, 189, 114, 27),
                           width: 2,
                         ),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Color.fromARGB(137, 0, 0, 0),
                             blurRadius: 10,
@@ -327,7 +327,7 @@ class _ConversationScreenState extends State<ConversationScreen>
                         children: [
                           SingleChildScrollView(
                             child: DefaultTextStyle(
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w500,
                                 color: Color.fromARGB(255, 90, 50, 158),
@@ -339,7 +339,7 @@ class _ConversationScreenState extends State<ConversationScreen>
                                     conversationList[conversationIndex]
                                             ['text'] ??
                                         '',
-                                    speed: Duration(milliseconds: 50),
+                                    speed: const Duration(milliseconds: 50),
                                   ),
                                 ],
                                 totalRepeatCount: 1,
@@ -353,18 +353,18 @@ class _ConversationScreenState extends State<ConversationScreen>
                   else
                     // Normal Thought Bubble
                     Bubble(
-                      margin: BubbleEdges.only(bottom: 10),
+                      margin: const BubbleEdges.only(bottom: 10),
                       nip: isCharacter1Speaking
                           ? BubbleNip.leftBottom
                           : BubbleNip.rightBottom,
-                      color: Color.fromARGB(255, 248, 222, 176),
-                      padding: BubbleEdges.all(20),
-                      borderColor: Color.fromARGB(255, 189, 114, 27),
+                      color: const Color.fromARGB(255, 248, 222, 176),
+                      padding: const BubbleEdges.all(20),
+                      borderColor: const Color.fromARGB(255, 189, 114, 27),
                       borderWidth: 2,
-                      shadowColor: Color.fromARGB(246, 0, 0, 0),
+                      shadowColor: const Color.fromARGB(246, 0, 0, 0),
                       elevation: 5,
                       child: DefaultTextStyle(
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 97, 59, 162),
@@ -374,7 +374,7 @@ class _ConversationScreenState extends State<ConversationScreen>
                           animatedTexts: [
                             TypewriterAnimatedText(
                               conversationList[conversationIndex]['text'] ?? '',
-                              speed: Duration(milliseconds: 50),
+                              speed: const Duration(milliseconds: 50),
                             ),
                           ],
                           totalRepeatCount: 1,
@@ -410,21 +410,21 @@ class _ConversationScreenState extends State<ConversationScreen>
                   });
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    Color.fromARGB(255, 103, 96, 195).withOpacity(0.7),
+                  backgroundColor: WidgetStateProperty.all(
+                    const Color.fromARGB(255, 103, 96, 195).withOpacity(0.7),
                   ), // Purple button color
-                  foregroundColor: MaterialStateProperty.all(
+                  foregroundColor: WidgetStateProperty.all(
                     Colors.yellow,
                   ), // Yellow icon color
-                  padding: MaterialStateProperty.all(EdgeInsets.all(18)),
-                  shape: MaterialStateProperty.all(
+                  padding: WidgetStateProperty.all(const EdgeInsets.all(18)),
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  elevation: MaterialStateProperty.all(10), // Add shadow
+                  elevation: WidgetStateProperty.all(10), // Add shadow
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.chevron_left, // Left arrow icon
                   color: Colors.yellow,
                   size: 35,
@@ -445,7 +445,7 @@ class _ConversationScreenState extends State<ConversationScreen>
 
                   if (action == 'prompt') {
                     final expectedWord = currentDialogue['expectedWord'] ?? '';
-                    _showWordPromptDialog(expectedWord);
+                    showWordPromptDialog(expectedWord);
                   } else if (action == 'navigate') {
                     handleNavigation();
                   }
@@ -478,21 +478,21 @@ class _ConversationScreenState extends State<ConversationScreen>
               //   });
               // },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  Color.fromARGB(255, 103, 96, 195).withOpacity(0.7),
+                backgroundColor: WidgetStateProperty.all(
+                  const Color.fromARGB(255, 103, 96, 195).withOpacity(0.7),
                 ), // Purple button color
-                foregroundColor: MaterialStateProperty.all(
+                foregroundColor: WidgetStateProperty.all(
                   Colors.yellow,
                 ), // Yellow icon color
-                padding: MaterialStateProperty.all(EdgeInsets.all(18)),
-                shape: MaterialStateProperty.all(
+                padding: WidgetStateProperty.all(const EdgeInsets.all(18)),
+                shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                elevation: MaterialStateProperty.all(10), // Add shadow
+                elevation: WidgetStateProperty.all(10), // Add shadow
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.chevron_right, // Right arrow icon
                 color: Colors.yellow,
                 size: 35,

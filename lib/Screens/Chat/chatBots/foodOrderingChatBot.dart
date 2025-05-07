@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 String createJwtToken(String userId, int situationNumber) {
   const String secretKey = "your_secret_key";
 
-  final expiry = DateTime.now().add(Duration(hours: 1));
+  final expiry = DateTime.now().add(const Duration(hours: 1));
 
   final payload = {
     "sub": userId,
@@ -24,18 +24,18 @@ String createJwtToken(String userId, int situationNumber) {
 
 class FoodOrderingBot extends StatefulWidget {
   final int situationNumber;
-  FoodOrderingBot({required this.situationNumber});
+  const FoodOrderingBot({super.key, required this.situationNumber});
   @override
   _FoodOrderingBotState createState() => _FoodOrderingBotState();
 }
 
 class _FoodOrderingBotState extends State<FoodOrderingBot> {
-  TextEditingController _controller = TextEditingController();
-  List<String> _messages = [];
+  final TextEditingController _controller = TextEditingController();
+  final List<String> _messages = [];
   bool _isLoading = false;
   late WebSocketChannel _channel;
   late String _token;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -86,7 +86,7 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
     });
@@ -101,9 +101,9 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFD7E0),
+      backgroundColor: const Color(0xFFFFD7E0),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
                 "assets/chatbot/back.jpg"), // Set the background image
@@ -112,13 +112,13 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
         ),
         child: Column(
           children: [
-            SizedBox(height: 25),
-            Text(
+            const SizedBox(height: 25),
+            const Text(
               "Chatbot",
               style: TextStyle(
                 fontSize: 45,
                 fontWeight: FontWeight.bold,
-                color: const Color.fromARGB(255, 175, 67, 67),
+                color: Color.fromARGB(255, 175, 67, 67),
                 fontFamily: 'Roboto',
               ),
             ),
@@ -130,15 +130,15 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
                   borderRadius: BorderRadius.circular(50),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 215, 225, 240)
+                      color: const Color.fromARGB(255, 215, 225, 240)
                           .withOpacity(0.9), // Slight transparency
                       borderRadius: BorderRadius.circular(50),
                       border: Border.all(
-                          color: Color.fromARGB(255, 251, 106, 106), width: 3),
+                          color: const Color.fromARGB(255, 251, 106, 106), width: 3),
                     ),
                     child: ListView.builder(
                       controller: _scrollController,
-                      padding: EdgeInsets.only(bottom: 30),
+                      padding: const EdgeInsets.only(bottom: 30),
                       itemCount: _messages.length + (_isLoading ? 1 : 0),
                       itemBuilder: (context, index) {
                         if (_isLoading && index == _messages.length) {
@@ -152,8 +152,8 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
                                   width: 60,
                                   height: 60,
                                 ),
-                                SizedBox(width: 10),
-                                Text("Loading..."),
+                                const SizedBox(width: 10),
+                                const Text("Loading..."),
                               ],
                             ),
                           );
@@ -168,21 +168,21 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 21),
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 13, horizontal: 15),
                               decoration: BoxDecoration(
                                 color: isUserMessage
-                                    ? Color.fromARGB(255, 243, 145, 144)
-                                    : Color.fromARGB(255, 249, 218, 216),
+                                    ? const Color.fromARGB(255, 243, 145, 144)
+                                    : const Color.fromARGB(255, 249, 218, 216),
                                 borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15),
+                                  topLeft: const Radius.circular(15),
+                                  topRight: const Radius.circular(15),
                                   bottomLeft: isUserMessage
-                                      ? Radius.circular(15)
-                                      : Radius.circular(0),
+                                      ? const Radius.circular(15)
+                                      : const Radius.circular(0),
                                   bottomRight: isUserMessage
-                                      ? Radius.circular(0)
-                                      : Radius.circular(15),
+                                      ? const Radius.circular(0)
+                                      : const Radius.circular(15),
                                 ),
                                 border: Border.all(
                                     color: isUserMessage
@@ -195,7 +195,7 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
                                     color: Colors.black.withOpacity(0.2),
                                     spreadRadius: 1,
                                     blurRadius: 4,
-                                    offset: Offset(2, 2),
+                                    offset: const Offset(2, 2),
                                   ),
                                 ],
                               ),
@@ -231,7 +231,7 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
                 color: Colors.black.withOpacity(0.1), // Subtle shadow effect
                 spreadRadius: 2,
                 blurRadius: 6,
-                offset: Offset(0, 4), // Position of the shadow
+                offset: const Offset(0, 4), // Position of the shadow
               ),
             ],
           ),
@@ -258,20 +258,20 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
                         hintText: 'Type your message...',
                         hintStyle: TextStyle(
                           fontSize: 18,
-                          color: Color.fromARGB(255, 131, 131, 131)
+                          color: const Color.fromARGB(255, 131, 131, 131)
                               .withOpacity(0.7),
                         ),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.9),
                         contentPadding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                            const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: BorderSide.none, // No border line
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Color.fromARGB(255, 131, 114,
                                 208), // Custom color when focused
                             width: 2.0,
@@ -282,13 +282,13 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 GestureDetector(
                   onTap: sendMessage,
                   child: Container(
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(
+                      color: const Color.fromARGB(
                           255, 131, 114, 208), // Accent color for button
                       borderRadius: BorderRadius.circular(30.0),
                       boxShadow: [
@@ -296,11 +296,11 @@ class _FoodOrderingBotState extends State<FoodOrderingBot> {
                           color: Colors.black.withOpacity(0.1),
                           spreadRadius: 1,
                           blurRadius: 4,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.send,
                       color: Colors.white,
                       size: 24,

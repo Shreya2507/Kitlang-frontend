@@ -24,7 +24,7 @@ class AchievementScreen extends StatefulWidget {
 }
 
 class _AchievementScreenState extends State<AchievementScreen> {
-  int _pageIndex = 3;
+  final int _pageIndex = 3;
   final GlobalKey<CurvedNavigationBarState> _navKey = GlobalKey();
   final AudioPlayer _audioPlayer = AudioPlayer();
 
@@ -40,7 +40,7 @@ class _AchievementScreenState extends State<AchievementScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AchievementScreen(),
+          builder: (context) => const AchievementScreen(),
         ),
       );
     }
@@ -48,7 +48,7 @@ class _AchievementScreenState extends State<AchievementScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProfilePage(),
+          builder: (context) => const ProfilePage(),
         ),
       );
     }
@@ -340,8 +340,9 @@ class _AchievementScreenState extends State<AchievementScreen> {
                     ),
                     CustomBottomNavBar(
                       currentIndex: _pageIndex,
-                      onTap: _onTap,
+                      
                       navKey: _navKey,
+                      audioPlayer: _audioPlayer,
                     ),
                   ],
                 ),

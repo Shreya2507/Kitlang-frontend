@@ -18,10 +18,10 @@ class _WordleGameBoardState extends State<WordleGameBoard> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: e
                     .map((e) => Container(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           width: 64,
                           height: 64,
-                          margin: EdgeInsets.symmetric(vertical: 8),
+                          margin: const EdgeInsets.symmetric(vertical: 8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             color: e.code == 0
@@ -33,7 +33,7 @@ class _WordleGameBoardState extends State<WordleGameBoard> {
                           child: Center(
                             child: Text(
                               e.letter ?? "",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold),

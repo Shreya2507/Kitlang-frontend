@@ -42,7 +42,7 @@ class LanguageScreen extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 _buildLanguageTile(

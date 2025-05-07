@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:audio_wave/audio_wave.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class Pronunciation extends StatefulWidget {
   final String question;
@@ -29,6 +30,40 @@ class Pronunciation extends StatefulWidget {
 
 class _PronunciationState extends State<Pronunciation> {
   final FlutterTts _flutterTts = FlutterTts();
+  final SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  Future<void> _initSpeech() async {
+    _speechEnabled = await _speechToText.initialize();
+    setState(() {});
+  }
+
+  void _startListening() async {
+    if (!_speechEnabled) return;
+
+    widget.onListeningStateChanged(true);
+
+    await _speechToText.listen(
+      onResult: (result) {
+        final spokenText = result.recognizedWords;
+        print("User said: $spokenText"); // 🔈 Print to console
+        widget.onAnswerReceived(spokenText);
+        widget.onListeningStateChanged(false);
+        _speechToText.stop();
+      },
+    );
+  }
+
+  void _stopListening() {
+    widget.onListeningStateChanged(false);
+    _speechToText.stop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +112,12 @@ class _PronunciationState extends State<Pronunciation> {
             ),
           ),
         ElevatedButton.icon(
-          onPressed: () async {
-            widget.onListeningStateChanged(!widget.isListening);
+          onPressed: () {
+            if (widget.isListening) {
+              _stopListening();
+            } else {
+              _startListening();
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF6EA4D6),
@@ -97,7 +136,7 @@ class _PronunciationState extends State<Pronunciation> {
             ),
           ),
         ),
-        if (widget.userAnswer.isNotEmpty)
+        if (widget.userAnswer.isNotEmpty) ...[
           Padding(
             padding: const EdgeInsets.only(top: 12),
             child: Container(
@@ -106,14 +145,35 @@ class _PronunciationState extends State<Pronunciation> {
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.all(12),
-              child: Text(
-                'You said: ${widget.userAnswer}',
-                style: GoogleFonts.poppins(
-                  fontSize: 16, 
-                  color: Colors.white),
+              child: Column(
+                children: [
+                  Text(
+                    'You said: ${widget.userAnswer}',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.userAnswer.trim().toLowerCase() ==
+                            widget.textToRead.trim().toLowerCase()
+                        ? '✅ Great job! Pronunciation matched.'
+                        : '❌ Try again. It didn’t match.',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: widget.userAnswer.trim().toLowerCase() ==
+                              widget.textToRead.trim().toLowerCase()
+                          ? Colors.greenAccent
+                          : Colors.redAccent,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
+        ],
       ],
     );
   }

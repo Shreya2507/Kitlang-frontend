@@ -1,8 +1,7 @@
+// ✅ plugins block must be at the very top
 plugins {
-
-  // Add the dependency for the Google services Gradle plugin
-  id 'com.google.gms.google-services' version '4.4.2' apply false
-
+    // Add the dependency for the Google services Gradle plugin
+    id 'com.google.gms.google-services' version '4.4.2' apply false
 }
 
 allprojects {
@@ -10,19 +9,20 @@ allprojects {
         google()
         mavenCentral()
     }
-
 }
 
+def newBuildDir = rootProject.layout.buildDirectory.dir("../../build").get().asFile
+rootProject.layout.buildDirectory.set(newBuildDir)
 
-
-rootProject.buildDir = '../build'
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
+    def newSubprojectBuildDir = new File(newBuildDir, project.name)
+    project.layout.buildDirectory.set(newSubprojectBuildDir)
 }
 
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+subprojects {
+    evaluationDependsOn(':app')
+}
+
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory.get().asFile
 }

@@ -9,13 +9,13 @@ class API {
   // "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
   static Future<Map<String, dynamic>> fetchMeaning(String word) async {
-    final response = await http.get(Uri.parse("${baseUrl}words/${word}"));
+    final response = await http.get(Uri.parse("${baseUrl}words/$word"));
     print(response.statusCode);
-    print("RESSSSSPONSE :" + response.body);
+    print("RESSSSSPONSE :${response.body}");
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      print("DATAAA :" + data.toString());
+      print("DATAAA :$data");
       return data as Map<String, dynamic>;
     } else {
       throw Exception("Failed to load meaning");

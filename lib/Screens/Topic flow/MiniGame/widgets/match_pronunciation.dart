@@ -72,25 +72,6 @@ class _MatchPronunciationState extends State<MatchPronunciation> {
                     children: widget.options.map((word) {
                       return Draggable<String>(
                         data: word,
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          margin: const EdgeInsets.symmetric(vertical: 4),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFECF4FB),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: const Color(0xFF6EA4D6),
-                              width: 1,
-                            ),
-                          ),
-                          child: Text(
-                            word,
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
                         feedback: Material(
                           color: Colors.transparent,
                           child: Container(
@@ -134,6 +115,25 @@ class _MatchPronunciationState extends State<MatchPronunciation> {
                             ),
                           ),
                         ),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          margin: const EdgeInsets.symmetric(vertical: 4),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFECF4FB),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: const Color(0xFF6EA4D6),
+                              width: 1,
+                            ),
+                          ),
+                          child: Text(
+                            word,
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
                       );
                     }).toList(),
                   ),
@@ -149,7 +149,7 @@ class _MatchPronunciationState extends State<MatchPronunciation> {
                       bool? isMatched = matchResults[widget.options[audioIndices[index]]];
 
                       return DragTarget<String>(
-                        onAccept: (receivedWord) => _checkMatch(receivedWord, word),
+                        onAcceptWithDetails: (receivedWord) => _checkMatch(receivedWord as String, word),
                         builder: (context, candidateData, rejectedData) {
                           return ElevatedButton.icon(
                             onPressed: () => _playAudio(index),

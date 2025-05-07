@@ -264,7 +264,7 @@ class _FinaleScreenState extends State<FinaleScreen> {
         // Background
         Positioned.fill(
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -290,7 +290,7 @@ class _FinaleScreenState extends State<FinaleScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 150,
                 width: 150,
                 child: Image.asset(
@@ -298,7 +298,7 @@ class _FinaleScreenState extends State<FinaleScreen> {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 'Loading your adventure...',
                 style: GoogleFonts.nunito(
@@ -332,10 +332,10 @@ class _FinaleScreenState extends State<FinaleScreen> {
                   style: GoogleFonts.poppins(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _fetchQuestions,
-                  child: Text('Retry'),
+                  child: const Text('Retry'),
                 ),
               ],
             ),
@@ -371,7 +371,7 @@ class _FinaleScreenState extends State<FinaleScreen> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              leading: BackButton(color: Colors.black),
+              leading: const BackButton(color: Colors.black),
               automaticallyImplyLeading: true,
             ),
             body: SingleChildScrollView(
@@ -403,13 +403,13 @@ class _FinaleScreenState extends State<FinaleScreen> {
                             child: Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 255, 255, 255),
+                                color: const Color.fromARGB(255, 255, 255, 255),
                                 border: Border.all(
                                   color:
                                       const Color.fromARGB(255, 157, 191, 245),
                                   width: 1.5,
                                 ),
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(24),
                                   topRight: Radius.circular(24),
                                   bottomLeft: Radius.circular(24),

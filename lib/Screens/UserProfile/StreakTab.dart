@@ -43,7 +43,7 @@ class _StreakTabState extends State<StreakTab> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _scrollController.animateTo(
             0.0,
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
           );
         });
@@ -67,7 +67,7 @@ class _StreakTabState extends State<StreakTab> {
     final days = getLastSevenDays(); // most recent to least recent
 
     return isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator())
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -85,7 +85,7 @@ class _StreakTabState extends State<StreakTab> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: Colors.white,
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black12,
                       blurRadius: 8,
@@ -108,7 +108,7 @@ class _StreakTabState extends State<StreakTab> {
                         child: Column(
                           children: [
                             AnimatedContainer(
-                              duration: Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 300),
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,

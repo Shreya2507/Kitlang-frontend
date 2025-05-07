@@ -184,7 +184,7 @@ class _GameScreenState extends State<GameScreen> {
         centerTitle: true,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -226,8 +226,8 @@ class _GameScreenState extends State<GameScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
-                "Word meaning: ${definition}",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                "Word meaning: $definition",
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -267,14 +267,14 @@ class _GameScreenState extends State<GameScreen> {
                   children: alphabets.split("").map((a) {
                     return ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
+                        backgroundColor: WidgetStateProperty.all(
                           selectedChar.contains(a.toUpperCase())
                               ? (translatedWord.contains(a.toUpperCase())
                                   ? Colors.green[100]
                                   : Colors.red[100])
                               : Colors.white,
                         ),
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                           side: const BorderSide(
                             color: Color.fromARGB(255, 255, 164, 164),

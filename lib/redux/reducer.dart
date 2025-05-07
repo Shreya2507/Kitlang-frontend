@@ -6,8 +6,7 @@ AppState appReducer(AppState state, dynamic action) {
     return state.copyWith(userId: action.userId);
   } else if (action is SetUserLevelAction) {
     return state.copyWith(level: action.level);
-  } else if (action is SetUserLanguageAction) {
-    // This action is for the language the user wants to learn
+  } else   if (action is SetUserLanguageAction) {
     return state.copyWith(language: action.language);
   } else if (action is SetCompletedTopicsAction) {
     return state.copyWith(completedTopics: action.completedTopics);

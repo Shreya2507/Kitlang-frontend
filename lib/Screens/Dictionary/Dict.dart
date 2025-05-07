@@ -23,6 +23,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 // }
 
 class DictionaryHomePage extends StatefulWidget {
+  const DictionaryHomePage({super.key});
+
   @override
   _DictionaryHomePageState createState() => _DictionaryHomePageState();
 }
@@ -34,14 +36,14 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
     configureTts();
   }
 
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   Future<Map<String, dynamic>>? _futureResponse;
   final List<Color> colors = [
-    Color(0xFFE9FFB9),
-    Color(0xFFDBF5FF),
-    Color(0xFFFFDBF7),
-    Color(0xFFFFE6C1),
-    Color(0xFFFFAFAF),
+    const Color(0xFFE9FFB9),
+    const Color(0xFFDBF5FF),
+    const Color(0xFFFFDBF7),
+    const Color(0xFFFFE6C1),
+    const Color(0xFFFFAFAF),
   ];
 
   List fav = [];
@@ -53,7 +55,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
         fav.add(temp); // Update the history list
       }
     });
-    print("FAVSS :" + fav.toString());
+    print("FAVSS :$fav");
   }
 
   void _searchWord() {
@@ -89,7 +91,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
 
   void speakText(String text, String sourceLang) async {
     if (sourceLang != 'en-US') {
-      String languageCode = sourceLang + '-' + sourceLang.toUpperCase();
+      String languageCode = '$sourceLang-${sourceLang.toUpperCase()}';
       await flutterTts.setLanguage(languageCode);
       await flutterTts.speak(text);
       print("Attempting to speak: $text in $sourceLang : $languageCode");
@@ -121,7 +123,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -148,21 +150,21 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                     Positioned(
                       left: 0,
                       child: Container(
-                        margin: EdgeInsets.only(left: 10, top: 10),
+                        margin: const EdgeInsets.only(left: 10, top: 10),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 253, 177, 62),
-                            shape: CircleBorder(), // Makes the button round
-                            padding: EdgeInsets.all(
+                            backgroundColor: const Color.fromARGB(255, 253, 177, 62),
+                            shape: const CircleBorder(), // Makes the button round
+                            padding: const EdgeInsets.all(
                                 10), // Adjust padding to make the button larger
                           ),
                           onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomePage(),
+                              builder: (context) => const HomePage(),
                             ),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.home,
                             color: Colors.white,
                             size: 25,
@@ -170,35 +172,35 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
-                    Text(
+                    const Text(
                       "Dictionary!",
                       style: TextStyle(fontSize: 30),
                       textAlign: TextAlign.center,
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextField(
                   controller: _controller,
                   decoration: InputDecoration(
                       labelText: 'Search Word',
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       suffix: Row(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.favorite_rounded),
+                            icon: const Icon(Icons.favorite_rounded),
                             onPressed: _goHome,
                           ),
                           IconButton(
-                            icon: Icon(Icons.search),
+                            icon: const Icon(Icons.search),
                             onPressed: _searchWord,
                           ),
                         ],
@@ -211,16 +213,16 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 50,
                                       ),
                                       Expanded(
-                                        child: Container(
+                                        child: SizedBox(
                                             width: 180,
                                             child: Lottie.asset(
                                                 "assets/dict/anim.mp4.lottie.json")),
                                       ),
-                                      Text(
+                                      const Text(
                                         'No Favourites yet !',
                                         style: TextStyle(fontSize: 20),
                                       )
@@ -231,21 +233,21 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                   mainAxisSize: MainAxisSize
                                       .min, // Minimize the size of the column
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 30,
                                     ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Container(
+                                        SizedBox(
                                             width: 80,
                                             child: Lottie.asset(
                                                 "assets/dict/anim.mp4.lottie.json")),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 10,
                                         ),
-                                        Text(
+                                        const Text(
                                           "Your Favorites", // Heading text
                                           style: TextStyle(
                                             fontSize:
@@ -263,7 +265,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                         itemCount: fav.length,
                                         itemBuilder: (context, index) {
                                           return Container(
-                                            margin: EdgeInsets.symmetric(
+                                            margin: const EdgeInsets.symmetric(
                                                 vertical:
                                                     8.0), // Margin between buttons
                                             width: MediaQuery.of(context)
@@ -281,7 +283,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                   _searchFav(fav[index]),
                                               child: Text(
                                                 fav[index],
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 18.0,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -299,7 +301,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return Center(
+                                return const Center(
                                     child: CircularProgressIndicator());
                               } else if (snapshot.hasError) {
                                 return Center(
@@ -307,10 +309,10 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                     mainAxisSize: MainAxisSize
                                         .min, // Minimize the size of the column
                                     children: [
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 30,
                                       ),
-                                      Text(
+                                      const Text(
                                         "Your Favorites", // Heading text
                                         style: TextStyle(
                                           fontSize:
@@ -329,12 +331,12 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                               color: colors[index %
                                                   colors
                                                       .length], // Rotate colors
-                                              margin: EdgeInsets.all(8.0),
+                                              margin: const EdgeInsets.all(8.0),
                                               child: Padding(
-                                                padding: EdgeInsets.all(16.0),
+                                                padding: const EdgeInsets.all(16.0),
                                                 child: Text(
                                                   fav[index],
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontSize: 18.0,
                                                     fontWeight: FontWeight.bold,
                                                   ),
@@ -366,7 +368,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                       children: [
                                         Text(
                                           titleWord(originalWord),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 30,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -383,7 +385,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                       600], // Background color
                                                   shape: BoxShape
                                                       .circle, // Make it round
-                                                  boxShadow: [
+                                                  boxShadow: const [
                                                     BoxShadow(
                                                       color: Colors.black26,
                                                       blurRadius: 6,
@@ -393,7 +395,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                   ],
                                                 ),
                                                 child: IconButton(
-                                                  icon: Icon(
+                                                  icon: const Icon(
                                                     Icons
                                                         .volume_up, // Back arrow icon
                                                     color: Colors
@@ -402,12 +404,12 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                   ),
                                                   onPressed: () => speakText(
                                                       originalWord, langCode),
-                                                  padding: EdgeInsets.all(
+                                                  padding: const EdgeInsets.all(
                                                       10), // Adjust padding for better touch area
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 15,
                                             ),
                                             Align(
@@ -419,7 +421,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                       700], // Background color
                                                   shape: BoxShape
                                                       .circle, // Make it round
-                                                  boxShadow: [
+                                                  boxShadow: const [
                                                     BoxShadow(
                                                       color: Colors.black26,
                                                       blurRadius: 6,
@@ -429,7 +431,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                   ],
                                                 ),
                                                 child: IconButton(
-                                                  icon: Icon(
+                                                  icon: const Icon(
                                                     Icons.favorite_outline,
                                                     color: Colors.white,
                                                     size: 20,
@@ -440,7 +442,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                             context)
                                                         .showSnackBar(
                                                       SnackBar(
-                                                        content: Text(
+                                                        content: const Text(
                                                           'Added to favorites! ❤️',
                                                           style: TextStyle(
                                                             color: Colors
@@ -452,12 +454,12 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                           ),
                                                         ),
                                                         backgroundColor:
-                                                            Color.fromRGBO(
+                                                            const Color.fromRGBO(
                                                                 0,
                                                                 0,
                                                                 0,
                                                                 0.8), // Translucent black background
-                                                        duration: Duration(
+                                                        duration: const Duration(
                                                             seconds: 3),
                                                         behavior: SnackBarBehavior
                                                             .floating, // Makes the SnackBar float above content
@@ -467,12 +469,12 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                               BorderRadius.circular(
                                                                   10), // Rounded corners
                                                         ),
-                                                        margin: EdgeInsets.all(
+                                                        margin: const EdgeInsets.all(
                                                             10), // Add margin to the SnackBar
                                                       ),
                                                     );
                                                   },
-                                                  padding: EdgeInsets.all(10),
+                                                  padding: const EdgeInsets.all(10),
                                                 ),
                                               ),
                                             ),
@@ -486,7 +488,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                         //     MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('English: ${titleWord(word)}'),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 20,
                                           ),
                                           Container(
@@ -495,7 +497,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                             decoration: BoxDecoration(
                                               color: Colors.green[600],
                                               shape: BoxShape.circle,
-                                              boxShadow: [
+                                              boxShadow: const [
                                                 BoxShadow(
                                                   color: Colors.black26,
                                                   blurRadius: 6,
@@ -505,7 +507,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                               ],
                                             ),
                                             child: IconButton(
-                                              icon: Icon(
+                                              icon: const Icon(
                                                 Icons
                                                     .volume_up, // Back arrow icon
                                                 color: Colors
@@ -514,19 +516,19 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                               ),
                                               onPressed: () =>
                                                   speakText(word, 'en-US'),
-                                              padding: EdgeInsets.all(
+                                              padding: const EdgeInsets.all(
                                                   10), // Adjust padding for better touch area
                                             ),
                                           ),
                                         ],
                                       ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     if (phonetics.isNotEmpty)
                                       Text(
                                           'Phonetics: ${phonetics[0]['text']}'),
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                     ...meanings.map((meaning) {
                                       final partOfSpeech =
                                           meaning['partOfSpeech'];
@@ -539,7 +541,7 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                         children: [
                                           Text(
                                             'Part of Speech: $partOfSpeech',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600),
                                           ),
@@ -576,15 +578,15 @@ class _DictionaryHomePageState extends State<DictionaryHomePage> {
                                                 ],
                                               ),
                                             );
-                                          }).toList(),
-                                          Divider(),
+                                          }),
+                                          const Divider(),
                                         ],
                                       );
-                                    }).toList(),
+                                    }),
                                   ],
                                 );
                               } else {
-                                return Center(child: Text('No data found'));
+                                return const Center(child: Text('No data found'));
                               }
                             },
                           )),

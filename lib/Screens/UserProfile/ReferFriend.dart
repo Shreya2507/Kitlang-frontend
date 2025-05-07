@@ -13,7 +13,7 @@ class ReferAFriendPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Refer a Friend"),
-        backgroundColor: Color(0xFFF9C0D6),
+        backgroundColor: const Color(0xFFF9C0D6),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -21,7 +21,7 @@ class ReferAFriendPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 20),
-            Icon(Icons.card_giftcard, size: 100, color: Color(0xFFEA4877)),
+            const Icon(Icons.card_giftcard, size: 100, color: Color(0xFFEA4877)),
             const SizedBox(height: 20),
             Text(
               "Invite your friends and help them start their journey!",

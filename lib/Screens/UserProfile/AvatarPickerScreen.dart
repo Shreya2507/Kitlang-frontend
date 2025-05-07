@@ -6,7 +6,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:frontend/redux/appstate.dart';
 
 class AvatarPickerScreen extends StatefulWidget {
-  const AvatarPickerScreen({super.key});
+  final bool fromSettings;
+
+  const AvatarPickerScreen({super.key, this.fromSettings = false});
 
   @override
   State<AvatarPickerScreen> createState() => _AvatarPickerScreenState();
@@ -24,7 +26,7 @@ class _AvatarPickerScreenState extends State<AvatarPickerScreen> {
 
   Future<void> _loadAvatars() async {
     final String jsonString =
-        await rootBundle.loadString('assets/avatars.json');
+        await rootBundle.loadString('assets/onboarding/avatars.json');
     final Map<String, dynamic> jsonData = json.decode(jsonString);
     setState(() {
       avatarUrls = List<String>.from(jsonData['avatars']);
@@ -41,23 +43,29 @@ class _AvatarPickerScreenState extends State<AvatarPickerScreen> {
       'avatarIndex': selectedAvatarIndex,
     });
 
-    Navigator.pop(context, selectedAvatarIndex); // Return selected index
+    if (widget.fromSettings) {
+      Navigator.pop(context, selectedAvatarIndex);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Choose Avatar"), backgroundColor: Colors.deepPurple),
+        title: Text(widget.fromSettings ? "Change Avatar" : "Choose Avatar"),
+        backgroundColor: Colors.deepPurple,
+      ),
       body: avatarUrls.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
                 Expanded(
                   child: GridView.builder(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     itemCount: avatarUrls.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
@@ -73,7 +81,7 @@ class _AvatarPickerScreenState extends State<AvatarPickerScreen> {
                             border: isSelected
                                 ? Border.all(color: Colors.deepPurple, width: 3)
                                 : null,
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 color: Colors.black26,
                                 blurRadius: 6,
@@ -99,10 +107,12 @@ class _AvatarPickerScreenState extends State<AvatarPickerScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple,
                         padding:
-                            EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                            const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
                       ),
-                      child:
-                          Text("Save Avatar", style: TextStyle(fontSize: 16)),
+                      child: Text(
+                        widget.fromSettings ? "Save Changes" : "Save Avatar",
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ),
                   ),
               ],

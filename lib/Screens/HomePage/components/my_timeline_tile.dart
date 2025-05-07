@@ -47,7 +47,7 @@ class _MyTimeLineTileState extends State<MyTimeLineTile>
     super.initState();
 
     _controller = AnimationController(
-      duration: Duration(seconds: 4),
+      duration: const Duration(seconds: 4),
       vsync: this,
     );
 

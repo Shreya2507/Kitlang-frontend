@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 class TranslateImage extends StatefulWidget {
+  const TranslateImage({super.key});
+
   @override
   _TranslateImageState createState() => _TranslateImageState();
 }
@@ -253,12 +255,12 @@ class _TranslateImageState extends State<TranslateImage>
     final max = await _controller?.getMaxZoomLevel() ?? 3.0;
 
     setState(() {
-      zoomLevels = [
+      zoomLevels = {
         min,
         1.0,
         2.0,
         max,
-      ].toSet().where((z) => z >= min && z <= max).toList()
+      }.where((z) => z >= min && z <= max).toList()
         ..sort();
     });
   }
@@ -283,7 +285,7 @@ class _TranslateImageState extends State<TranslateImage>
                 decoration: BoxDecoration(
                   color: _imageFile != null
                       ? const ui.Color.fromARGB(255, 77, 77, 77)
-                      : ui.Color.fromARGB(141, 0, 0, 0).withOpacity(0.60),
+                      : const ui.Color.fromARGB(141, 0, 0, 0).withOpacity(0.60),
                   // Translucent effect
                   // borderRadius: BorderRadius.only(
                   //   bottomLeft: Radius.circular(20),
@@ -293,7 +295,7 @@ class _TranslateImageState extends State<TranslateImage>
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
                       blurRadius: 10,
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
@@ -321,7 +323,7 @@ class _TranslateImageState extends State<TranslateImage>
                               60,
                               60,
                             ).withOpacity(0.2),
-                            offset: Offset(0, 4),
+                            offset: const Offset(0, 4),
                             blurRadius: 6,
                           ),
                         ],
@@ -363,7 +365,7 @@ class _TranslateImageState extends State<TranslateImage>
                               60,
                               60,
                             ).withOpacity(0.2),
-                            offset: Offset(0, 4),
+                            offset: const Offset(0, 4),
                             blurRadius: 6,
                           ),
                         ],
@@ -502,7 +504,7 @@ class _TranslateImageState extends State<TranslateImage>
                   decoration: BoxDecoration(
                     color: _imageFile != null
                         ? const ui.Color.fromARGB(255, 77, 77, 77)
-                        : ui.Color.fromARGB(
+                        : const ui.Color.fromARGB(
                             141,
                             0,
                             0,

@@ -7,23 +7,22 @@ import 'package:frontend/Screens/Onboarding/LoginScreen.dart';
 import 'package:frontend/Screens/Onboarding/SignupScreen.dart';
 import 'package:frontend/Screens/Onboarding/onboarding.dart';
 import 'package:frontend/Screens/Onboarding/services/auth_provider.dart';
-import 'package:frontend/Screens/UserProfile/settings/LanguageScreen.dart';
+import 'package:frontend/Screens/Onboarding/LanguageScreen.dart';
+import 'package:frontend/Screens/service/audio_controller.dart'; // renamed to avoid confusion
 import 'package:frontend/redux/actions.dart';
 import 'package:frontend/redux/fetchUserProgressMiddleware.dart';
 import 'package:redux/redux.dart';
 import 'package:frontend/redux/appstate.dart';
 import 'package:frontend/redux/reducer.dart';
-
 import 'package:frontend/Screens/UserProfile/UserProfile.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:provider/provider.dart'; // Import provider for language management
-// Import translation service
+import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
   await Firebase.initializeApp();
 
   // Check if user is logged in
@@ -34,32 +33,39 @@ void main() async {
     middleware: [fetchUserProgressMiddleware],
   );
 
-  // 🔥 Dispatch action to trigger middleware
+  // Dispatch action to trigger middleware
   if (user != null) {
     print("[DEBUG] Dispatching FetchUserProgressAction...");
     store.dispatch(FetchUserProgressAction());
   }
 
-  // Fetch user language from Firestore and set it in Redux
+  // Fetch user language from Firestore
   if (user != null) {
     final doc = await FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .get();
     final languageCode = doc.data()?['languageCode'] ?? 'en';
-
-    // Log the fetched language code for debugging
+    final language = doc.data()?['language'] ?? 'German';
     print("[DEBUG] Fetched languageCode from Firestore: $languageCode");
-
-    // Dispatch action to set the language in Redux store
+    
     store.dispatch(ChangeLanguageAction(languageCode));
-    store.dispatch(SetUserLanguageAction(languageCode));
+    store.dispatch(SetUserLanguageAction(language)); 
   }
 
+  final audioController = AudioController();
+  await audioController.initialize();
+
   runApp(
-    StoreProvider(
-      store: store,
-      child: AuthProvide(store: store, child: MyApp(store: store)),
+    MultiProvider(
+      providers: [
+        Provider<Store<AppState>>.value(value: store),
+        ChangeNotifierProvider.value(value: audioController),
+        Provider<AuthProvide>(
+          create: (_) => AuthProvide(store: store, child: MyApp(store: store)),
+        ),
+      ],
+      child: MyApp(store: store),
     ),
   );
 }
@@ -75,57 +81,35 @@ class MyApp extends StatelessWidget {
       store: store,
       child: Builder(
         builder: (context) {
-          // Listen to language change in Redux
           return StoreConnector<AppState, String?>(
-            converter: (store) {
-              final selectedLanguage = store.state.selectedLanguageCode;
-              print(
-                  "[DEBUG] selectedLanguageCode from Redux: $selectedLanguage"); // Log the language from Redux
-              return selectedLanguage;
-            },
+            converter: (store) => store.state.selectedLanguageCode,
             builder: (context, selectedLanguage) {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 initialRoute: store.state.userId != null ? '/home' : '/',
-                locale: Locale(selectedLanguage ??
-                    'en'), // Set the app's locale to the selected language
+                locale: Locale(selectedLanguage ?? 'en'),
                 onGenerateRoute: (settings) {
-                  final args =
-                      settings.arguments as Map<String, dynamic>? ?? {};
+                  final args = settings.arguments as Map<String, dynamic>? ?? {};
 
                   switch (settings.name) {
                     case '/':
-                      return MaterialPageRoute(
-                          builder: (_) => const Onboarding());
-
+                      return MaterialPageRoute(builder: (_) => const Onboarding());
                     case '/signup':
-                      return MaterialPageRoute(builder: (_) => SignupScreen());
-
+                      return MaterialPageRoute(builder: (_) => const SignupScreen());
                     case '/login':
-                      return MaterialPageRoute(builder: (_) => LoginScreen());
-
+                      return MaterialPageRoute(builder: (_) => const LoginScreen());
                     case '/lang':
-                      return MaterialPageRoute(
-                          builder: (_) => const LanguageScreen());
-
+                      return MaterialPageRoute(builder: (_) => const LanguageScreen());
                     case '/level':
                       return MaterialPageRoute(
-                        builder: (_) =>
-                            LevelScreen(userId: args['userId'] ?? ''),
+                        builder: (_) => LevelScreen(userId: args['userId'] ?? ''),
                       );
-
                     case '/home':
-                      return MaterialPageRoute(
-                          builder: (_) => const HomePage());
-
-                    // Add settings route here
+                      return MaterialPageRoute(builder: (_) => const HomePage());
                     case '/settings':
-                      return MaterialPageRoute(
-                          builder: (_) => const ProfilePage());
-
+                      return MaterialPageRoute(builder: (_) => const ProfilePage());
                     default:
-                      return MaterialPageRoute(
-                          builder: (_) => const Onboarding());
+                      return MaterialPageRoute(builder: (_) => const Onboarding());
                   }
                 },
               );

@@ -213,7 +213,7 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              leading: BackButton(color: Colors.black),
+              leading: const BackButton(color: Colors.black),
               automaticallyImplyLeading: true,
             ),
             body: SingleChildScrollView(
@@ -245,13 +245,13 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
                             child: Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 255, 255, 255),
+                                color: const Color.fromARGB(255, 255, 255, 255),
                                 border: Border.all(
                                   color:
                                       const Color.fromARGB(255, 157, 191, 245),
                                   width: 1.5,
                                 ),
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(24),
                                   topRight: Radius.circular(24),
                                   bottomLeft: Radius.circular(24),
@@ -381,23 +381,35 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
             setState(() => this.isListening = isListening);
           },
           onAnswerReceived: (answer) {
-            setState(() => userAnswer = answer);
-            checkAnswer(answer);
-          },
+  setState(() => userAnswer = answer);
+  Future.delayed(
+                const Duration(seconds: 1), () => checkAnswer(answer));
+},
+
           speak: _speak,
         );
       case 'listening_mcq':
-        return ListeningMCQ(
-          textToRead: question['text_to_read'],
-          options: question['options'] as List<dynamic>,
-          selectedOption: selectedOption,
-          onSelect: (option) {
-            setState(() => selectedOption = option);
-            Future.delayed(
-                const Duration(seconds: 1), () => checkAnswer(option));
-          },
-          speak: _speak,
-        );
+  return ListeningMCQ(
+    textToRead: question['text_to_read'],
+    options: question['options'] as List<dynamic>,
+    selectedOption: selectedOption,
+    onSelect: (option) {
+      setState(() => selectedOption = option);
+
+      final correctAnswer = question['answer'];
+      final isCorrect = option.trim().toLowerCase() ==
+                        correctAnswer.trim().toLowerCase();
+
+      if (isCorrect) {
+        setState(() => score++);
+        _showFeedback(true);
+      } else {
+        _showFeedback(false, correctAnswer);
+      }
+    },
+    speak: _speak,
+  );
+
       case 'listening_typing':
         return ListeningTyping(
           textToRead: question['text_to_read'] ?? question['correct_answer'],

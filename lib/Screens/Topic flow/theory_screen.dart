@@ -18,8 +18,8 @@ class TheoryScreen extends StatefulWidget {
     required this.classIndex,
     required this.topicIndex,
     required this.learningPackage,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _TheoryScreenState createState() => _TheoryScreenState();
@@ -47,7 +47,9 @@ class _TheoryScreenState extends State<TheoryScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     loadTheoryData();
+  });
     // flutterTts.setCompletionHandler(() {
     //   setState(() {
     //     isSpeaking = false;
@@ -109,6 +111,8 @@ class _TheoryScreenState extends State<TheoryScreen> {
         final theoryData = await TheoryService.fetchTheory(
           widget.classIndex,
           widget.topicIndex,
+          context,
+          
         );
 
         if (mounted) {
@@ -166,7 +170,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
         // Background
         Positioned.fill(
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -192,7 +196,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 150,
                 width: 150,
                 child: Image.asset(
@@ -200,7 +204,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 'Loading your adventure...',
                 style: GoogleFonts.nunito(
@@ -319,7 +323,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: BackButton(color: Colors.black),
+        leading: const BackButton(color: Colors.black),
         automaticallyImplyLeading: true,
       ),
       extendBodyBehindAppBar: true,
@@ -328,7 +332,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
           // Background
           Positioned.fill(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -355,8 +359,8 @@ class _TheoryScreenState extends State<TheoryScreen> {
             left: 16,
             right: 16,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-              margin: EdgeInsets.symmetric(horizontal: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
               decoration: BoxDecoration(
                 color: const Color.fromARGB(
                   255,
@@ -365,9 +369,9 @@ class _TheoryScreenState extends State<TheoryScreen> {
                   221,
                 ).withOpacity(0.95),
                 borderRadius: BorderRadius.circular(16),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
-                    color: const Color.fromARGB(66, 130, 75, 249),
+                    color: Color.fromARGB(66, 130, 75, 249),
                     offset: Offset(0, 6),
                     blurRadius: 10,
                     spreadRadius: 0,
@@ -391,7 +395,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
                             color: Colors.black87,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
                           topicTitle,
                           style: GoogleFonts.nunito(
@@ -442,12 +446,12 @@ class _TheoryScreenState extends State<TheoryScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: Color.fromARGB(255, 201, 185, 234),
+                        color: const Color.fromARGB(255, 201, 185, 234),
                         width: 1.0,
                       ),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
-                          color: const Color.fromARGB(31, 252, 242, 212),
+                          color: Color.fromARGB(31, 252, 242, 212),
                           blurRadius: 8,
                           offset: Offset(0, 4),
                         ),
@@ -496,7 +500,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
                             // ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
@@ -528,7 +532,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 16,
                   ),
                   backgroundColor: const Color.fromARGB(
@@ -588,7 +592,7 @@ class _TheoryScreenState extends State<TheoryScreen> {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       _scrollController.animateTo(
                         0,
-                        duration: Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut,
                       );
                     });

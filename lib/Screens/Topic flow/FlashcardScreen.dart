@@ -36,7 +36,7 @@ class _FlashcardScreenState extends State<FlashcardScreen>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
   }
@@ -109,11 +109,11 @@ class _FlashcardScreenState extends State<FlashcardScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('No flashcards available'),
-              SizedBox(height: 20),
+              const Text('No flashcards available'),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _navigateToMiniGame,
-                child: Text('Go to Mini Game'),
+                child: const Text('Go to Mini Game'),
               ),
             ],
           ),
@@ -124,7 +124,7 @@ class _FlashcardScreenState extends State<FlashcardScreen>
     final currentWord = widget.learntWords[_currentIndex];
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 240, 247, 255),
+      backgroundColor: const Color.fromARGB(255, 240, 247, 255),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -147,7 +147,7 @@ class _FlashcardScreenState extends State<FlashcardScreen>
           LinearProgressIndicator(
             value: (_currentIndex + 1) / widget.learntWords.length,
             backgroundColor: Colors.grey[200],
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
           ),
           const SizedBox(height: 50),
 
@@ -201,20 +201,20 @@ class _FlashcardScreenState extends State<FlashcardScreen>
               children: [
                 IconButton(
                   onPressed: _previousCard,
-                  icon: Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back),
                   style: IconButton.styleFrom(
                     backgroundColor: Colors.blue[100],
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                   ),
                 ),
 
                 // Speaker button
                 IconButton(
                   onPressed: () => _speak(currentWord['word']),
-                  icon: Icon(Icons.volume_up),
+                  icon: const Icon(Icons.volume_up),
                   style: IconButton.styleFrom(
                     backgroundColor: Colors.blue[100],
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                   ),
                 ),
 
@@ -227,20 +227,20 @@ class _FlashcardScreenState extends State<FlashcardScreen>
                       _nextCard();
                     }
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
                   child: Text(
                     _currentIndex == widget.learntWords.length - 1
                         ? 'Finish'
                         : 'Next',
                     style: GoogleFonts.nunito(
                       fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                 ),
@@ -295,7 +295,7 @@ class _FlashcardScreenState extends State<FlashcardScreen>
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.flip_to_front, size: 30, color: Colors.blue),
+                    const Icon(Icons.flip_to_front, size: 30, color: Colors.blue),
                     const SizedBox(height: 10),
                     Text(
                       'Tap to flip',
@@ -374,7 +374,7 @@ class _FlashcardScreenState extends State<FlashcardScreen>
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.flip_to_front, size: 20, color: Colors.blue),
+                    const Icon(Icons.flip_to_front, size: 20, color: Colors.blue),
                     const SizedBox(height: 10),
                     Text(
                       'Tap to flip back',

@@ -24,15 +24,15 @@ class _KeyboardState extends State<Keyboard> {
       children: [
         Text(
           WordleGameProvider.gameMessage,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         WordleGameBoard(widget.game),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         Row(
@@ -54,14 +54,14 @@ class _KeyboardState extends State<Keyboard> {
                 height: 40,
                 width: 33,
                 alignment: Alignment.center,
-                margin: EdgeInsets.all(3),
+                margin: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.grey.shade300,
                 ),
                 child: Text(
-                  "${e}",
-                  style: TextStyle(
+                  "$e",
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -71,7 +71,7 @@ class _KeyboardState extends State<Keyboard> {
             );
           }).toList(),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Row(
@@ -93,14 +93,14 @@ class _KeyboardState extends State<Keyboard> {
                 height: 40,
                 width: 33,
                 alignment: Alignment.center,
-                margin: EdgeInsets.all(3),
+                margin: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.grey.shade300,
                 ),
                 child: Text(
-                  "${e}",
-                  style: TextStyle(
+                  "$e",
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -110,7 +110,7 @@ class _KeyboardState extends State<Keyboard> {
             );
           }).toList(),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Row(
@@ -132,14 +132,14 @@ class _KeyboardState extends State<Keyboard> {
                 height: 40,
                 width: 33,
                 alignment: Alignment.center,
-                margin: EdgeInsets.all(3),
+                margin: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.grey.shade300,
                 ),
                 child: Text(
-                  "${e}",
-                  style: TextStyle(
+                  "$e",
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -149,7 +149,7 @@ class _KeyboardState extends State<Keyboard> {
             );
           }).toList(),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Row(
@@ -243,14 +243,14 @@ class _KeyboardState extends State<Keyboard> {
                 height: 40,
                 width: 100,
                 alignment: Alignment.center,
-                margin: EdgeInsets.all(3),
+                margin: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.grey.shade300,
                 ),
                 child: Text(
-                  "${e}",
-                  style: TextStyle(
+                  "$e",
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,

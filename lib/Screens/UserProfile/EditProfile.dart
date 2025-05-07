@@ -77,17 +77,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Profile updated successfully')),
+        const SnackBar(content: Text('Profile updated successfully')),
       );
 
       // Delay briefly so user sees the snackbar, then navigate back
-      Future.delayed(Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(milliseconds: 500), () {
         Navigator.pop(context); // This takes you back to UserProfile screen
       });
     } catch (e) {
       print("Error updating profile: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update profile')),
+        const SnackBar(content: Text('Failed to update profile')),
       );
     }
   }
@@ -95,7 +95,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Future<void> _openAvatarPicker() async {
     final selected = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => AvatarPickerScreen()),
+      MaterialPageRoute(builder: (context) => const AvatarPickerScreen()),
     );
 
     if (selected != null && selected is int) {
@@ -113,11 +113,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Profile", style: TextStyle(fontSize: 20)),
+        title: const Text("Edit Profile", style: TextStyle(fontSize: 20)),
         backgroundColor: Colors.deepPurple,
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Container(
               width: double.infinity,
               height: double.infinity,
@@ -148,15 +148,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         radius: 50,
                         backgroundImage: userAvatar != null
                             ? NetworkImage(userAvatar)
-                            : NetworkImage(
+                            : const NetworkImage(
                                 "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D",
                               ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextField(
                       controller: _nameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "Full Name",
                         labelStyle: TextStyle(fontSize: 14),
                         border: OutlineInputBorder(),
@@ -164,10 +164,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         fillColor: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextField(
                       controller: _emailController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "Email",
                         labelStyle: TextStyle(fontSize: 14),
                         border: OutlineInputBorder(),
@@ -175,15 +175,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         fillColor: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     ElevatedButton(
                       onPressed: _updateProfile,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple,
                         padding:
-                            EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                            const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                       ),
-                      child: Text("Save Changes",
+                      child: const Text("Save Changes",
                           style: TextStyle(fontSize: 16, color: Colors.white)),
                     ),
                   ],

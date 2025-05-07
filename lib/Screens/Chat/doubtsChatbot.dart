@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class doubtsChatbotPage extends StatelessWidget {
   final String situationTitle;
 
-  doubtsChatbotPage({required this.situationTitle});
+  const doubtsChatbotPage({super.key, required this.situationTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class doubtsChatbotPage extends StatelessWidget {
         child: Text(
           'ChatBot for $situationTitle\n(Under Development)',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
     );

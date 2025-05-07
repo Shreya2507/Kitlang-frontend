@@ -92,8 +92,8 @@ class _JumbledSentenceState extends State<JumbledSentence> {
               child: Chip(
                 label: Text(word),
                 backgroundColor: Colors.white,
-                side: BorderSide(
-                  color: const Color(0xFF6EA4D6),
+                side: const BorderSide(
+                  color: Color(0xFF6EA4D6),
                   width: 1,
                 ),
                 labelStyle: GoogleFonts.poppins(

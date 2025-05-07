@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:redux/redux.dart';
 
 class TranslationService {
   static final TranslationService _instance = TranslationService._internal();

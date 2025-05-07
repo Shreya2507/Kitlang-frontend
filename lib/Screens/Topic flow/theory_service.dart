@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:frontend/redux/appstate.dart';
 import 'package:http/http.dart' as http;
 
 class TheoryData {
@@ -36,10 +39,19 @@ class TheoryData {
 }
 
 class TheoryService {
-  static Future<TheoryData> fetchTheory(int classIndex, int topicIndex) async {
+  static Future<TheoryData> fetchTheory(
+      int classIndex, int topicIndex, BuildContext? context) async {
+       
     try {
+     
+      final language = (StoreProvider.of<AppState>(context!).state.language ?? 'german').toLowerCase();
+              print("hi $language");
+      final level =
+          StoreProvider.of<AppState>(context).state.level ?? 'beginner'; // Default to 'beginner'
+
+      print('Hiiiiii$language');
       final url = Uri.parse(
-        'https://saran-2021-api-gateway.hf.space/api/kitlang/get_theory/${classIndex}/${topicIndex}/german/beginner',
+        'https://saran-2021-api-gateway.hf.space/api/kitlang/get_theory/1/2/german/beginner',
       );
 
       final response = await http.get(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/Screens/Chat/allChat.dart';
 
 class GetStartedPage extends StatelessWidget {
+  const GetStartedPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +27,11 @@ class GetStartedPage extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => AllChat()),
                   );
                 },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  textStyle: const TextStyle(fontSize: 18),
+                  backgroundColor: const Color(0xFFAD7CC2),
+                ),
                 child: Text(
                   'Start Messaging',
                   style: TextStyle(
@@ -32,11 +39,6 @@ class GetStartedPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     fontSize: 18,
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  textStyle: TextStyle(fontSize: 18),
-                  backgroundColor: Color(0xFFAD7CC2),
                 ),
               ),
             ),

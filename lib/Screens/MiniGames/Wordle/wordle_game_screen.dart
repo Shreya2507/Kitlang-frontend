@@ -3,14 +3,14 @@ import 'package:frontend/Screens/MiniGames/Wordle/keyboard.dart';
 import 'package:frontend/Screens/MiniGames/Wordle/utils/game_provider.dart';
 
 class WordleGame extends StatefulWidget {
-  WordleGame({super.key});
+  const WordleGame({super.key});
 
   @override
   State<WordleGame> createState() => _WordleGameState();
 }
 
 class _WordleGameState extends State<WordleGame> {
-  WordleGameProvider _game = WordleGameProvider();
+  final WordleGameProvider _game = WordleGameProvider();
 
   @override
   void initState() {
@@ -21,7 +21,7 @@ class _WordleGameState extends State<WordleGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(1, 45, 45, 45),
+      backgroundColor: const Color.fromARGB(1, 45, 45, 45),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
