@@ -5,12 +5,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:frontend/Screens/Achievements/AchievementScreen.dart';
+import 'package:frontend/Screens/Chat/chat_titles.dart';
 import 'package:frontend/Screens/Chat/getStartedPage.dart';
+import 'package:frontend/Screens/Chat/situationalChatbot.dart';
 import 'package:frontend/Screens/Dictionary/Dict.dart';
 import 'package:frontend/Screens/HomePage/components/menu_bottom_sheet.dart';
 import 'package:frontend/Screens/HomePage/components/my_timeline_tile.dart';
 import 'package:frontend/Screens/HomePage/components/custom_bottom_navbar.dart';
 import 'package:frontend/Screens/HomePage/utils/data.dart';
+import '../Chat/chat_titles.dart';
 import 'package:frontend/Screens/Introductions/conversation.dart';
 import 'package:frontend/Screens/MiniGames/Hangman/hangman_start_screen.dart';
 import 'package:frontend/Screens/MiniGames/Wordle/wordle_start_screen.dart';
@@ -21,6 +24,7 @@ import 'package:frontend/Screens/Topic%20flow/theory_screen.dart';
 import 'package:frontend/Screens/TranslateImage/translateImage.dart';
 import 'package:frontend/Screens/UserProfile/settings/translation.dart';
 import 'package:frontend/Screens/service/audio_controller.dart';
+import 'package:frontend/Screens/spot/spotTheobject.dart';
 import 'package:frontend/redux/appstate.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:provider/provider.dart';
@@ -49,13 +53,13 @@ class _HomePageState extends State<HomePage> {
       _isLanguageLoaded = true;
     });
   }
-final audioController = AudioController();
+
+  final audioController = AudioController();
   @override
   void initState() {
     super.initState();
     _loadLanguage();
-   AudioController().playTrack("assets/sounds/Music.mp3");
-
+    AudioController().playTrack("assets/sounds/Music.mp3");
   }
 
   @override
@@ -63,14 +67,15 @@ final audioController = AudioController();
     _audioPlayer.dispose();
     super.dispose();
   }
-  
 
   Future<bool> _onWillPop() async {
     if (_lastPressedTime == null ||
-        DateTime.now().difference(_lastPressedTime!) > const Duration(seconds: 2)) {
+        DateTime.now().difference(_lastPressedTime!) >
+            const Duration(seconds: 2)) {
       _lastPressedTime = DateTime.now();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_translator.translate('press_back_again_to_exit'))),
+        SnackBar(
+            content: Text(_translator.translate('press_back_again_to_exit'))),
       );
       return false;
     }
@@ -78,18 +83,20 @@ final audioController = AudioController();
     return true;
   }
 
- bool _isTopicCompleted(Map<String, dynamic> completedTopics, int chapterIndex, int topicIndex) {
-  final key = "chapter_${chapterIndex}_topic_$topicIndex";
-  return completedTopics.containsKey(key);
-}
+  bool _isTopicCompleted(
+      Map<String, dynamic> completedTopics, int chapterIndex, int topicIndex) {
+    final key = "chapter_${chapterIndex}_topic_$topicIndex";
+    return completedTopics.containsKey(key);
+  }
 
-bool _isNextTopic(Map<String, dynamic> completedTopics, int chapterIndex, int topicIndex) {
-  if (topicIndex == 0) return false;
-  final prevKey = "chapter_${chapterIndex}_topic_${topicIndex - 1}";
-  final currKey = "chapter_${chapterIndex}_topic_$topicIndex";
-  return completedTopics.containsKey(prevKey) && !completedTopics.containsKey(currKey);
-}
-
+  bool _isNextTopic(
+      Map<String, dynamic> completedTopics, int chapterIndex, int topicIndex) {
+    if (topicIndex == 0) return false;
+    final prevKey = "chapter_${chapterIndex}_topic_${topicIndex - 1}";
+    final currKey = "chapter_${chapterIndex}_topic_$topicIndex";
+    return completedTopics.containsKey(prevKey) &&
+        !completedTopics.containsKey(currKey);
+  }
 
   Future<void> _playTapSound() async {
     try {
@@ -101,7 +108,7 @@ bool _isNextTopic(Map<String, dynamic> completedTopics, int chapterIndex, int to
 
   void _onTap(int index) async {
     await _playTapSound();
-    
+
     switch (index) {
       case 0: // Menu
         showMenuBottomSheet(context, _audioPlayer);
@@ -142,6 +149,36 @@ bool _isNextTopic(Map<String, dynamic> completedTopics, int chapterIndex, int to
     }
   }
 
+  void navigateToChatBot(int situationId, String title) {
+    Widget destination;
+    switch (situationId) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+        destination = Situationalbot(
+          situationNumber: situationId,
+          situationTitle: title,
+        );
+        break;
+
+      default:
+        destination = Situationalbot(
+          situationNumber: 1,
+          situationTitle: title,
+        );
+        break;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => destination),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!_isLanguageLoaded) {
@@ -154,7 +191,6 @@ bool _isNextTopic(Map<String, dynamic> completedTopics, int chapterIndex, int to
       onWillPop: _onWillPop,
       child: StoreConnector<AppState, Map<String, dynamic>>(
         converter: (store) => store.state.completedTopics ?? {},
-        
         builder: (context, completedTopics) {
           print("completedTopics1: $completedTopics");
 
@@ -196,7 +232,8 @@ bool _isNextTopic(Map<String, dynamic> completedTopics, int chapterIndex, int to
                     itemCount: classes.length,
                     itemBuilder: (context, classIndex) {
                       final classData = classes[classIndex];
-                      final translatedTitle = _translator.translate(classData["title"] as String);
+                      final translatedTitle =
+                          _translator.translate(classData["title"] as String);
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -206,17 +243,20 @@ bool _isNextTopic(Map<String, dynamic> completedTopics, int chapterIndex, int to
                             // Class container
                             Container(
                               height: 100,
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
                                 color: classData["color"] as Color,
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
@@ -263,44 +303,91 @@ bool _isNextTopic(Map<String, dynamic> completedTopics, int chapterIndex, int to
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: (classData["topics"] as List).length,
                               itemBuilder: (context, topicIndex) {
-                                final topic = (classData["topics"] as List)[topicIndex];
-                                final isCompleted = _isTopicCompleted(completedTopics, classIndex+1, topicIndex);
-                                final isNextTopic = _isNextTopic(completedTopics, classIndex + 1, topicIndex);
-                                final isFirstTopic = classIndex == 1 && topicIndex == 0;
-                                final isEnabled = isCompleted || isNextTopic || isFirstTopic;
-                                final translatedTopicTitle = _translator.translate(topic["title"] as String);
+                                final topic =
+                                    (classData["topics"] as List)[topicIndex];
+                                final isCompleted = true;
+                                final isNextTopic = _isNextTopic(
+                                    completedTopics,
+                                    classIndex + 1,
+                                    topicIndex);
+                                final isFirstTopic =
+                                    classIndex == 0 && topicIndex == 0;
+                                final isEnabled =
+                                    isCompleted || isNextTopic || isFirstTopic;
+                                final translatedTopicTitle = _translator
+                                    .translate(topic["title"] as String);
 
                                 return GestureDetector(
                                   onTap: isEnabled
                                       ? () async {
                                           await _playTapSound();
-                                          await Future.delayed(const Duration(milliseconds: 1000));
+                                          await Future.delayed(const Duration(
+                                              milliseconds: 1000));
 
-                                          if (topic["title"] == "Introduction" || topicIndex == 0) {
+                                          if (topic["title"] ==
+                                                  "Introduction" ||
+                                              topicIndex == 0) {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => ConversationScreen(
-                                                    chapter: classIndex + 1),
+                                                builder: (context) =>
+                                                    ConversationScreen(
+                                                        chapter:
+                                                            classIndex + 1),
                                               ),
                                             );
-                                          } else if (topic["title"] == "Chapter Quiz") {
+                                          } else if (topic["title"] ==
+                                              "Chapter Quiz") {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => FinaleScreen(
-                                                  chapterIndex: classData["chapter_number"] as int,
+                                                builder: (context) =>
+                                                    FinaleScreen(
+                                                  chapterIndex: classData[
+                                                      "chapter_number"] as int,
                                                   topicIndex: topicIndex,
                                                   background: classIndex + 1,
                                                 ),
                                               ),
                                             );
+                                          } else if (topic["title"] ==
+                                              "Spot The Object") {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    // ImageSwitcherScreen()
+                                                    SpotGameScreen(
+                                                  chapterIndex: classData[
+                                                      "chapter_number"] as int,
+                                                  topicIndex: topicIndex,
+                                                ),
+                                              ),
+                                            );
+                                          } else if (topic["title"] ==
+                                              "Real conversation practice") {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Situationalbot(
+                                                        situationNumber: classData[
+                                                                "chapter_number"]
+                                                            as int,
+                                                        situationTitle:
+                                                            situations[classData[
+                                                                    "chapter_number"]
+                                                                as int] as String,
+                                                      )),
+                                            );
                                           } else {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => TheoryScreen(
-                                                  classIndex: classData["chapter_number"] as int,
+                                                builder: (context) =>
+                                                    TheoryScreen(
+                                                  classIndex: classData[
+                                                      "chapter_number"] as int,
                                                   topicIndex: topicIndex,
                                                   learningPackage: const {},
                                                 ),
@@ -308,15 +395,19 @@ bool _isNextTopic(Map<String, dynamic> completedTopics, int chapterIndex, int to
                                             );
                                           }
                                         }
-                                      : () => ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text(_translator.translate('complete_previous_topic'))),
+                                      : () => ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                                content: Text(_translator.translate(
+                                                    'complete_previous_topic'))),
                                           ),
                                   child: AnimatedSwitcher(
                                     duration: const Duration(milliseconds: 500),
                                     child: Opacity(
                                       opacity: isEnabled ? 1.0 : 0.5,
                                       child: MyTimeLineTile(
-                                        key: ValueKey("$classIndex-$topicIndex"),
+                                        key:
+                                            ValueKey("$classIndex-$topicIndex"),
                                         isFirst: topic["isFirst"] as bool,
                                         isLast: topic["isLast"] as bool,
                                         isPast: isCompleted,
@@ -327,7 +418,8 @@ bool _isNextTopic(Map<String, dynamic> completedTopics, int chapterIndex, int to
                                             : isNextTopic
                                                 ? Colors.orangeAccent
                                                 : classData["color"] as Color,
-                                        subColor: classData["subColor"] as Color,
+                                        subColor:
+                                            classData["subColor"] as Color,
                                         chapterIndex: classIndex + 1,
                                         topicIndex: topicIndex,
                                         isNextTopic: isNextTopic,
@@ -347,7 +439,6 @@ bool _isNextTopic(Map<String, dynamic> completedTopics, int chapterIndex, int to
             ),
             bottomNavigationBar: CustomBottomNavBar(
               currentIndex: _pageIndex,
-              
               navKey: _navKey,
               audioPlayer: _audioPlayer,
             ),

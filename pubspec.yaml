@@ -80,6 +80,10 @@ dependencies:
   curved_navigation_bar: ^1.0.6
   awesome_notifications: ^0.10.1
   just_audio: ^0.10.2
+  dio: ^5.8.0+1
+  flame: ^1.27.0
+  flame_tiled: ^3.0.0
+  flame_audio: ^2.11.3
 
  
   
@@ -95,6 +99,13 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  flutter_launcher_icons:
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/logo/logo.png
+
 
 
 # For information on the generic Dart part of this file, see the
@@ -139,6 +150,7 @@ flutter:
     - assets/chatbot/food_order.png
     - assets/chatbot/cat_image.png
     - assets/chatbot/paw_print_loading.gif
+    - assets/chatbot/icons/
     - assets/profile/arrow_icon.png
     - assets/profile/bg.png
     - assets/profile/cat.png
@@ -156,6 +168,26 @@ flutter:
     - assets/translateImage/icons/
     - assets/hangman/
     - assets/wordle/
+    - assets/spot/
+    - assets/audio/Apfel.wav
+    - assets/audio/
+    - assets/tiles/
+    - assets/images/Background/
+    - assets/images/Terrain/
+    - assets/images/HUD/
+    - assets/images/Traps/Saw/
+    - assets/images/Items/Checkpoints/Checkpoint/
+    - assets/images/Items/Fruits/
+    - assets/images/Items/Fruits/fruit_spritesheet.json
+    - assets/images/Items/Fruits/fruit_spritesheet.png
+    - assets/images/Main Characters/Mask Dude/
+    - assets/images/Main Characters/
+    - assets/images/Main Characters/Ninja Frog/
+    - assets/images/Main Characters/Pink Man/
+    - assets/images/Main Characters/Virtual Guy/
+    - assets/images/Main Characters/Zhua/
+    - assets/images/Enemies/Chicken/
+    
     
     
 

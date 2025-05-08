@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/Screens/Chat/doubtsChatbot.dart';
 import 'package:frontend/Screens/Chat/situationalChatbot.dart';
-// import 'package:chattie_chat/chatBots/situationalChatbot.dart';
-// import 'package:chattie_chat/chatBots/doubtsChatbot.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -34,13 +32,13 @@ class _AllChatState extends State<AllChat> {
       'situation_id': 3,
     },
     {
-      'title': 'Asking for Directions',
+      'title': 'Directions',
       'subtitle': 'Navigate a new city by asking directions',
       'image': 'images/interview.png',
       'situation_id': 4,
     },
     {
-      'title': 'Shopping at a Retail Store',
+      'title': 'Shopping',
       'subtitle':
           'Practice buying clothes asking for sizes, prices and discounts',
       'image': 'images/interview.png',
@@ -61,7 +59,7 @@ class _AllChatState extends State<AllChat> {
     },
   ];
 
-  void navigateToChatBot(int situationId) {
+  void navigateToChatBot(int situationId, String title) {
     Widget destination;
     switch (situationId) {
       case 1:
@@ -71,10 +69,17 @@ class _AllChatState extends State<AllChat> {
       case 5:
       case 6:
       case 7:
-        destination = Situationalbot(situationNumber: situationId);
+        destination = Situationalbot(
+          situationNumber: situationId,
+          situationTitle: title,
+        );
         break;
+
       default:
-        destination = doubtsChatbotPage(situationTitle: 'Generic Chat');
+        destination = DoubtsChatbotPage(
+          situationNumber: 0,
+          situationTitle: 'help Center',
+        );
         break;
     }
 
@@ -190,10 +195,12 @@ class _AllChatState extends State<AllChat> {
                                             onPressed: () {
                                               navigateToChatBot(
                                                 situation['situation_id'],
+                                                situation['title'],
                                               );
                                             },
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: const Color.fromARGB(
+                                              backgroundColor:
+                                                  const Color.fromARGB(
                                                 255,
                                                 255,
                                                 255,
@@ -283,7 +290,7 @@ class _AllChatState extends State<AllChat> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navigate to a default chatbot or any specific chatbot page
-          navigateToChatBot(7); // Example: Casual Chat
+          navigateToChatBot(0, '');
         },
         backgroundColor: Colors.purple,
         child: Icon(Icons.chat), // Customize the color

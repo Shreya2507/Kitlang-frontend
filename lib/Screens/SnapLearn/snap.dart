@@ -35,7 +35,8 @@ class _SnapImageState extends State<SnapImage> with WidgetsBindingObserver {
   String? _imageDescription;
 
   final String _apiUrl =
-      'https://saran-2021-api-gateway.hf.space/api/kitlang/live_learning/learning_language=german/native_language=english/show_description=false/learner_level=beginner';
+      'https://saran-2021-api-gateway.hf.space/api/kitlang/snap_learn/learning_language=german/native_language=english/show_description=false/learner_level=beginner';
+  // 'https://saran-2021-api-gateway.hf.space/api/kitlang/live_learning/learning_language=german/native_language=english/show_description=false/learner_level=beginner';
 
   @override
   void initState() {
@@ -164,7 +165,7 @@ class _SnapImageState extends State<SnapImage> with WidgetsBindingObserver {
       var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-            'https://saran-2021-api-gateway.hf.space/api/kitlang/live_learning'),
+            'https://saran-2021-api-gateway.hf.space/api/kitlang/snap_learn'),
       );
 
       request.files.add(

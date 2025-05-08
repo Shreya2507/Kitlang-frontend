@@ -1,15 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:frontend/Screens/Chat/doubtsChatbot.dart';
 import 'package:frontend/Screens/Chat/getStartedPage.dart';
+import 'package:frontend/Screens/Chat/situationalChatbot.dart';
 import 'package:frontend/Screens/MiniGames/Hangman/hangman_start_screen.dart';
 import 'package:frontend/Screens/MiniGames/Wordle/wordle_start_screen.dart';
 import 'package:frontend/Screens/SnapLearn/snap.dart';
 import 'package:frontend/Screens/TranslateImage/translateImage.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:frontend/Screens/pixel/start_screen.dart';
 
 void showMenuBottomSheet(BuildContext context, AudioPlayer audioPlayer) {
   bool isMiniGamesExpanded = false;
-  
+  void navigateToChatBot(int situationId, String title) {
+    Widget destination;
+    switch (situationId) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+        destination = Situationalbot(
+          situationNumber: situationId,
+          situationTitle: title,
+        );
+        break;
+
+      default:
+        destination = DoubtsChatbotPage(
+          situationNumber: 0,
+          situationTitle: 'help Center',
+        );
+        break;
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => destination),
+    );
+  }
+
   showModalBottomSheet(
     context: context,
     backgroundColor: Colors.white,
@@ -79,10 +111,16 @@ void showMenuBottomSheet(BuildContext context, AudioPlayer audioPlayer) {
                         iconColor: Colors.blue[600]!,
                         bgColor: Colors.blue[50]!,
                         onTap: () {
+                          // navigateToChatBot(0, '');
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => GetStartedPage()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DoubtsChatbotPage(
+                                situationNumber: 0,
+                                situationTitle: 'help Center',
+                              ),
+                            ),
+                          );
                         },
                       ),
                       const SizedBox(height: 12),
@@ -111,7 +149,12 @@ void showMenuBottomSheet(BuildContext context, AudioPlayer audioPlayer) {
                             _buildSubMenuItem(
                               icon: Icons.castle,
                               title: 'Pixel Adventure',
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => PromptScreen()));
+                              },
                             ),
                             const SizedBox(height: 4),
                             _buildSubMenuItem(
@@ -124,17 +167,17 @@ void showMenuBottomSheet(BuildContext context, AudioPlayer audioPlayer) {
                                         builder: (_) => const HangmanStart()));
                               },
                             ),
-                            const SizedBox(height: 4),
-                            _buildSubMenuItem(
-                              icon: Icons.hdr_auto,
-                              title: 'Wordle',
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => WordleStart()));
-                              },
-                            ),
+                            // const SizedBox(height: 4),
+                            // _buildSubMenuItem(
+                            //   icon: Icons.hdr_auto,
+                            //   title: 'Wordle',
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (_) => WordleStart()));
+                            //   },
+                            // ),
                           ],
                         ],
                       ),

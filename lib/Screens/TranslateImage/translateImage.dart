@@ -28,7 +28,7 @@ class _TranslateImageState extends State<TranslateImage>
   bool _cameraActive = true;
 
   final String _apiUrl =
-      'https://saran-2021-api-gateway.hf.space/api/kitlang/live_detect';
+      'https://saran-2021-api-gateway.hf.space/api/kitlang/kitlens';
 
   @override
   void initState() {

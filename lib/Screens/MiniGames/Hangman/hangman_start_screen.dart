@@ -6,6 +6,112 @@ class HangmanStart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _showInstructionsModal(BuildContext context) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => Container(
+          height: MediaQuery.of(context).size.height * 0.29,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
+            ),
+          ),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Dialog Bubble
+              Container(
+                width: 400,
+                padding: const EdgeInsets.only(
+                  top: 30,
+                  left: 10,
+                  right: 10,
+                  bottom: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 211, 231, 249),
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(
+                    color: Color.fromARGB(255, 132, 181, 246),
+                    width: 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(
+                        255,
+                        105,
+                        153,
+                        250,
+                      ).withOpacity(0.4),
+                      blurRadius: 10,
+                      offset: const Offset(2, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      '1. Guess the hidden word one letter at a time.\n'
+                      '2. Each incorrect guess brings the hangman closer to completion.\n'
+                      '3. You have 6 attempts before the game ends.\n'
+                      '4. Guess all letters correctly to win!',
+                      style: TextStyle(
+                        fontSize: 17,
+                        height: 1.4,
+                        color: Color.fromARGB(221, 0, 0, 0),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Cute Label
+              Positioned(
+                top: -20,
+                left: 20,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 52, 98, 158),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color.fromARGB(
+                          255,
+                          1,
+                          1,
+                          0,
+                        ).withOpacity(0.4),
+                        blurRadius: 8,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: const Text(
+                    '🎮 How to play?',
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -107,7 +213,9 @@ class HangmanStart extends StatelessWidget {
                       width: 260,
                       height: 45,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _showInstructionsModal(context);
+                        },
                         style: ButtonStyle(
                           backgroundColor:
                               WidgetStateProperty.all<Color>(Colors.white),
@@ -120,7 +228,7 @@ class HangmanStart extends StatelessWidget {
                             ),
                           ),
                         ),
-                        child: const Text("HIGHSCORE"),
+                        child: const Text("INSTRUCTIONS"),
                       ),
                     ),
                     // SizedBox(

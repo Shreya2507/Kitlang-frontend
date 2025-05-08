@@ -1,3 +1,4 @@
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -48,9 +49,9 @@ void main() async {
     final languageCode = doc.data()?['languageCode'] ?? 'en';
     final language = doc.data()?['language'] ?? 'German';
     print("[DEBUG] Fetched languageCode from Firestore: $languageCode");
-    
+
     store.dispatch(ChangeLanguageAction(languageCode));
-    store.dispatch(SetUserLanguageAction(language)); 
+    store.dispatch(SetUserLanguageAction(language));
   }
 
   final audioController = AudioController();
@@ -89,27 +90,36 @@ class MyApp extends StatelessWidget {
                 initialRoute: store.state.userId != null ? '/home' : '/',
                 locale: Locale(selectedLanguage ?? 'en'),
                 onGenerateRoute: (settings) {
-                  final args = settings.arguments as Map<String, dynamic>? ?? {};
+                  final args =
+                      settings.arguments as Map<String, dynamic>? ?? {};
 
                   switch (settings.name) {
                     case '/':
-                      return MaterialPageRoute(builder: (_) => const Onboarding());
+                      return MaterialPageRoute(
+                          builder: (_) => const Onboarding());
                     case '/signup':
-                      return MaterialPageRoute(builder: (_) => const SignupScreen());
+                      return MaterialPageRoute(
+                          builder: (_) => const SignupScreen());
                     case '/login':
-                      return MaterialPageRoute(builder: (_) => const LoginScreen());
+                      return MaterialPageRoute(
+                          builder: (_) => const LoginScreen());
                     case '/lang':
-                      return MaterialPageRoute(builder: (_) => const LanguageScreen());
+                      return MaterialPageRoute(
+                          builder: (_) => const LanguageScreen());
                     case '/level':
                       return MaterialPageRoute(
-                        builder: (_) => LevelScreen(userId: args['userId'] ?? ''),
+                        builder: (_) =>
+                            LevelScreen(userId: args['userId'] ?? ''),
                       );
                     case '/home':
-                      return MaterialPageRoute(builder: (_) => const HomePage());
+                      return MaterialPageRoute(
+                          builder: (_) => const HomePage());
                     case '/settings':
-                      return MaterialPageRoute(builder: (_) => const ProfilePage());
+                      return MaterialPageRoute(
+                          builder: (_) => const ProfilePage());
                     default:
-                      return MaterialPageRoute(builder: (_) => const Onboarding());
+                      return MaterialPageRoute(
+                          builder: (_) => const Onboarding());
                   }
                 },
               );

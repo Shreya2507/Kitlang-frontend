@@ -17,31 +17,42 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   bool isLoading = true;
-
-  var alphabets = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
+  var alphabets = "abcdefghijklmnopqrstuvwxyz ,'".toUpperCase();
   List<String> selectedChar = [];
   var tries = 0;
   Set<int> revealedIndices = {};
 
+  List<dynamic> gameWords = [];
+  int currentWordIndex = 0;
   String translatedWord = '';
   String definition = '';
-  final String baseUrl = 'http://192.168.1.149:5000'; // Your Python server's IP
+  String example = '';
+  int score = 0;
+  // Create a Random object
+  final random = Random();
+
+  final String baseUrl =
+      'https://saran-2021-api-gateway.hf.space/api/kitlang/word-game/words';
 
   @override
   void initState() {
     super.initState();
-    fetchRandomWord();
+    fetchGameWords();
   }
 
-  Future<void> fetchRandomWord() async {
+  Future<void> fetchGameWords() async {
+    int randomchap = 1 + random.nextInt(15);
+    int randomtop = 1 + random.nextInt(5);
     setState(() {
       isLoading = true;
       selectedChar = [];
       tries = 0;
       revealedIndices.clear();
+      currentWordIndex = 0;
+      score = 0;
     });
 
-    final url = Uri.parse('$baseUrl/get-word?level=${widget.level}');
+    final url = Uri.parse('$baseUrl/1/1/german');
 
     try {
       final response = await http.get(url);
@@ -49,15 +60,15 @@ class _GameScreenState extends State<GameScreen> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
-          translatedWord = data['word'].toString().toUpperCase();
-          definition = data['definition'].toString();
+          gameWords = data['game_content'];
+          if (gameWords.isNotEmpty) {
+            _loadCurrentWord();
+          }
           isLoading = false;
         });
-
-        _revealInitialLetters();
       } else {
         setState(() {
-          translatedWord = 'Error loading word';
+          translatedWord = 'Error loading words';
           isLoading = false;
         });
       }
@@ -66,6 +77,21 @@ class _GameScreenState extends State<GameScreen> {
         translatedWord = 'Failed to connect to server';
         isLoading = false;
       });
+    }
+  }
+
+  void _loadCurrentWord() {
+    if (currentWordIndex < gameWords.length) {
+      setState(() {
+        selectedChar = [];
+        tries = 0;
+        revealedIndices.clear();
+        translatedWord =
+            gameWords[currentWordIndex]['word'].toString().toUpperCase();
+        definition = gameWords[currentWordIndex]['meaning'].toString();
+        example = gameWords[currentWordIndex]['example'].toString();
+      });
+      _revealInitialLetters();
     }
   }
 
@@ -82,7 +108,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _resetGame() {
-    fetchRandomWord();
+    fetchGameWords();
   }
 
   void _showGameOverModal() {
@@ -116,35 +142,82 @@ class _GameScreenState extends State<GameScreen> {
       int index = entry.key;
       String letter = entry.value.toUpperCase();
 
-      // Check if either the letter is revealed automatically or the player guessed it
       if (revealedIndices.contains(index)) {
-        return true; // Already revealed letters are always correct
+        return true;
       } else {
-        return selectedChar
-            .contains(letter); // Player must guess non-revealed letters
+        return selectedChar.contains(letter);
       }
     });
 
     if (allCorrect) {
-      _showWinModal();
+      setState(() {
+        score++;
+      });
+      _showWordCompleteModal();
     }
   }
 
-  void _showWinModal() {
+  void _showWordCompleteModal() {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Congratulations! 🎉"),
-          content: const Text("You guessed the word correctly!"),
+          title: const Text("Well Done!"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Word: $translatedWord"),
+              const SizedBox(height: 10),
+              Text("Meaning: $definition"),
+              const SizedBox(height: 10),
+              Text("Example: $example"),
+              const SizedBox(height: 10),
+              Text("Score: $score/5"),
+            ],
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close modal
-                _resetGame(); // Start a new game (fetch next word)
+                Navigator.of(context).pop();
+                _nextWord();
               },
-              child: const Text("Next Word"),
+              child: Text(currentWordIndex < 4 ? "Next Word" : "Finish"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _nextWord() {
+    setState(() {
+      currentWordIndex++;
+    });
+
+    if (currentWordIndex < 5) {
+      _loadCurrentWord();
+    } else {
+      _showFinalScore();
+    }
+  }
+
+  void _showFinalScore() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Game Completed!"),
+          content: Text("Your final score: $score/5"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _resetGame();
+              },
+              child: const Text("Play Again"),
             ),
           ],
         );
@@ -169,8 +242,8 @@ class _GameScreenState extends State<GameScreen> {
     if (translatedWord.isEmpty && !isLoading) {
       return Scaffold(
         appBar: AppBar(title: const Text("Hangman")),
-        body:
-            const Center(child: Text('Failed to load word. Please try again.')),
+        body: const Center(
+            child: Text('Failed to load words. Please try again.')),
       );
     }
 
@@ -182,6 +255,20 @@ class _GameScreenState extends State<GameScreen> {
         backgroundColor: Colors.transparent,
         title: const Text("Hangman"),
         centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Center(
+              child: Text(
+                "Word: ${currentWordIndex + 1}/5",
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -206,8 +293,9 @@ class _GameScreenState extends State<GameScreen> {
           children: [
             // Hangman figure with fixed height
             Container(
-              height: MediaQuery.of(context).size.height * 0.4,
-              padding: const EdgeInsets.all(20),
+              height: MediaQuery.of(context).size.height * 0.3,
+              padding:
+                  const EdgeInsets.only(left: 7, right: 7, top: 10, bottom: 10),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -225,16 +313,28 @@ class _GameScreenState extends State<GameScreen> {
             // Definition
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Text(
-                "Word meaning: $definition",
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,
+              child: Column(
+                children: [
+                  Text(
+                    "Meaning: $definition",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "Example: $example",
+                    style: const TextStyle(
+                        fontSize: 16, fontStyle: FontStyle.italic),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
 
             // Word letters with some spacing
             Container(
-              height: 70,
+              height: 110,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Center(
                 child: Wrap(

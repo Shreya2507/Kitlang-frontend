@@ -1,0 +1,76 @@
+{"frames": [
+
+{
+	"filename": "Apple.png",
+	"frame": {"x":6,"y":6,"w":544,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":544,"h":32},
+	"sourceSize": {"w":544,"h":32}
+},
+{
+	"filename": "Bananas.png",
+	"frame": {"x":6,"y":50,"w":544,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":544,"h":32},
+	"sourceSize": {"w":544,"h":32}
+},
+{
+	"filename": "Cherries.png",
+	"frame": {"x":6,"y":94,"w":544,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":544,"h":32},
+	"sourceSize": {"w":544,"h":32}
+},
+{
+	"filename": "Kiwi.png",
+	"frame": {"x":6,"y":138,"w":544,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":544,"h":32},
+	"sourceSize": {"w":544,"h":32}
+},
+{
+	"filename": "Melon.png",
+	"frame": {"x":6,"y":182,"w":544,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":544,"h":32},
+	"sourceSize": {"w":544,"h":32}
+},
+{
+	"filename": "Orange.png",
+	"frame": {"x":6,"y":226,"w":544,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":544,"h":32},
+	"sourceSize": {"w":544,"h":32}
+},
+{
+	"filename": "Pineapple.png",
+	"frame": {"x":6,"y":270,"w":544,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":544,"h":32},
+	"sourceSize": {"w":544,"h":32}
+},
+{
+	"filename": "Strawberry.png",
+	"frame": {"x":6,"y":314,"w":544,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":544,"h":32},
+	"sourceSize": {"w":544,"h":32}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "fruit_spritesheet.png",
+	"format": "RGBA8888",
+	"size": {"w":556,"h":352},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ba3053ad67bb479c2138c4e6ce01563b:b3767be392a1c97c4532aefb4be1b86f:37143cf1e28ae8841e8541c0ccd839bf$"
+}
+}
